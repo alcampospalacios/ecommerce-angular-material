@@ -1,0 +1,91 @@
+<footer class="footer-light" style="background: #f9f9f9;">
+    <div class="container">
+        <section class="small-section border-section border-top-0">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="subscribe">
+                        <div>
+                            <h4 class="text-sm-center text-lg-left">Entérate Primero</h4>
+                            <p class="d-none d-lg-block">No te pierdas ninguna de nuestras novedades, subscribete a
+                                nuestra cartelera</p>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-divider class="d-none d-lg-block" [vertical]=true></mat-divider>
+
+                <div class="col-12 col-lg-5">
+                    <div class="form-field">
+                        <div class="example-container">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Enter your email</mat-label>
+                                <input matInput placeholder="pat@example.com" [formControl]="email" required>
+                                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <button type="submit" class="button-material" mat-flat-button color="warn">Subscribirse</button>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <mat-divider></mat-divider>
+
+
+            <div class="row" style="margin-top: 3rem;">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 style="text-transform: uppercase;">Mi Marca</h4>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi saepe exercitationem, ipsam
+                        officia rem inventore, nisi sed voluptatum nesciunt porro ipsum commodi. Doloribus dolor tempore
+                        alias amet perferendis quia enim.</p>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 style="text-transform: uppercase;">Categorías</h4>
+                    <ul>
+                        <li><a class="text-color" mat-button target="_blank">Moda Mujeres</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Moda Hombres</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Moda Niñas</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Moda Niños</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Estilos Bebes</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 style="text-transform: uppercase;">Por qué nosotros?</h4>
+                    <ul>
+                        <li><a class="text-color" mat-button target="_blank">Envío y Devolución</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Compra Segura</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Afiliados</a></li>
+                        <li><a class="text-color" mat-button target="_blank">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 style="text-transform: uppercase;">Información?</h4>
+                    <ul>
+                        <li class="info">
+                            <mat-icon class="icon-color" style="margin-top: 3px !important;"><span
+                                    class="material-icons">place</span></mat-icon>
+                            <p style="font-size: 14px; margin-left: 3px;">Italia genovesa lel fit</p>
+                        </li>
+                        <li class="info">
+                            <mat-icon class="icon-color"><span class="material-icons">
+                                    local_phone
+                                </span></mat-icon>
+                                <p style="font-size: 14px; margin-left: 3px;">Llámenos: +5352054104</p>
+                        </li>
+                        <li class="info">
+                            <mat-icon class="icon-color"><span class="material-icons">
+                                contact_mail
+                            </span></mat-icon>
+                            <p style="font-size: 14px; margin-left: 3px;">Correo: all@gmail.com</p>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+
+</footer>

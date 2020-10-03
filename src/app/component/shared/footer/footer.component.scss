@@ -1,0 +1,98 @@
+// First section capture email
+.border-section {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.small-section {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    
+}
+
+.border-top-0 {
+    border-top: 0!important;
+}
+
+.footer-light .subscribe {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    text-align: left;
+}
+
+.subscribe h4 {
+    color: #222;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: sans-serif;
+    display: block;    
+    margin-top: -5px;
+    margin-left: 8rem;
+}
+
+footer p {
+    line-height: 32px;
+    letter-spacing: .03em;
+    margin-bottom: 0;
+}
+
+p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1;
+}
+
+.example-container {
+    margin-left: 3rem;
+  }
+
+.button-material {
+    margin-left: 2rem;
+    height: 50px;
+    font-size: large;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    // margin-bottom: 29px !important;
+}
+
+.form-field {
+    display: flex;
+    align-items: center;
+}
+
+.form-field button {
+    margin-bottom: 1rem;
+}
+
+// Categories
+
+.text-color {
+    color: #777 !important;
+    text-align: justify;
+}
+
+.text-color:hover {
+    color: #ff4c3b !important;
+}
+
+ul {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.icon-color {
+    color: #777 !important;
+}

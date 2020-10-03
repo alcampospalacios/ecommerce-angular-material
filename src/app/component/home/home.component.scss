@@ -1,0 +1,311 @@
+.carousel-promo {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  text-align: center;
+}
+
+
+.customPromo {
+    font-weight: 700;
+    letter-spacing: .4em;
+    color: #777;
+    margin-bottom: 0;
+    margin-top: -3px;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.height {
+  height: 75vh;  
+  
+}
+
+
+#carouselExampleIndicators {
+  padding-top: 5rem;
+  
+}
+
+.container-fluid figure {    
+  overflow: hidden;
+  transition: all 500ms ease;  
+}
+
+.container-fluid figure img {
+  transition: all 500ms ease;
+}
+
+.container-fluid figure img:hover {
+  transform: scale(1.2);
+}
+
+.customGender {
+  position: absolute;
+  top:50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  font-family: sans-serif;
+}
+
+.customSave {
+  position: absolute;
+  top: 35%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;  
+  color: #ff4c3b;
+  font-size: 16px;  
+}
+
+.customOfferText {
+  font-weight: normal;  
+  color: #ff4c3b;
+  font-size: 16px;  
+}
+
+p {
+  color: #777;
+  font-weight: lighter;
+  font-family: sans-serif;
+  
+}
+
+// Custom Icon Products and Animations
+.customIcon {
+  position: absolute;
+  height: 13vh;
+  bottom: 22%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;  
+}
+
+
+.colorIconProduct {
+  color: #6f6f6f;
+  display: none;
+}
+
+.colorIconProductAux {
+  color: #6f6f6f;  
+}
+
+.colorIconProductAux:hover {
+  color: #ff4c3b;   
+}
+
+.animatedCart {
+  display: inherit;
+  animation-duration: 0.5s;
+  animation-name: slidein;  
+}
+
+.animatedFavorite {
+  display: inherit;
+  animation-duration: 1s;
+  animation-name: slidein;   
+}
+
+.animatedSearch {
+  display: inherit;
+  animation-duration: 1.5s;
+  animation-name: slidein;   
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}  
+
+
+// Carousel Products configs
+.carousel-indicators {
+  position: absolute !important;
+  width: auto !important;
+  bottom: 8% !important;
+  right: initial !important;
+  margin-left: 0 !important;  
+  left: 0 !important;
+  z-index: 999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  padding-left: 0 !important;
+  margin-right: 15% !important;
+  /* margin-left: 15%; */
+  list-style: none !important;
+ 
+}
+
+.thumbnail {
+  width: 30px;  
+}
+
+.carousel-indicators li {
+  display: inline-block;
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  overflow: hidden;
+  height: auto !important;
+  margin-right: 3px;
+  margin-left: 3px;
+  text-indent: 0 !important;
+  cursor: pointer;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-top: none !important;
+  border-bottom: none !important;
+  opacity: .5;
+  transition: opacity .6s ease;
+}
+
+.carousel-indicators li:hover {
+ 
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+
+.item img {
+  width: 100%;
+}
+
+
+// Section With Parallax
+.full-banner {
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 190px;
+  padding-bottom: 190px;
+  background-position: 50%;
+}
+
+.full-banner.parallax {
+  background-attachment: fixed;
+}
+
+.text-center {
+  text-align: center!important;
+}
+
+.full-banner.p-left .banner-contain {
+  float: left;
+}
+
+.full-banner .banner-contain h2 {
+  font-size: 100px;
+  font-weight: 700;
+  color: #ff4c3b;
+  text-transform: uppercase;
+  margin-top: -15px;
+}
+
+.full-banner .banner-contain h3 {
+  font-size: 60px;
+  color: #333;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.full-banner .banner-contain h4 {
+  font-size: 24px;
+  color: #777;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5em;
+  padding-top: 10px;
+  margin-bottom: -5px;
+  line-height: 1.3;
+}
+
+// Section Especial Product
+
+.exclusiveText {
+  font-weight: normal;  
+  color: #ff4c3b;
+  font-size: 20px;  
+}
+
+.theme-tab {
+  position: relative; 
+}
+
+.nav-details {
+  font-family: sans-serif;
+  font-size: 18px;
+  color: #2d2a25;
+  text-transform: uppercase;
+}
+
+.nav-item a {
+  cursor: pointer;
+}
+
+.nav-item a:hover {
+  color: #ff4c3b;
+  background-color: transparent;
+}
+
+// Service section
+.border-section {
+  border-top: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
+}
+
+.small-section {
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+.service-block svg {
+  width: 10vh;
+  height: 10vh;
+}
+
+.service-block h4 {
+  font-weight: 700;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-size: 16px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+.service-block h4:hover {
+  color: #ff4c3b;
+}
+
+.service-block .media {
+  padding-top: 23px;
+  padding-bottom: 23px;
+  align-items: center;
+}
+
+.media {
+  display: flex;
+}
+
+.media-body {
+  flex: 1;
+}
+
+.service-block p {
+  font-size: 14px;
+  color: #777;
+  line-height: 1;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+
