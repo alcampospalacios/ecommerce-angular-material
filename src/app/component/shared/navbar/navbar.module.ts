@@ -6,6 +6,11 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatMenuModule} from '@angular/material/menu';
+
+import { RouterModule } from '@angular/router';
+
+
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -15,7 +20,9 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule,
+    RouterModule
   ],
   exports: [
     NavbarComponent

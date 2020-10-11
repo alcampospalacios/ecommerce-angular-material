@@ -1,7 +1,7 @@
 // First section capture email
 .border-section {
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border-bottom: none;
 }
 
 .small-section {
@@ -52,7 +52,9 @@ p {
     height: 50px;
     font-size: large;
     text-transform: uppercase;
-    font-family: sans-serif;
+    font-family: sans-serif;  
+    // padding-left: auto !important;
+    // padding-right: auto !important;
     // margin-bottom: 29px !important;
 }
 
@@ -70,6 +72,8 @@ p {
 .text-color {
     color: #777 !important;
     text-align: justify;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 .text-color:hover {
@@ -82,10 +86,9 @@ ul {
     list-style: none;
 }
 
-.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-}
+// .mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
+    
+// }
 
 .info {
     display: flex;
@@ -96,3 +99,7 @@ ul {
 .icon-color {
     color: #777 !important;
 }
+
+button:focus {
+    outline: none;  
+  }

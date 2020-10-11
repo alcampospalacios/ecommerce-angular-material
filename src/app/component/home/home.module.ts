@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { RatingModule } from 'ng-starrating';
 import { MatDividerModule } from '@angular/material/divider';
 
+import { RouterModule } from '@angular/router';
+
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatCardModule,   
     RatingModule,
-    MatDividerModule
+    MatDividerModule,
+    RouterModule
   ]
 })
 export class HomeModule { }

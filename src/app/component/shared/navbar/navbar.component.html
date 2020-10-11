@@ -1,20 +1,127 @@
 <mat-toolbar class="toolbarNavTop">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
+  <section class="d-none d-sm-block">
 
-  <span class="example-spacer"></span>
-  <span>My App</span>
-  <span class="example-spacer"></span>
+    <mat-toolbar-row style="background-color: #f8f8f8; height: 2.5rem; display: flex; flex-direction: row-reverse;">
+      <mat-menu #login="matMenu">
+        <ng-template matMenuContent>
+          <button mat-menu-item>Entrar</button>
+          <button mat-menu-item>Registrarse</button>
+        </ng-template>
+      </mat-menu>
 
-  <button mat-icon-button color="warn" class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon">
-    <mat-icon>menu</mat-icon>
-  </button>
+      <button mat-button [matMenuTriggerFor]="login" class="text-cutom-style-button">
+        <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
+            style="font-size: 18px !important;">perm_identity</span></mat-icon>
+        Mi Cuenta
+        <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
+            style="font-size: 18px !important;">keyboard_arrow_down</span></mat-icon>
+      </button>
+
+
+      <button mat-button class="text-cutom-style-button">
+        <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
+            style="font-size: 18px !important;">favorite</span></mat-icon>
+        Lista de Deseos
+
+      </button>
+
+      <!-- <button mat-button class="text-cutom-style-button">
+        <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
+            style="font-size: 18px !important;" matBadge="15" matBadgeColor="warn" matBadgeSize="small">shopping_cart</span></mat-icon>
+        Carrito
+
+      </button> -->
+
+
+
+    </mat-toolbar-row>
+  </section>
+
+
+  <mat-toolbar-row style="background-color: white; height: 5rem;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-4 col-sm-3 col- col-lg-1">
+          <button mat-icon-button aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-4 col-sm-3 col-lg-1">
+          <span class="example-spacer"></span>
+          <span>My App</span>
+          <span class="example-spacer"></span>
+        </div>
+
+        <div class="col-4 col-sm-2 d-block d-lg-none text-right">
+          <button mat-icon-button color="warn" class="example-icon favorite-icon"
+            aria-label="Example icon-button with heart icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+
+        <div class=" col-8 d-none d-lg-block text-right">
+          <mat-menu #categories="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item>Settings</button>
+              <button mat-menu-item>Help</button>
+            </ng-template>
+          </mat-menu>
+
+          <mat-menu #help="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item>Settings</button>
+              <button mat-menu-item>Help</button>
+            </ng-template>
+          </mat-menu>
+
+          <mat-menu #us="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item>Settings</button>
+              <button mat-menu-item>Help</button>
+            </ng-template>
+          </mat-menu>
+
+          <button routerLink="/home" routerLinkActive="active" class="button-style" mat-button>
+            Inicio <mat-icon aria-hidden="false"></mat-icon>
+          </button>
+
+          <button class="button-style" mat-button [matMenuTriggerFor]="categories">
+            Categorías <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span></mat-icon>
+          </button>
+
+          <button class="button-style" mat-button [matMenuTriggerFor]="help">
+            Ayuda <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span></mat-icon>
+          </button>
+
+          <button class="button-style" mat-button [matMenuTriggerFor]="us">
+            Nosotros <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span></mat-icon>
+          </button>
+        </div>
+
+        <div class="d-none d-sm-block col-2">
+          <button mat-icon-button>
+            <mat-icon><span class="material-icons"  style="color: #777;">search</span></mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon><span class="material-icons"  style="color: #777;">settings</span></mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon matBadge="15" matBadgeColor="warn"><span class="material-icons" style="color: #777;">shopping_cart</span></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar-row>
+
+
+
+
+
 
 </mat-toolbar>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="d-col-block d-sm-none">
       <mat-toolbar class="toolbarNav">
@@ -33,7 +140,6 @@
         <button mat-icon-button style="margin-right: 2rem;">
           <mat-icon svgIcon="custom_settings"></mat-icon>
         </button>
-      
       </mat-toolbar>
 
     </div>

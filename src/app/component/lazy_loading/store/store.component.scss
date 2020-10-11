@@ -1,0 +1,274 @@
+.sidenav-container {
+    width: max-content;
+    max-height: none !important;
+    margin: 10px;
+    border: 1px solid #555;
+  }
+
+  .example-container {   
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 5rem;    
+  }
+
+ .accordion-header {
+    display: inline !important;
+    font-family: sans-serif;
+    font-weight: bold;
+ }
+
+ .example-viewport {
+    height: 150px;
+    width: auto;
+    border: none;    
+  }
+  
+  .example-item {
+    height: 50px;
+  }
+
+  // Custom Banner
+
+  .mini-section {
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
+
+  .top-banner-content{
+    margin-top: 1rem;
+}
+
+.top-banner-content h4{
+  font-family: sans-serif;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 15px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.top-banner-content p {
+  line-height: 1.5;
+  color: #777;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+h5, h6 {
+  font-weight: 400;
+  line-height: 24px;
+}
+
+h5 {
+  font-size: 16px;
+  color: #222;
+  letter-spacing: .05em;
+  text-align: center;
+  font-family: sans-serif;
+  margin: 0 !important;
+}
+
+// Styles of expansion panel
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important
+}
+  
+//   Custom Scroll Bar
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }  
+
+  ::-webkit-scrollbar-track {
+    background: #CFD8DC;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #ff4c3b ;
+    border-radius: 6px;
+    // border: 3px solid var(--scrollbarBG);
+  }
+
+//   checkboxes
+.example-section {
+    margin: 12px 0;
+  }
+  
+  .example-margin {
+    margin: 0 12px;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin-top: 4px;
+    padding-inline-start: 0px !important;
+  }
+
+  button:focus {
+    outline: none;  
+  }
+
+//   color checkboxes
+.span-style {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    margin-top: 12px;
+    background-color: yellow;
+}
+
+.mat-slider-horizontal {
+  height: 48px;
+  min-width: 90% !important;
+}
+
+::ng-deep .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb, .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
+  background-color: #ff4c3b!important;
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill, .mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label {
+  background-color: #ff4c3b !important;
+}
+
+// Hiding the scrollbar 
+::ng-deep .mat-drawer-content::-webkit-scrollbar {
+  display: none;
+}
+
+::ng-deep .mat-drawer-inner-container::-webkit-scrollbar {
+  display: none;
+}
+
+// Prodcuts carousel
+// Carousel Products configs
+.carousel-indicators {
+  position: absolute !important;
+  width: auto !important;
+  bottom: 8% !important;
+  right: initial !important;
+  margin-left: 0 !important;  
+  left: 0 !important;
+  z-index: 999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  padding-left: 0 !important;
+  margin-right: 15% !important;
+  /* margin-left: 15%; */
+  list-style: none !important;
+ 
+}
+
+.thumbnail {
+  width: 30px;  
+}
+
+.carousel-indicators li {
+  display: inline-block;
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  overflow: hidden;
+  height: auto !important;
+  margin-right: 3px;
+  margin-left: 3px;
+  text-indent: 0 !important;
+  cursor: pointer;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-top: none !important;
+  border-bottom: none !important;
+  opacity: .5;
+  transition: opacity .6s ease;
+}
+
+.carousel-indicators li:hover {
+ 
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+
+.item img {
+  width: 100%;
+}
+
+// Custom Icon Products and Animations
+.customIcon {
+  position: absolute;
+  height: 13vh;
+  bottom: 22%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;  
+}
+
+
+.colorIconProduct {
+  color: #6f6f6f;
+  display: none;
+}
+
+.colorIconProductAux {
+  color: #6f6f6f;  
+}
+
+.colorIconProductAux:hover {
+  color: #ff4c3b;   
+}
+
+.animatedCart {
+  display: inherit;
+  animation-duration: 0.5s;
+  animation-name: slidein;  
+}
+
+.animatedFavorite {
+  display: inherit;
+  animation-duration: 1s;
+  animation-name: slidein;   
+}
+
+.animatedSearch {
+  display: inherit;
+  animation-duration: 1.5s;
+  animation-name: slidein;   
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}  
+
+// Customizing the accordion content
+.mat-drawer-container {
+  background-color: white; 
+}
+
+.mat-drawer-side {
+  border-right: none;
+}
+
+.p-style {
+  display: block!important;
+  margin-bottom: 10px;
+  line-height: 18px;
+  font-size: 14px;
+  color: #777;
+}
+
+
+

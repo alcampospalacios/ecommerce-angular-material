@@ -4,7 +4,17 @@ import { HomeComponent } from './component/home/home.component';
 
 const routes: Routes = [
   {
-    path: '', component: HomeComponent
+    path: 'home', component: HomeComponent
+  },
+  {
+    path: 'store',
+    loadChildren: () => import('./component/lazy_loading/store/store.module').then(m => m.StoreModule)
+  },
+
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
   }
 ];
 

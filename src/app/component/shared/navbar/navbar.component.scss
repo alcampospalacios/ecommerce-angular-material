@@ -1,3 +1,7 @@
+.small-toolbar {
+  background-color: #f8f8f8;
+}
+
 .example-spacer {
     flex: 1 1 auto;
   }
@@ -10,7 +14,6 @@
     justify-content: space-between;
     padding: 2em;
     background-color:#333;
-
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
    box-shadow:        2px 2px 4px 5px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
@@ -18,16 +21,22 @@
 
 .toolbarNavTop {  
   position: fixed;
-  height: 5rem;
+  // height: 5rem;
   top: 0; 
   z-index: 1000;
   display: flex;
   justify-content: space-between;
-  padding: 2em;  
+  // padding: 2em;  
 
 -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
 -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
  box-shadow:        2px 2px 4px 5px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+.text-cutom-style-button {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #999;
 }
 
 .icons-bottom-tolbar {
@@ -37,3 +46,27 @@
 .icons-align {
   text-align: center;
 }
+
+// Navegation Bar
+.button-style {
+  font-family: sans-serif;
+  color: #222;
+  font-size: 16px;
+  font-weight: 400;    
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  border: none;
+}
+
+.button-style:hover {
+  color: #ff4c3b;  
+}
+
+button:focus {
+  outline: none;  
+}
+
+// .button-style:active {
+//   color: #ff4c3b;
+// }
+
