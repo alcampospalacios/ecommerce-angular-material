@@ -112,7 +112,7 @@ h5 {
   }
 
 //   color checkboxes
-.span-style {
+.span-style-yellow {
     width: 14px;
     height: 14px;
     position: absolute;
@@ -121,6 +121,80 @@ h5 {
     margin-top: 12px;
     background-color: yellow;
 }
+
+.span-style-blue {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: blue;
+}
+
+.span-style-blue {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: blue;
+}
+
+.span-style-red {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: red;
+}
+
+.span-style-pink {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: pink;
+}
+
+.span-style-green {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: green;
+}
+
+.span-style-white {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid pink;
+  margin-top: 12px;
+  background-color: white;
+}
+
+.span-style-black {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  margin-top: 12px;
+  background-color: black;
+}
+
+
+
+
 
 .mat-slider-horizontal {
   height: 48px;

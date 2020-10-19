@@ -37,3 +37,14 @@ $ecommerce-material-bootstrap-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+figure {
+  margin: 0 0 0 !important;
+}
+
+.card {
+  border: 0;
+  box-shadow: none !important;
+  
+}

@@ -1,3 +1,5 @@
+import { ProductsService } from './../../shared/service/products.service';
+import { Products } from './../../shared/model/products';
 import { Component, OnInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,6 +14,7 @@ export class HomeComponent implements OnInit {
   images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
   image1 = '../../../assets/carousel/man.jpg';
   image2 = '../../../assets/carousel/woman.jpg';
+  defaultImage = '../../../assets/images/default/default-image.png';
   colecction = [
     {
       id: 0,
@@ -27,36 +30,7 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  products = [
-    {
-      id: 2,
-      idCarousel: "carouselIndicator1",
-      url: '../../../assets/products/3.jpg',
-      name: 'Vestido 1',
-      price: '120'
-    },
-    {
-      id: 3,
-      idCarousel: "carouselIndicator2",
-      url: '../../../assets/products/39.jpg',
-      name: 'Vestido 2',
-      price: '300'
-    },
-    {
-      id: 4,
-      idCarousel: "carouselIndicator3",
-      url: '../../../assets/products/1.jpg',
-      name: 'Vestido 3',
-      price: '170'
-    },
-    {
-      id: 5,
-      idCarousel: "carouselIndicator4",
-      url: '../../../assets/products/8.jpg',
-      name: 'Vestido 4',
-      price: '240'
-    }
-  ]
+  products: Products [];
 
   productsOfferEspecial = [
     {
@@ -97,7 +71,7 @@ export class HomeComponent implements OnInit {
   currentId: number;
   carr: string = 'carouselIndicators1';
 
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, private prod: ProductsService) {
     iconRegistry.addSvgIcon(
       'custom_shopping_cart',
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/icons/cardProducts/shopping_cart-white-18dp.svg'));
@@ -116,6 +90,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.prod.getAllProducts().subscribe(data => {
+      this.products = data;      
+    });
   }
 
   sliderOn(event) {
@@ -139,13 +116,6 @@ export class HomeComponent implements OnInit {
     //   Checked Color: ${$event.starRating.checkedcolor}, 
     //   Unchecked Color: ${$event.starRating.uncheckedcolor}`);
   }
-
-  doSomething() {
-    console.log("Do Something");
-  }
-
-  consola() {
-    console.log(this.currentId);
-  }
+ 
 
 }

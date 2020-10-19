@@ -10,6 +10,7 @@ import { FooterModule } from './component/shared/footer/footer.module';
 import { HomeModule } from './component/home/home.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent    
@@ -20,8 +21,8 @@ import { HomeModule } from './component/home/home.module';
     BrowserAnimationsModule,
     NavbarModule,
     FooterModule,
-    HomeModule
-  ],
+    HomeModule    
+  ], 
   providers: [],
   bootstrap: [AppComponent]
 })

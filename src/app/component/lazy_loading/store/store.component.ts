@@ -1,5 +1,9 @@
+import { Products } from './../../../shared/model/products';
+import { ProductsService } from './../../../shared/service/products.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -7,7 +11,7 @@ import { StarRatingComponent } from 'ng-starrating';
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.scss']
 })
-export class StoreComponent implements OnInit {  
+export class StoreComponent implements OnInit {
   panelOpenState = true;
   panelOpenStateBrand = true;
   panelOpenStateColors = true;
@@ -22,79 +26,97 @@ export class StoreComponent implements OnInit {
 
   viewLayoutProduct: string;
   isListViewMode: boolean = false;
-  
+
+  data: any;
+
   brands: any[] = [
-    {name: 'ZARA', completed: false, color: 'warn'},
-    {name: 'DENIM', completed: false, color: 'warn'},
-    {name: 'MADAME', completed: false, color: 'warn'},
-    {name: 'BIBA', completed: false, color: 'warn'},
-    {name: 'MAX', completed: false, color: 'warn'},
-    {name: 'JEANS', completed: false, color: 'warn'}
+    { name: 'ZARA', completed: false, color: 'warn' },
+    { name: 'DENIM', completed: false, color: 'warn' },
+    { name: 'MADAME', completed: false, color: 'warn' },
+    { name: 'BIBA', completed: false, color: 'warn' },
+    { name: 'MAX', completed: false, color: 'warn' },
+    { name: 'JEANS', completed: false, color: 'warn' }
   ]
 
   colors: any[] = [
-    {name: 'YELLOW', completed: false, color: 'warn'},
-    {name: 'BLUE', completed: false, color: 'warn'},
-    {name: 'RED', completed: false, color: 'warn'},
-    {name: 'PINK', completed: false, color: 'warn'},
-    {name: 'GREEN', completed: false, color: 'warn'},
-    {name: 'WHITE', completed: false, color: 'warn'}
+    { name: 'Amarillo', classSpan: 'span-style-yellow', completed: false, value: 'yellow', color: 'warn' },
+    { name: 'Azul', classSpan: 'span-style-blue', completed: false, value: 'blue', color: 'warn' },
+    { name: 'Rojo', classSpan: 'span-style-red', completed: false, value: 'red', color: 'warn' },
+    { name: 'Rosado', classSpan: 'span-style-pink', completed: false, value: 'pink', color: 'warn' },
+    { name: 'Verde', classSpan: 'span-style-green', completed: false, value: 'green', color: 'warn' },
+    { name: 'Blanco', classSpan: 'span-style-white', completed: false, value: 'white', color: 'warn' },
+    { name: 'Negro', classSpan: 'span-style-black', completed: false, value: 'black', color: 'warn' }
   ]
 
   size: any[] = [
-    {name: 'S', completed: false, color: 'warn'},
-    {name: 'M', completed: false, color: 'warn'},
-    {name: 'L', completed: false, color: 'warn'},
-    {name: 'XS', completed: false, color: 'warn'}   
+    { name: 'S', completed: false, color: 'warn' },
+    { name: 'M', completed: false, color: 'warn' },
+    { name: 'L', completed: false, color: 'warn' },
+    { name: 'XS', completed: false, color: 'warn' }
   ]
 
-  banner: string =  '../../../assets/images/banner/collection-banner.jpg'
+  banner: string;
+  defaultImage = '../../../assets/images/default/default-image.png';
+  products: Products[];
+  copyProducts: Products[];
+  type: string;
+  category: string;
 
-  products = [
-    {
-      id: 2,
-      idCarousel: "carouselIndicator1",
-      url: '../../../assets/products/3.jpg',
-      name: 'Vestido 1',
-      price: '120',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.'
-    },
-    {
-      id: 3,
-      idCarousel: "carouselIndicator2",
-      url: '../../../assets/products/39.jpg',
-      name: 'Vestido 2',
-      price: '300',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.'
+  constructor(private route: ActivatedRoute, private location: Location, private productservice: ProductsService) { }
 
-    },
-    {
-      id: 4,
-      idCarousel: "carouselIndicator3",
-      url: '../../../assets/products/1.jpg',
-      name: 'Vestido 3',
-      price: '170',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.'
+  ngOnInit(): void {
+    this.getDataType();
+  }
 
-    },
-    {
-      id: 5,
-      idCarousel: "carouselIndicator4",
-      url: '../../../assets/products/8.jpg',
-      name: 'Vestido 4',
-      price: '240',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.'
-
+  getDataType(): void {
+    this.type = this.route.snapshot.paramMap.get('type');
+    if (this.type === 'hombre') {
+      this.banner = '../../../assets/images/banner/banner-man.jpg';
+    } else if (this.type === 'mujer') {
+      this.banner = '../../../assets/images/banner/banner-woman-v1.jpg';
     }
-  ]
+    this.productservice.getTypeProducts(this.type)
+      .subscribe(data => {
+        this.products = data;
+        this.copyProducts = this.products;
+      });
+  }
 
-  constructor() { }
+  getDataTypeByCategory(category: string) {
+    this.category = category;
+    this.productservice.getTypeProductsByCategory(this.type, this.category).subscribe(data => {
+      this.products = data;
+      this.copyProducts = this.products;
+    });
+  }
 
-  ngOnInit(): void {   
+  getDataTypeByColor(color: string) {    
+    if (this.category) {
+        this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
+         this.products = this.products.concat(data);
+        });
+    } else {
+      this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {         
+        this.products = this.products.concat(data);
+      });     
+    }   
+  }
+
+  updateColors() {
+    this.products = [];
+    this.colors.forEach(t =>  {
+      if(t.completed) {      
+       this.getDataTypeByColor(t.value);        
+      }
+    });
+    
+    if(this.colors.filter(t => t.completed).length === 0) {
+      this.products = this.copyProducts;
+    }  
   }
 
   updateAllComplete() {
-   console.log(this.brands.every(t => t.completed));
+    console.log(this.brands.every(t => t.completed));
   }
 
   onMouseEnter(id) {

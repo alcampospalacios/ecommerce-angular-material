@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RatingModule } from 'ng-starrating';
 import { MatDividerModule } from '@angular/material/divider';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 import { RouterModule } from '@angular/router';
 
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     MatCardModule,   
     RatingModule,
     MatDividerModule,
+    LazyLoadImageModule,
     RouterModule
   ]
 })

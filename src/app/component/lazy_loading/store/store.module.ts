@@ -15,7 +15,10 @@ import {MatSliderModule} from '@angular/material/slider';
 import { RatingModule } from 'ng-starrating';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
 
 
 
@@ -35,7 +38,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatIconModule,
     MatButtonModule,
     RatingModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    LazyLoadImageModule,
+    MatProgressSpinnerModule
   ],
   exports: [MatSidenavModule]
 })

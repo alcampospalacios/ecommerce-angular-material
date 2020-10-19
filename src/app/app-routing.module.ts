@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path: 'store',
+    path: 'tienda/:type',
     loadChildren: () => import('./component/lazy_loading/store/store.module').then(m => m.StoreModule)
   },
 

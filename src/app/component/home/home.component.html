@@ -5,14 +5,14 @@
         <img [src]="image1" class="d-block w-100 h-100" style="position: absolute; object-fit:cover;" alt="...">
         <div class="carousel-promo">
           <h4 class="customPromo">Bienvenido a la Elegancia</h4>
-          <button routerLink="/store" routerLinkActive="active" mat-flat-button color="warn">Abrir Tienda</button>
+          <button routerLink="/tienda/hombre" routerLinkActive="active" mat-flat-button color="warn">Abrir Tienda</button>
         </div>
       </div>
       <div class="carousel-item height">
         <img [src]="image2" class="d-block w-100 h-100" style="position: absolute; object-fit:cover;" alt="...">
         <div class="carousel-promo">
           <h4 class="customPromo">Bienvenido a la Elegancia</h4>
-          <button routerLink="/store"  routerLinkActive="active" mat-flat-button color="warn">Abrir Tienda</button>
+          <button routerLink="/tienda/mujer"  routerLinkActive="active" mat-flat-button color="warn">Abrir Tienda</button>
         </div>
       </div>
     </div>
@@ -54,43 +54,43 @@
       similique temporibus ipsum dicta ut necessitatibus beatae nostrum.</p>
   </div>
 
-  <div class="container-fluid">
+  <div class="container-fluid" *ngIf="products">
     <div class="row">
       <div class="col-12 col-sm-6 col-md-3  mb-2" *ngFor="let item of products">
-        <div class="card" style="border: none; cursor: pointer;" (mouseenter)="onMouseEnter(item.id)"
+        <div class="card" style="border: none; cursor: pointer;" (mouseenter)="onMouseEnter(item.idProducts)"
           (mouseleave)="onMouseLeave()">
-          <div [id]="item.idCarousel" class="carousel" data-ride="carousel" data-interval="false"
+          <div [id]="'carouselIndicator' + item.idProducts.toString()" class="carousel" data-ride="carousel" data-interval="false"
             style="padding-top: 0;">
             <ol class="carousel-indicators">
-              <li [attr.data-target]="'#' + item.idCarousel" data-slide-to="0" class="active"><img class="thumbnail"
-                  src="../../../assets/products/3.jpg" /></li>
-              <li [attr.data-target]="'#' + item.idCarousel" data-slide-to="1"><img class="thumbnail"
-                  src="../../../assets/products/39.jpg" /></li>
-              <li [attr.data-target]="'#' + item.idCarousel" data-slide-to="2"><img class="thumbnail"
-                  src="../../../assets/products/1.jpg" /></li>
+              <li [attr.data-target]="'#carouselIndicator' + item.idProducts.toString()" data-slide-to="0" class="active"><img class="thumbnail"
+                [defaultImage]="defaultImage" [lazyLoad]="item.subImage1" /></li>
+              <li [attr.data-target]="'#carouselIndicator' + item.idProducts.toString()" data-slide-to="1"><img class="thumbnail"
+                [defaultImage]="defaultImage" [lazyLoad]="item.subImage2" /></li>
+              <li [attr.data-target]="'#carouselIndicator' + item.idProducts.toString()" data-slide-to="2"><img class="thumbnail"
+                [defaultImage]="defaultImage" [lazyLoad]="item.subImage3" /></li>
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img class="img-fluid" src="../../../assets/products/3.jpg" class="d-block w-100" alt="...">
+                <img class="img-fluid d-block w-100"  [defaultImage]="item.subImage1" [lazyLoad]="item.subImage1" alt="...">
               </div>
               <div class="carousel-item">
-                <img class="img-fluid" src="../../../assets/products/39.jpg" class="d-block w-100" alt="...">
+                <img class="img-fluid d-block w-100" [defaultImage]="item.subImage1" [lazyLoad]="item.subImage2" alt="...">
               </div>
               <div class="carousel-item">
-                <img class="img-fluid" src="../../../assets/products/1.jpg" class="d-block w-100" alt="...">
+                <img class="img-fluid d-block w-100" [defaultImage]="item.subImage1" [lazyLoad]="item.subImage3" alt="...">
               </div>
             </div>
           </div>
 
           <div class="customIcon" style="overflow: hidden;">
             <mat-icon
-              [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
+              [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
               <span class="material-icons">add_shopping_cart</span></mat-icon>
             <mat-icon
-              [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
+              [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
               <span class="material-icons">favorite_border</span></mat-icon>
             <mat-icon
-              [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
+              [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
               <span class="material-icons">search</span></mat-icon>
           </div>
           <div class="card-body">
