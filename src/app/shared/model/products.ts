@@ -12,5 +12,7 @@ export interface Products {
     subImage3: string,
     rate?: number,
     amount?: number,
+    color?: string,
+    size?: string,
     userid?: number
 }

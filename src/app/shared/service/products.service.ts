@@ -22,14 +22,23 @@ export class ProductsService {
   }
 
   getTypeProductsByCategory(type: string, category: string): Observable<Products[]> {
-    return this.http.get<Products[]>(`${this.BASE_URL}/${type}/${category}`);
+    return this.http.get<Products[]>(`${this.BASE_URL}/category/${type}/${category}`);
   }
 
   getTypeProductsByCategoryAndColor(type: string, category: string, color: string): Observable<Products[]> {
-    return this.http.get<Products[]>(`${this.BASE_URL}/${type}/${category}/${color}`);
+    return this.http.get<Products[]>(`${this.BASE_URL}/filtercategoryColor/${type}/${category}/${color}`);
   }
 
   getTypeProductsByColor(type: string, color: string): Observable<Products[]> {    
-    return this.http.get<Products[]>(`${this.BASE_URL}/colormark/${type}/${color}`);
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterColor/${type}/${color}`);
   }
+
+  getTypeProductsByCategorySize(category: string, size: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterSize/${category}/${size}`);
+  }
+
+  getTypeProductsByCategorySizeColor(category: string, color: string, size: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterSizeColor/${category}/${color}/${size}`);
+  }
+
 }

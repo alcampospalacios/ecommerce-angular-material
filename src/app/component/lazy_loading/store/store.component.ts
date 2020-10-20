@@ -27,7 +27,6 @@ export class StoreComponent implements OnInit {
   viewLayoutProduct: string;
   isListViewMode: boolean = false;
 
-  data: any;
 
   brands: any[] = [
     { name: 'ZARA', completed: false, color: 'warn' },
@@ -48,17 +47,14 @@ export class StoreComponent implements OnInit {
     { name: 'Negro', classSpan: 'span-style-black', completed: false, value: 'black', color: 'warn' }
   ]
 
-  size: any[] = [
-    { name: 'S', completed: false, color: 'warn' },
-    { name: 'M', completed: false, color: 'warn' },
-    { name: 'L', completed: false, color: 'warn' },
-    { name: 'XS', completed: false, color: 'warn' }
-  ]
+  sizeDynamic: any[] = [];
+  products: Products[];
+  copyProducts: Products[];
 
   banner: string;
   defaultImage = '../../../assets/images/default/default-image.png';
-  products: Products[];
-  copyProducts: Products[];
+  copyToResolveColorProducts: Products[];
+  isActiveColor: boolean;
   type: string;
   category: string;
 
@@ -84,39 +80,92 @@ export class StoreComponent implements OnInit {
 
   getDataTypeByCategory(category: string) {
     this.category = category;
+    this.sizeDynamic = [];
     this.productservice.getTypeProductsByCategory(this.type, this.category).subscribe(data => {
       this.products = data;
+      this.products.forEach(t => {
+        if (t.size) {
+          let obj = {
+            name: t.size.toUpperCase(),
+            completed: false,
+            color: 'warn'
+          }
+          this.sizeDynamic.push(obj);
+        }
+      });
       this.copyProducts = this.products;
     });
   }
 
-  getDataTypeByColor(color: string) {    
+  getDataTypeByColor(color: string) {
     if (this.category) {
-        this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
-         this.products = this.products.concat(data);
-        });
-    } else {
-      this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {         
+      this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
         this.products = this.products.concat(data);
-      });     
-    }   
+        this.copyToResolveColorProducts = this.products;
+      });
+    } else {
+      this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {
+        this.products = this.products.concat(data);
+        this.copyToResolveColorProducts = this.products;
+      });
+    }
   }
 
   updateColors() {
     this.products = [];
-    this.colors.forEach(t =>  {
-      if(t.completed) {      
-       this.getDataTypeByColor(t.value);        
+    this.colors.forEach(t => {
+      if (t.completed) {
+        this.getDataTypeByColor(t.value);
+        this.isActiveColor = true;
       }
     });
-    
-    if(this.colors.filter(t => t.completed).length === 0) {
+
+    if (this.colors.filter(t => t.completed).length === 0) {
       this.products = this.copyProducts;
-    }  
+      this.isActiveColor = false;
+    }
   }
 
-  updateAllComplete() {
-    console.log(this.brands.every(t => t.completed));
+  getDataByCategorySize(category: string, size: string) {
+    this.productservice.getTypeProductsByCategorySize(category, size).subscribe(data => {
+      this.products = this.products.concat(data);
+    });
+  }
+
+  getDataByCategorySizeColor(category: string, color: string, size: string) {
+    this.productservice.getTypeProductsByCategorySizeColor(category, color, size).subscribe(data => {
+      this.products = this.products.concat(data);
+    });
+  }
+
+  checkSize() {
+    if (!this.isActiveColor) {
+      this.products = [];
+      this.sizeDynamic.forEach(t => {
+        if (t.completed) this.getDataByCategorySize(this.category, t.name);        
+      });
+
+      if (this.sizeDynamic.filter(t => t.completed).length === 0) {
+        if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
+        else this.products = this.copyProducts;        
+      }
+
+    } else {
+      this.products = [];
+      this.colors.forEach(t => {
+        if(t.completed) {
+          this.sizeDynamic.forEach(s => {
+            if(s.completed) this.getDataByCategorySizeColor(this.category, t.value, s.name);
+          });
+        }
+      });
+
+      if (this.sizeDynamic.filter(t => t.completed).length === 0) {
+        if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
+        else this.products = this.copyProducts;        
+      }
+    }
+    
   }
 
   onMouseEnter(id) {

@@ -63,7 +63,7 @@
                     </cdk-virtual-scroll-viewport>
                 </mat-expansion-panel>
             </mat-accordion>
-            <mat-accordion>
+            <mat-accordion *ngIf="sizeDynamic.length > 0">
                 <mat-expansion-panel [expanded]="panelOpenStateSize === true" (opened)="panelOpenStateSize = true"
                     (closed)="panelOpenStateSize = false">
                     <mat-expansion-panel-header>
@@ -73,9 +73,10 @@
                     </mat-expansion-panel-header>
                     <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
                         <ul>
-                            <li *ngFor="let item of size">
+                            <li *ngFor="let item of sizeDynamic">
                                 <mat-checkbox [(ngModel)]="item.completed" [color]="item.color"
-                                    style="font-size: smaller; text-align: center;">
+                                    style="font-size: smaller; text-align: center;"
+                                    (ngModelChange)="checkSize()">
                                     {{item.name}}
                                 </mat-checkbox>
                             </li>
@@ -145,7 +146,7 @@
                 </div>
             </section>
 
-            <div *ngIf="!isListViewMode; else listViewMode">
+           <div *ngIf="!isListViewMode; else listViewMode">
                 <div class="row" style="margin-top: 2rem; min-height: 30rem;">
                     <div [ngClass]="{ 'col-12 col-sm-6 col-md-4 col-lg-3 mb-2': !viewLayoutProduct ,'col-6': viewLayoutProduct==='2', 'col-4': viewLayoutProduct==='3', 'col-3': viewLayoutProduct==='4', 'col-2': viewLayoutProduct==='6'}"
                         *ngFor="let item of products">

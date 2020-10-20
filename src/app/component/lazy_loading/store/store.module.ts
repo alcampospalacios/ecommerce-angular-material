@@ -6,7 +6,7 @@ import { StoreRoutingModule } from './store-routing.module';
 import { StoreComponent } from './store.component';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatCardModule} from '@angular/material/card';
+
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
 import {ScrollingModule} from '@angular/cdk/scrolling';
@@ -22,13 +22,13 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 
 
+
 @NgModule({
   declarations: [StoreComponent],
   imports: [
     CommonModule,
     StoreRoutingModule,
-    MatSidenavModule,
-    MatCardModule,
+    MatSidenavModule,    
     MatExpansionModule,
     MatMenuModule,
     ScrollingModule,
