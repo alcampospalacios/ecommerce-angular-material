@@ -1,3 +1,4 @@
+import { PaginatePipe } from './../../../shared/pipes/paginate.pipe';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,15 +17,16 @@ import { RatingModule } from 'ng-starrating';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 
+import { CustomMatPaginatorIntl } from './paginator-es';
 
 
 
 
 @NgModule({
-  declarations: [StoreComponent],
+  declarations: [StoreComponent, PaginatePipe],
   imports: [
     CommonModule,
     StoreRoutingModule,
@@ -42,6 +44,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     LazyLoadImageModule,
     MatProgressSpinnerModule
   ],
+  providers: [{provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl}],
   exports: [MatSidenavModule]
 })
 export class StoreModule { }

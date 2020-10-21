@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -18,6 +19,10 @@ export class StoreComponent implements OnInit {
   panelOpenStateSize = true;
   panelOpenStatePrice = true;
   sliderValue: number = 0;
+
+  // Paginator Values
+  page_size: number = 5;
+  page_number: number = 1;
 
   isMouseOver: boolean = false;
   currentId: number;
@@ -166,6 +171,12 @@ export class StoreComponent implements OnInit {
       }
     }
     
+  }
+
+  // Handle Paginator
+  handlePage(e: PageEvent) {
+    this.page_size = e.pageSize;
+    this.page_number = e.pageIndex + 1;
   }
 
   onMouseEnter(id) {

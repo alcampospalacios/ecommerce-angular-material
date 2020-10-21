@@ -8,12 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarModule } from './component/shared/navbar/navbar.module';
 import { FooterModule } from './component/shared/footer/footer.module';
 import { HomeModule } from './component/home/home.module';
+// import { PaginatePipe } from './shared/pipes/paginate.pipe';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent    
+    AppComponent        
   ],
   imports: [
     BrowserModule,
