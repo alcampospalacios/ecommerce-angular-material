@@ -33,6 +33,10 @@ export class ProductsService {
     return this.http.get<Products[]>(`${this.BASE_URL}/filterColor/${type}/${color}`);
   }
 
+  getTypeProductsByColorSize(type: string, color: string, size: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterColorSize/${type}/${color}/${size}`);
+  }
+  
   getTypeProductsByCategorySize(category: string, size: string): Observable<Products[]> {    
     return this.http.get<Products[]>(`${this.BASE_URL}/filterSize/${category}/${size}`);
   }
@@ -41,4 +45,20 @@ export class ProductsService {
     return this.http.get<Products[]>(`${this.BASE_URL}/filterSizeColor/${category}/${color}/${size}`);
   }
 
+  getTypeProductsByMark(mark: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterMark/${mark}`);
+  }
+
+  getTypeProductsByMarkColor(mark: string, color: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterMark/${mark}/${color}`);
+  }
+
+  getTypeProductsByMarkSize(mark: string, size: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterMarkSize/${mark}/${size}`);
+  }
+
+  getTypeProductsByMarkSizeColor(type: string, mark: string, size: string, color: string): Observable<Products[]> {    
+    return this.http.get<Products[]>(`${this.BASE_URL}/filterMarkSizeColor/${type}/${mark}/${size}/${color}`);
+  }
+  
 }

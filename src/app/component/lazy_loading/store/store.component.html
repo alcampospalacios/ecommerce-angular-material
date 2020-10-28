@@ -21,7 +21,7 @@
             </mat-expansion-panel>
         </mat-accordion>
         <section style="margin-top: 1rem; border: 1px solid #ddd;">
-            <mat-accordion>
+            <mat-accordion *ngIf="brandDynamic.length > 0">
                 <mat-expansion-panel [expanded]="panelOpenStateBrand === true" (opened)="panelOpenStateBrand = true"
                     (closed)="panelOpenStateBrand = false">
                     <mat-expansion-panel-header>
@@ -31,9 +31,9 @@
                     </mat-expansion-panel-header>
                     <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
                         <ul>
-                            <li *ngFor="let item of brands">
+                            <li *ngFor="let item of brandDynamic">
                                 <mat-checkbox [(ngModel)]="item.completed" [color]="item.color"
-                                    style="font-size: smaller;">
+                                    style="font-size: smaller;" (ngModelChange)="filterMark()">
                                     {{item.name}}
                                 </mat-checkbox>
                             </li>
@@ -53,7 +53,7 @@
                         <ul>
                             <li *ngFor="let item of colors">
                                 <mat-checkbox [(ngModel)]="item.completed" [color]="item.color"
-                                    style="font-size: smaller; text-align: center;" (ngModelChange)="updateColors()">
+                                    style="font-size: smaller; text-align: center;" (ngModelChange)="filterColor()">
                                     <span [class]="item.classSpan"></span>
                                     <label style="margin-left: 20px; margin-top: 8px;">{{item.name}}</label>
                                 </mat-checkbox>
@@ -74,7 +74,7 @@
                         <ul>
                             <li *ngFor="let item of sizeDynamic">
                                 <mat-checkbox [(ngModel)]="item.completed" [color]="item.color"
-                                    style="font-size: smaller; text-align: center;" (ngModelChange)="checkSize()">
+                                    style="font-size: smaller; text-align: center;" (ngModelChange)="filterSize()">
                                     {{item.name}}
                                 </mat-checkbox>
                             </li>
@@ -117,10 +117,10 @@
 
                 <div class="row" style="margin-top: 1rem;">
                     <div class="col-12"
-                        style="border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
+                        style="border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;">
                         <h5 style="padding-top: 15px; padding-bottom: 15px;">Mostrando Productos 1-16 de 30</h5>
                     </div>
-                    <div class="col-4" style="border: 1px solid #ddd">
+                    <div class="col-4 d-none d-lg-block" style="border: 1px solid #ddd">
                         <span class="material-icons" style="padding-top: 10px; padding-bottom: 10px; cursor: pointer;"
                             (click)="isListViewMode=false">apps</span>
                         <span class="material-icons" style="padding-top: 10px; padding-bottom: 10px; cursor: pointer;"
@@ -138,7 +138,7 @@
                                 style="margin-left: 10px; cursor: pointer;" (click)="viewLayoutProduct='6'">
                         </div>
                     </div>
-                    <div class="col-4" style="text-align: center; border: 1px solid #ddd;">
+                    <div class="col-4 d-none d-lg-block" style="text-align: center; border: 1px solid #ddd;">
                         <h5 style="padding-top: 10px; padding-bottom: 10px;">Ordenar Productos</h5>
                     </div>
                 </div>
