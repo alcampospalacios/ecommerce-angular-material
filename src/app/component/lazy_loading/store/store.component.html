@@ -10,12 +10,12 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-                    <button mat-menu-item (click)="getDataTypeByCategory('ropa')">Ropa</button>
-                    <button mat-menu-item (click)="getDataTypeByCategory('zapatos')">Zapatos</button>
-                    <button mat-menu-item (click)="getDataTypeByCategory('mochilas')">Mochilas</button>
-                    <button mat-menu-item (click)="getDataTypeByCategory('relojes')">Relojes</button>
-                    <button mat-menu-item (click)="getDataTypeByCategory('accesorios')">Accesorios</button>
-                    <button mat-menu-item (click)="getDataTypeByCategory('joyeria')">Joyería</button>
+                    <button mat-menu-item (click)="getCategory('ropa')">Ropa</button>
+                    <button mat-menu-item (click)="getCategory('zapatos')">Zapatos</button>
+                    <button mat-menu-item (click)="getCategory('mochilas')">Mochilas</button>
+                    <button mat-menu-item (click)="getCategory('relojes')">Relojes</button>
+                    <button mat-menu-item (click)="getCategory('accesorios')">Accesorios</button>
+                    <button mat-menu-item (click)="getCategory('joyeria')">Joyería</button>
                 </cdk-virtual-scroll-viewport>
 
             </mat-expansion-panel>
@@ -90,7 +90,7 @@
                             PRECIO
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <mat-slider color="primary" thumbLabel min="1" max="500" [(ngModel)]="sliderValue"></mat-slider>
+                    <mat-slider color="primary" thumbLabel min="0" max="40" [(ngModel)]="sliderValue" (ngModelChange)="filterPrice()"></mat-slider>
                 </mat-expansion-panel>
             </mat-accordion>
         </section>

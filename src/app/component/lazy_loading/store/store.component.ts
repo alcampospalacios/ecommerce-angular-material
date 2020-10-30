@@ -46,7 +46,9 @@ export class StoreComponent implements OnInit {
   brandDynamic: any[] = [];
   products: Products[];
   copyProducts: Products[];
+  copyProductsCategory: Products[];
 
+  onlyOne: Products[];
   banner: string;
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
@@ -75,59 +77,19 @@ export class StoreComponent implements OnInit {
         this.products = data;
         this.copyProducts = this.products;
 
-        this.products.forEach(t => {
-          if (t.mark) {
-            let obj = {
-              name: t.mark.toUpperCase(),
-              completed: false,
-              color: 'warn'
-            }
-            this.brandDynamic.push(obj);
-          }
-        });
+        this.getBrands();
       });
   }
 
 
-  getDataTypeByCategory(category: string) {
-    this.category = category;
-    this.sizeDynamic = [];
-    this.productservice.getTypeProductsByCategory(this.type, this.category).subscribe(data => {
-      this.products = data;
-      this.products.forEach(t => {
-        if (t.size) {
-          let obj = {
-            name: t.size.toUpperCase(),
-            completed: false,
-            color: 'warn'
-          }
-          this.sizeDynamic.push(obj);
-        }
-      });
-      this.copyProducts = this.products;
-    });
-  }
 
-  getDataTypeByColor(color: string) {
-    if (this.category) {
-      this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
-        this.products = this.products.concat(data);
-        this.copyToResolveColorProducts = this.products;
-      });
-    } else {
-      this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {
-        this.products = this.products.concat(data);
-        this.copyToResolveColorProducts = this.products;
-      });
-    }
-  }
 
   filterColor() {
     if (!this.isActiveBrand && !this.isActiveSize) {
       this.products = [];
       this.colors.forEach(t => {
         if (t.completed) {
-          this.getDataTypeByColor(t.value);
+          this.getColor(t.value);
           this.isActiveColor = true;
         }
       });
@@ -139,7 +101,7 @@ export class StoreComponent implements OnInit {
         if (s.completed) {
           this.brandDynamic.forEach(t => {
             if (t.completed) {
-              this.getDataByMarkColor(t.name, s.value);
+              this.getMarkColor(t.name, s.value);
               this.isActiveColor = true;
             }
           });
@@ -153,7 +115,7 @@ export class StoreComponent implements OnInit {
         if (s.completed) {
           this.sizeDynamic.forEach(t => {
             if (t.completed) {
-              this.getDataByColorSize(s.value, t.name);
+              this.getColorSize(s.value, t.name);
               this.isActiveColor = true;
             }
           });
@@ -171,7 +133,7 @@ export class StoreComponent implements OnInit {
               this.brandDynamic.forEach(v => {
                 if (v.completed) {
                   this.isActiveColor = true;
-                  this.getDataByMarkColorSize(v.name, s.name, t.value);
+                  this.getMarkColorSize(v.name, s.name, t.value);
                 }
               });
             }
@@ -195,16 +157,11 @@ export class StoreComponent implements OnInit {
       this.products = [];
       this.sizeDynamic.forEach(t => {
         if (t.completed) {
-          this.getDataByCategorySize(this.category, t.name);
+          console.log('must be this.cat the problem');
+          this.getCategorySize(this.category, t.name);
           this.isActiveSize = true;
         }
       });
-
-      if (this.sizeDynamic.filter(t => t.completed).length === 0) {
-        if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
-        else this.products = this.copyProducts;
-        this.isActiveSize = false;
-      }
 
     } else {
       this.products = [];
@@ -212,19 +169,21 @@ export class StoreComponent implements OnInit {
         if (t.completed) {
           this.sizeDynamic.forEach(s => {
             if (s.completed) {
-              this.getDataByCategorySizeColor(this.category, t.value, s.name);
+              this.getCategorySizeColor(this.category, t.value, s.name);
               this.isActiveSize = true;
             }
           });
         }
       });
 
-      if (this.sizeDynamic.filter(t => t.completed).length === 0) {
-        if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
-        else this.products = this.copyProducts;
-        this.isActiveSize = false;
-      }
     }
+
+    if (this.sizeDynamic.filter(t => t.completed).length === 0) {
+      if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
+      else this.products = this.copyProducts;
+      this.isActiveSize = false;
+    }
+
 
   }
 
@@ -234,7 +193,7 @@ export class StoreComponent implements OnInit {
       this.brandDynamic.forEach(t => {
         if (t.completed) {
           this.isActiveBrand = true;
-          this.getDataByMark(t.name);
+          this.getMark(t.name);
         }
       });
     }
@@ -246,7 +205,7 @@ export class StoreComponent implements OnInit {
           this.brandDynamic.forEach(s => {
             if (s.completed) {
               this.isActiveBrand = true;
-              this.getDataByMarkColor(s.name, t.value);
+              this.getMarkColor(s.name, t.value);
             }
           });
         }
@@ -260,7 +219,7 @@ export class StoreComponent implements OnInit {
           this.brandDynamic.forEach(s => {
             if (s.completed) {
               this.isActiveBrand = true;
-              this.getDataByMarkSize(s.name, t.name);
+              this.getMarkSize(s.name, t.name);
             }
           });
         }
@@ -276,7 +235,7 @@ export class StoreComponent implements OnInit {
               this.brandDynamic.forEach(s => {
                 if (s.completed) {
                   this.isActiveBrand = true;
-                  this.getDataByMarkSizeColor(s.name, t.name, c.value);
+                  this.getMarkSizeColor(s.name, t.name, c.value);
                 }
               });
             }
@@ -293,54 +252,258 @@ export class StoreComponent implements OnInit {
 
   }
 
-  getDataByCategorySize(category: string, size: string) {
-    this.productservice.getTypeProductsByCategorySize(category, size).subscribe(data => {
-      this.products = this.products.concat(data);
+  filterPrice() {
+    if (!this.isActiveColor && !this.isActiveSize && !this.isActiveBrand) {
+      this.products = [];
+      this.getPrice(this.sliderValue);
+    }
+
+    if (this.isActiveColor && !this.isActiveSize && !this.isActiveBrand) {
+      this.products = [];
+      this.colors.forEach(t => {
+        if (t.completed) {
+          this.getPriceColor(this.sliderValue, t.value);
+        }
+      });
+    }
+
+    if (!this.isActiveColor && this.isActiveSize && !this.isActiveBrand) {
+      this.products = [];
+      this.sizeDynamic.forEach(t => {
+        if (t.completed) {
+          this.getPriceSize(this.sliderValue, t.name);
+        }
+      });
+    }
+
+    if (!this.isActiveColor && !this.isActiveSize && this.isActiveBrand) {
+      this.products = [];
+      this.brandDynamic.forEach(t => {
+        if (t.completed) {
+          this.getPriceSize(this.sliderValue, t.name);
+        }
+      });
+    }
+
+    if (this.isActiveColor && this.isActiveSize && !this.isActiveBrand) {
+      this.products = [];
+      this.colors.forEach(c => {
+        if (c.completed) {
+          this.sizeDynamic.forEach(t => {
+            if (t.completed) {
+              this.getPriceColorSize(this.sliderValue, c.value, t.name);
+            }
+          });
+        }
+      });
+    }
+
+    if (this.isActiveColor && !this.isActiveSize && this.isActiveBrand) {
+      this.products = [];
+      this.colors.forEach(c => {
+        if (c.completed) {
+          this.brandDynamic.forEach(t => {
+            if (t.completed) {
+              this.getPriceColorBrand(this.sliderValue, c.value, t.name);
+            }
+          });
+        }
+      });
+    }
+
+    if (!this.isActiveColor && this.isActiveSize && this.isActiveBrand) {
+      this.products = [];
+      this.sizeDynamic.forEach(s => {
+        if (s.completed) {
+          this.brandDynamic.forEach(t => {
+            if (t.completed) {
+              this.getPriceSizeBrand(this.sliderValue, s.name, t.name);
+            }
+          });
+        }
+      });
+    }
+
+    if (this.isActiveColor && this.isActiveSize && this.isActiveBrand) {
+      this.products = [];
+      this.colors.forEach(c => {
+        if (c.completed) {
+          this.sizeDynamic.forEach(t => {
+            if (t.completed) {
+              this.brandDynamic.forEach(s => {
+                if (s.completed) {                  
+                  this.getPriceColorSizeBrand(this.sliderValue, c.value, t.name, s.name);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
+    if (!this.sliderValue || this.sliderValue === 0) {
+      if (this.isActiveColor) this.products = this.copyToResolveColorProducts;
+      else this.products = this.copyProducts;
+      this.isActiveBrand = false;
+    }
+
+
+  }
+
+  // new idea of handle data more optimized
+
+  getCategory(category: string) {
+    this.category = category;
+    this.sizeDynamic = [];
+    this.products = [];
+    this.copyProducts.forEach(t => {
+      if (t.category === category) this.products.push(t);
+    });
+
+    this.products.forEach(t => {
+      if (t.size) {
+        let obj = {
+          name: t.size.toUpperCase(),
+          completed: false,
+          color: 'warn'
+        }
+        if (this.sizeDynamic.filter(s => { if (t.size.toUpperCase() === s.name.toString()) return t.size; }).length === 0)
+          this.sizeDynamic.push(obj);
+
+      }
+    });
+
+  }
+
+  getBrands() {
+    this.copyProducts.forEach(t => {
+      if (t.mark) {
+        let obj = {
+          name: t.mark.toUpperCase(),
+          completed: false,
+          color: 'warn'
+        }
+        if (this.brandDynamic.filter(s => { if (t.mark.toUpperCase() === s.name.toString()) return t.size; }).length === 0)
+          this.brandDynamic.push(obj);
+      }
     });
   }
 
-  getDataByCategorySizeColor(category: string, color: string, size: string) {
-    this.productservice.getTypeProductsByCategorySizeColor(category, color, size).subscribe(data => {
-      this.products = this.products.concat(data);
+  getColor(color: string) {
+    if (this.category) {
+      this.copyProducts.forEach(t => {
+        if (t.category === this.category && t.color === color) this.products.push(t);
+      });
       this.copyToResolveColorProducts = this.products;
-    });
-  }
-
-  getDataByColorSize(color: string, size: string) {
-    this.productservice.getTypeProductsByColorSize(this.type, color, size).subscribe(data => {
-      this.products = this.products.concat(data);
-    });
-  }
-
-  getDataByMarkColorSize(mark: string, size: string, color: string) {
-    this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
-      this.products = this.products.concat(data);
-    });
+    } else {
+      this.copyProducts.forEach(t => {
+        if (t.color === color) this.products.push(t);
+      });
+      this.copyToResolveColorProducts = this.products;
+    }
   }
 
 
-  getDataByMark(mark: string) {
-    this.productservice.getTypeProductsByMark(mark).subscribe(data => {
-      this.products = this.products.concat(data);
-      this.copyToResolveBrands = this.products;
+  getCategorySize(category: string, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.category === category && t.size.toUpperCase() === size) this.products.push(t);
     });
   }
 
-  getDataByMarkColor(mark: string, color: string) {
-    this.productservice.getTypeProductsByMarkColor(mark, color).subscribe(data => {
-      this.products = this.products.concat(data);
+  getCategorySizeColor(category: string, color: string, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.category === category && t.color === color && t.size.toUpperCase() === size) this.products.push(t);
     });
   }
 
-  getDataByMarkSize(mark: string, size: string) {
-    this.productservice.getTypeProductsByMarkColor(mark, size).subscribe(data => {
-      this.products = this.products.concat(data);
+  getColorSize(color: string, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.color === color && t.size.toUpperCase() === size) this.products.push(t);
     });
   }
 
-  getDataByMarkSizeColor(mark: string, size: string, color: string) {
-    this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
-      this.products = this.products.concat(data);
+  getMarkColorSize(mark: string, size: string, color: string) {
+    this.copyProducts.forEach(t => {
+      if (t.mark.toUpperCase() === mark && t.size.toUpperCase() === size && t.color === color) this.products.push(t);
+    });
+  }
+
+
+  getMark(mark: string) {
+    this.copyProducts.forEach(t => {
+      if (t.mark.toUpperCase() === mark) this.products.push(t);
+    });
+
+    this.copyToResolveBrands = this.products;
+  }
+
+  getMarkColor(mark: string, color: string) {
+    this.copyProducts.forEach(t => {
+      if (t.mark.toUpperCase() === mark && t.color === color) this.products.push(t);
+    });
+  }
+
+  getMarkSize(mark: string, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.mark.toUpperCase() === mark && t.size.toUpperCase() === size) this.products.push(t);
+    });
+  }
+
+  getMarkSizeColor(mark: string, size: string, color: string) {
+    this.copyProducts.forEach(t => {
+      if (t.mark.toUpperCase() === mark && t.size.toUpperCase() === size && t.color === color) {
+        this.products.push(t);
+      }
+    });
+  }
+
+  getPrice(sliderValue: number) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue) this.products.push(t);
+    });
+  }
+
+  getPriceColor(sliderValue: number, color: string) {   
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.color === color) this.products.push(t);
+    });
+  }
+  
+  getPriceSize(sliderValue: number, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.size.toUpperCase() === size) this.products.push(t);
+    });
+  }
+  
+  getPriceBrand(sliderValue: number, mark: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.mark.toUpperCase() === mark) this.products.push(t);
+    });
+  }
+
+  getPriceSizeBrand(sliderValue: number, size: string, mark: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.size.toUpperCase() === size
+       && t.mark.toUpperCase() === mark) this.products.push(t);
+    });
+  }
+
+  getPriceColorBrand(sliderValue: number, color: string, brand: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.color === color && t.mark.toUpperCase() === brand) this.products.push(t);
+    });
+  }
+  
+  getPriceColorSize(sliderValue: number, color: string, size: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.color === color && t.size.toUpperCase() === size) this.products.push(t);
+    });
+  }
+
+  getPriceColorSizeBrand(sliderValue: number, color: string, size: string, brand: string) {
+    this.copyProducts.forEach(t => {
+      if (t.price >= 0 && t.price <= sliderValue && t.color === color
+       && t.size.toUpperCase() === size && t.mark.toUpperCase() === brand) this.products.push(t);
     });
   }
 
@@ -370,3 +533,91 @@ export class StoreComponent implements OnInit {
   }
 
 }
+
+
+
+
+
+  // getDataTypeByCategory(category: string) {
+  //   this.category = category;
+  //   this.sizeDynamic = [];
+  //   this.productservice.getTypeProductsByCategory(this.type, this.category).subscribe(data => {
+  //     this.products = data;
+  //     this.products.forEach(t => {
+  //       if (t.size) {
+  //         let obj = {
+  //           name: t.size.toUpperCase(),
+  //           completed: false,
+  //           color: 'warn'
+  //         }
+  //         this.sizeDynamic.push(obj);
+  //       }
+  //     });
+  //     this.copyProducts = this.products;
+  //   });
+  // }
+
+  // getDataTypeByColor(color: string) {
+  //   if (this.category) {
+  //     this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
+  //       this.products = this.products.concat(data);
+  //       this.copyToResolveColorProducts = this.products;
+  //     });
+  //   } else {
+  //     this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {
+  //       this.products = this.products.concat(data);
+  //       this.copyToResolveColorProducts = this.products;
+  //     });
+  //   }
+  // }
+
+  // getDataByCategorySize(category: string, size: string) {
+  //   this.productservice.getTypeProductsByCategorySize(category, size).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
+
+  // getDataByCategorySizeColor(category: string, color: string, size: string) {
+  //   this.productservice.getTypeProductsByCategorySizeColor(category, color, size).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //     this.copyToResolveColorProducts = this.products;
+  //   });
+  // }
+
+  // getDataByColorSize(color: string, size: string) {
+  //   this.productservice.getTypeProductsByColorSize(this.type, color, size).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
+
+  // getDataByMarkColorSize(mark: string, size: string, color: string) {
+  //   this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
+
+
+  // getDataByMark(mark: string) {
+  //   this.productservice.getTypeProductsByMark(mark).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //     this.copyToResolveBrands = this.products;
+  //   });
+  // }
+
+  // getDataByMarkColor(mark: string, color: string) {
+  //   this.productservice.getTypeProductsByMarkColor(mark, color).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
+
+  // getDataByMarkSize(mark: string, size: string) {
+  //   this.productservice.getTypeProductsByMarkColor(mark, size).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
+
+  // getDataByMarkSizeColor(mark: string, size: string, color: string) {
+  //   this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
+  //     this.products = this.products.concat(data);
+  //   });
+  // }
