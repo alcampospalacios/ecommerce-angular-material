@@ -1,6 +1,6 @@
 import { AuthenticationNodeService } from './../../../shared/service/authentication-node.service';
 import { User } from './../../../shared/model/user';
-import { AfterViewInit, Component, HostListener, Inject, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,6 +9,11 @@ import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ToastService } from 'ng-uikit-pro-standard';
 
+import { Store, Select } from '@ngxs/store';
+import { ProductsState } from './../../../shared/statate-management/product.state';
+import { Products } from '../../../shared/model/products';
+import { Observable, Subscription } from 'rxjs';
+import { RemoveProduct } from './../../../shared/statate-management/product.actions';
 
 
 @Component({
@@ -16,29 +21,31 @@ import { ToastService } from 'ng-uikit-pro-standard';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements AfterViewInit, OnInit {
+export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
+
+  productsBought$: Observable<Products>;
+  subscription: Subscription;
+  amount: number;
+  
   user: User;
-  localStorageV1 = localStorage;
-
   opacity = 1;
-
-  // @HostListener("window:scroll", ['$event'])
-  // doSomethingOnWindowsScroll(event){        
-  //   if (event.srcElement.children[0].scrollTop != 0) {
-  //     this.flag = false;
-  //   } else {
-  //     this.flag = true;
-  //   }
-  // }
+  localStorageV1 = localStorage; 
 
 
-  constructor(private iconRegistry: MatIconRegistry,
+  constructor(
+    private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private scrollDispatcher: ScrollDispatcher,
     private zone: NgZone,
-    private auth: AuthenticationNodeService
+    private auth: AuthenticationNodeService,
+    private store: Store
   ) {
+   this.subscription = this.store.select(state => state.products.products).subscribe(result => {
+     this.amount = result.length;
+    });
+    
+
     iconRegistry.addSvgIcon(
       'custom_shopping_cart',
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/icons/bottomToolbar/shopping_cart-white-18dp.svg'));
@@ -62,23 +69,26 @@ export class NavbarComponent implements AfterViewInit, OnInit {
 
 
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
-    this.scrollDispatcher.scrolled().subscribe((event: CdkScrollable) => {
-      const scroll = event.measureScrollOffset("top");
-      let newOpacity = this.opacity;
-      if (scroll > 0) {
-        newOpacity = 0.75;
-      } else {
-        newOpacity = 1;
-      }
+    // this.scrollDispatcher.scrolled().subscribe((event: CdkScrollable) => {
+    //   const scroll = event.measureScrollOffset("top");
+    //   let newOpacity = this.opacity;
+    //   if (scroll > 0) {
+    //     newOpacity = 0.75;
+    //   } else {
+    //     newOpacity = 1;
+    //   }
 
-      if (newOpacity !== this.opacity) {
-        this.zone.run(() => {
-          this.opacity = newOpacity;
-        });
-      }
-    });
+    //   if (newOpacity !== this.opacity) {
+    //     this.zone.run(() => {
+    //       this.opacity = newOpacity;
+    //     });
+    //   }
+    // });
   }
 
 

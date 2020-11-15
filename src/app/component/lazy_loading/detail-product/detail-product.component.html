@@ -1,0 +1,197 @@
+<section style="margin-top: 8rem; margin-bottom: 3rem;">
+    <div class="container" *ngFor="let item of detailProduct">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card" style="border: none; cursor: pointer;">
+                    <div [id]="'carouselIndicatorDetails' + item.idProducts.toString()" class="carousel" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="img-fluid" [defaultImage]="item.subImage1" [lazyLoad]="item.subImage1"
+                                    class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid" [defaultImage]="item.subImage1" [lazyLoad]="item.subImage2"
+                                    class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid" [defaultImage]="item.subImage1" [lazyLoad]="item.subImage3"
+                                    class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+
+                        <ol class="carousel-indicators">
+                            <li [attr.data-target]="'#carouselIndicatorDetails' + item.idProducts.toString()"
+                                data-slide-to="0" class="active"><img class="img-fluid thumbnail"
+                                    [defaultImage]="defaultImage" [lazyLoad]="item.subImage1" /></li>
+                            <li [attr.data-target]="'#carouselIndicatorDetails' + item.idProducts.toString()"
+                                data-slide-to="1"><img class="img-fluid thumbnail" [defaultImage]="defaultImage"
+                                    [lazyLoad]="item.subImage2" /></li>
+                            <li [attr.data-target]="'#carouselIndicatorDetails' + item.idProducts.toString()"
+                                data-slide-to="2"><img class="img-fluid thumbnail" [defaultImage]="defaultImage"
+                                    [lazyLoad]="item.subImage3" /></li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 text-center text-lg-left col-lg-6">
+                <h1 style="font-family: sans-serif;">{{item.name}}</h1>
+                <h4 style="font-size: x-large; color: #222; font-weight: 400;">${{item.price}}.00</h4>
+
+                <ul class="color-variant" style="padding-left: 0; margin-top: 1rem;">
+                    <li class="yellow" style="background-color: yellow;"></li>
+                    <li class="white" style="background-color: white;"></li>
+                    <li class="pink" style="background-color: pink;"></li>
+                </ul>
+
+                <div style="margin-top: 2rem;">
+                    <p class="p-style">Apúrate!! quedan solo 40 elementos en la tienda.</p>
+                    <mat-progress-bar mode="determinate" value="60"></mat-progress-bar>
+                </div>
+
+                <mat-divider style="margin-top: 2rem; margin-bottom: 2rem; border-top-style: dashed!important;">
+                </mat-divider>
+
+                <div>
+                    <h6 style="font-family: sans-serif; font-weight: bold;">Tallas Disponibles</h6>
+                    <ul class="size-variant" style="padding-left: 0;">
+                        <li style="border: 1px solid rgb(248, 244, 244);">S</li>
+                        <li style="border: 1px solid rgb(248, 244, 244);">M</li>
+                        <li style="border: 1px solid rgb(248, 244, 244);">L</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h6 style="font-family: sans-serif; font-weight: bold; margin-top: 1rem;">Cantidad</h6>
+                    <form>
+                        <mat-form-field appearance="fill">
+                            <input matInput type="number" placeholder="Ex. 10" min="10">
+                        </mat-form-field>
+                    </form>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button mat-flat-button color="warn" style="font-family: sans-serif;">AGREGAR AL CARRITO</button>
+                    <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;">COMPRAR
+                        AHORA</button>
+
+                </div>
+
+                <mat-divider style="margin-top: 2rem; margin-bottom: 2rem; border-top-style: dashed!important;">
+                </mat-divider>
+
+                <div>
+                    <h6 style="font-family: sans-serif; font-weight: bold;">Detalles</h6>
+                    <p class="p-style">{{item.description}}</p>
+                </div>
+
+                <mat-divider style="margin-top: 2rem; margin-bottom: 2rem; border-top-style: dashed!important;">
+                </mat-divider>
+
+                <div>
+                    <h6 style="font-family: sans-serif; font-weight: bold;">Compartir</h6>
+                    <div class="row">
+                        <div class="col-1 focused" style="cursor: pointer;">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="col-1 focused" style="cursor: pointer;">
+                            <i class="fab fa-google-plus-g"></i>
+                        </div>
+                        <div class="col-1 focused" style="cursor: pointer;">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="col-1 focused" style="cursor: pointer;">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+
+                        <mat-divider [vertical]="true" style="border-top-style: dashed!important;">
+                        </mat-divider>
+
+                        <div class="col-6 focused" style="cursor: pointer;">
+                            <i class="fas fa-heart"></i><span
+                                style="margin-left: 5px; font-size: large; font-family: sans-serif;">Agregar a la Lista
+                                de Deseos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-divider style="margin-top: 2rem; margin-bottom: 2rem; border-top-style: dashed!important;">
+                </mat-divider>
+
+            </div>
+
+            <div class="col-12" style="margin-top: 1rem;">
+                <mat-tab-group>
+                    <mat-tab label="DESCRIPCIÓN">
+                        <div style="margin-top: 1rem;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
+                            dolorem ad sit minus aliquid possimus deserunt ducimus saepe placeat delectus? Voluptatibus
+                            voluptas, nihil quam sunt nobis omnis aspernatur ipsa nulla.</div>
+
+                    </mat-tab>
+
+                    <mat-tab label="VIDEO"> Video </mat-tab>
+
+                    <mat-tab label="VALORACIONES">
+
+                        <div
+                            style="background-color: #eee; border-radius: 10px; margin-top: 1rem; display: flex; flex-direction: row;">
+
+                            <div style="margin-left: 1rem; margin-top: 10px;">
+                                <h6 style="font-family: sans-serif;">Alejandro Campos</h6>
+                                <p class="p-style">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero fugit
+                                    deleniti error numquam vel sunt quo, commodi impedit. Numquam est illum dolor nam
+                                    tenetur molestias vel laborum! Cum, magnam distinctio.</p>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="margin-top: 1rem;">
+                            <div class="col-6">
+                                <mat-form-field [formGroup]="itemForm" style="width: 100% !important;"
+                                    appearance="outline">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput type="name" placeholder="Ingrese su nombre y apellidos" min="1"
+                                        tabindex="1" required="true" formControlName="name">
+                                    <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">Campo Obligatorio
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-6">
+                                <mat-form-field [formGroup]="itemForm" style="width: 100% !important;"
+                                    appearance="outline">
+                                    <mat-label>Correo</mat-label>
+                                    <input matInput type="email" placeholder="Ingrese su correo" min="1" tabindex="1"
+                                        required="true" formControlName="email">
+                                    <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">Campo Obligatorio
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-12">
+                                <mat-form-field [formGroup]="itemForm" style="width: 100% !important;"
+                                    appearance="outline">
+                                    <mat-label>Comentario</mat-label>
+                                    <textarea matInput tabindex="1" required="true" formControlName="comment"
+                                        placeholder="Ingrese el contenido del comentario"></textarea>
+                                    <mat-error *ngIf="comment.invalid && (comment.dirty || comment.touched)">Campo
+                                        Obligatorio
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div style="margin-left: 1rem;">
+                                <button mat-flat-button color="warn" style="font-family: sans-serif;"
+                                    (click)="onSubmit()" [disabled]="!itemForm.valid">ENVIAR COMENTARIO</button>
+
+                            </div>
+
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+        </div>
+    </div>
+</section>

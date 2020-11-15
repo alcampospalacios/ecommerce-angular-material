@@ -117,7 +117,7 @@
             <mat-icon><span class="material-icons" style="color: #777;">settings</span></mat-icon>
           </button>
           <button mat-icon-button>
-            <mat-icon matBadge="15" matBadgeColor="warn"><span class="material-icons"
+            <mat-icon  [matBadgeHidden]="!amount || amount == 0"  [matBadge]="amount" matBadgeColor="warn"><span class="material-icons"
                 style="color: #777;">shopping_cart</span></mat-icon>
           </button>
         </div>

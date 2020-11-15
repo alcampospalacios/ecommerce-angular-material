@@ -12,6 +12,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'details/:id',
+    loadChildren: () => import('./component/lazy_loading/detail-product/detail-product.module').then(m => m.DetailProductModule)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

@@ -163,7 +163,7 @@
                                         data-slide-to="2"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage3" /></li>
                                 </ol>
-                                <div class="carousel-inner">
+                                <div class="carousel-inner" (click)="onDetail(item.idProducts)">
                                     <div class="carousel-item active">
                                         <img class="img-fluid" [defaultImage]="item.subImage1"
                                             [lazyLoad]="item.subImage1" class="d-block w-100" alt="...">
@@ -181,13 +181,13 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
                                     <span class="material-icons">add_shopping_cart</span></mat-icon>
                                 <mat-icon
                                     [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
                                     <span class="material-icons">favorite_border</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
                                     <span class="material-icons">search</span></mat-icon>
                             </div>
                             <div class="card-body">
@@ -222,7 +222,7 @@
                                         data-slide-to="2"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage3" /></li>
                                 </ol>
-                                <div class="carousel-inner">
+                                <div class="carousel-inner" (click)="onDetail(item.idProducts)">
                                     <div class="carousel-item active">
                                         <img class="img-fluid" [defaultImage]="item.subImage1"
                                             [lazyLoad]="item.subImage1" class="d-block w-100" alt="...">
@@ -240,13 +240,13 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
                                     <span class="material-icons">add_shopping_cart</span></mat-icon>
                                 <mat-icon
                                     [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
                                     <span class="material-icons">favorite_border</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
                                     <span class="material-icons">search</span></mat-icon>
                             </div>
                         </div>

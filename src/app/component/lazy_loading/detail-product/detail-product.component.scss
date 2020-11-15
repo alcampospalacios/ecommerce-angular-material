@@ -1,0 +1,131 @@
+//Img Carousel
+.thumbnail {
+  // max-width: 150px; 
+  width: auto;
+  height: auto;
+  max-height: 150px;
+}
+
+.carousel-indicators {  
+  width: auto !important;  
+  list-style: none !important;
+  position: relative; 
+  margin-top: 1rem;
+}
+
+.carousel-indicators li {
+  display: inline-block !important;
+  box-sizing: content-box !important;
+  flex: 0 1 auto !important; 
+  height: auto !important;
+  width: auto;
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+  text-indent: 0 !important;
+  cursor: pointer !important;
+  background-color: #fff !important;
+  background-clip: padding-box !important;  
+  border: 1px solid #aaa;
+  opacity: 1!important;
+  transition: opacity .6s ease!important;
+}
+
+.carousel-indicators li:hover { 
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+
+
+// availble color
+// .product-right .color-variant li {
+//   height: 30px;
+//   width: 30px;
+//   cursor: pointer;
+// }
+
+.color-variant li {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  margin-right: 5px;  
+  vertical-align: middle;
+}
+
+.yellow {
+  background-color: #f2f896;
+}
+
+.white {
+  background-color: #fff;
+  border: 1px solid #aaa;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.p-style {
+  display: block!important;
+  margin-bottom: 10px;
+  line-height: 18px;
+  font-size: 14px;
+  color: #777;
+}
+
+// avaible size
+.size-variant li {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  color: #222;
+  font-size: 18px;
+  height: 100%;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  margin-right: 5px;  
+  vertical-align: middle;
+  text-align: center;
+}
+
+// Custom input number
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1;
+}
+
+// Deleting border button
+button {
+  border: none;
+}
+
+button:focus {
+  outline: none;  
+}
+
+// Icon on Focus
+.focused:hover {
+  color: #ff4c3b;
+}
+
+// Tab scrolling --
+::ng-deep.mat-tab-body-content {
+  height: 100%;
+  overflow: hidden !important;
+}
+
+// User avatar comments
+.avatar-cover {  
+  width: 60px;
+  height: 60px;
+  background-color: rgb(207, 206, 206);
+  border-radius: 10px;
+  border: 2px solid #eee;
+  font-size: 32px;
+  padding: 1px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

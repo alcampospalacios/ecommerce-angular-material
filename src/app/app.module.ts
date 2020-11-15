@@ -10,11 +10,14 @@ import { FooterModule } from './component/shared/footer/footer.module';
 import { HomeModule } from './component/home/home.module';
 // import { PaginatePipe } from './shared/pipes/paginate.pipe';
 
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { ProductsState } from './shared/statate-management/product.state';
 
 
 @NgModule({
   declarations: [
-    AppComponent        
+    AppComponent            
   ],
   imports: [
     BrowserModule,
@@ -22,7 +25,9 @@ import { HomeModule } from './component/home/home.module';
     BrowserAnimationsModule,
     NavbarModule,
     FooterModule,
-    HomeModule    
+    HomeModule,
+    NgxsModule.forRoot([ProductsState]),
+    NgxsLoggerPluginModule.forRoot()    
   ], 
   providers: [],
   bootstrap: [AppComponent]

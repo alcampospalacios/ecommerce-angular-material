@@ -1,11 +1,14 @@
 import { Products } from './../../../shared/model/products';
 import { ProductsService } from './../../../shared/service/products.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
-
+import { Router } from '@angular/router';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { AddProduct } from './../../../shared/statate-management/product.actions';
 
 @Component({
   selector: 'app-store',
@@ -50,6 +53,7 @@ export class StoreComponent implements OnInit {
 
   onlyOne: Products[];
   banner: string;
+  defaultBanner = '../../../assets/images/banner/banner-generic.jpg';
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -59,10 +63,18 @@ export class StoreComponent implements OnInit {
   type: string;
   category: string;
 
-  constructor(private route: ActivatedRoute, private location: Location, private productservice: ProductsService) { }
+  constructor(
+     private route: ActivatedRoute, private router: Router,
+     private location: Location, private productservice: ProductsService,
+     public dialog: MatDialog, private store: Store     
+     ) { }
 
   ngOnInit(): void {
     this.getDataType();
+  }
+
+  addProductSM(product: Products) {
+    this.store.dispatch(new AddProduct(product));
   }
 
   getDataType(): void {
@@ -80,9 +92,6 @@ export class StoreComponent implements OnInit {
         this.getBrands();
       });
   }
-
-
-
 
   filterColor() {
     if (!this.isActiveBrand && !this.isActiveSize) {
@@ -150,7 +159,6 @@ export class StoreComponent implements OnInit {
       this.isActiveColor = false;
     }
   }
-
 
   filterSize() {
     if (!this.isActiveColor) {
@@ -348,9 +356,7 @@ export class StoreComponent implements OnInit {
     }
 
 
-  }
-
-  // new idea of handle data more optimized
+  } 
 
   getCategory(category: string) {
     this.category = category;
@@ -403,7 +409,6 @@ export class StoreComponent implements OnInit {
     }
   }
 
-
   getCategorySize(category: string, size: string) {
     this.copyProducts.forEach(t => {
       if (t.category === category && t.size.toUpperCase() === size) this.products.push(t);
@@ -427,7 +432,6 @@ export class StoreComponent implements OnInit {
       if (t.mark.toUpperCase() === mark && t.size.toUpperCase() === size && t.color === color) this.products.push(t);
     });
   }
-
 
   getMark(mark: string) {
     this.copyProducts.forEach(t => {
@@ -507,6 +511,29 @@ export class StoreComponent implements OnInit {
     });
   }
 
+  openDialog(item: Products): void {
+    const dialogRef = this.dialog.open(DialogOverview, {
+      width: '80%',
+      height: '80%',     
+      data: {
+        idProducts: item.idProducts,
+        type: item.type,
+        category: item.category,
+        subCategory: item.subCategory,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        subImage1: item.subImage1        
+      },
+      autoFocus: false   
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');      
+    });
+  }
+
+
 
   // Handle Paginator
   handlePage(e: PageEvent) {
@@ -524,6 +551,10 @@ export class StoreComponent implements OnInit {
     this.isMouseOver = false;
   }
 
+  onDetail(id){
+    console.log(id);
+    this.router.navigate([`/details/${this.currentId}`]);
+ }
 
   onRate($event: { oldValue: number, newValue: number, starRating: StarRatingComponent }) {
     // alert(`Old Value:${$event.oldValue}, 
@@ -533,6 +564,28 @@ export class StoreComponent implements OnInit {
   }
 
 }
+
+
+
+
+
+@Component({
+  selector: 'dialog-overview',
+  templateUrl: 'dialog-overview.html',
+})
+export class DialogOverview {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverview>,
+    @Inject(MAT_DIALOG_DATA) public data: Products) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+
 
 
 
