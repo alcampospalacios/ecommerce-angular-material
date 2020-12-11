@@ -14,10 +14,9 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ProductsState } from './shared/statate-management/product.state';
 
-
 @NgModule({
   declarations: [
-    AppComponent            
+    AppComponent                
   ],
   imports: [
     BrowserModule,

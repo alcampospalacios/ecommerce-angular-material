@@ -17,6 +17,16 @@ const routes: Routes = [
   },
 
   {
+    path: 'cart',
+    loadChildren: () => import('./component/lazy_loading/view-cart/view-cart.module').then(m => m.ViewCartModule)
+  },
+
+  {
+    path: 'checkout',
+    loadChildren: () => import('./component/lazy_loading/checkout/checkout.module').then(m => m.CheckoutModule)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

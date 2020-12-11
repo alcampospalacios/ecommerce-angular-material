@@ -110,16 +110,50 @@
         </div>
 
         <div class="d-none d-sm-block col-2">
+
+          <mat-menu #car="matMenu">
+            <div style="display: flex; align-items: center; margin-top: 0.5rem; margin-bottom: 0.5rem; margin-left: 1rem; margin-right: 1rem;"
+              *ngFor="let item of products$ |async">              
+              <img class="thumbnail" [src]="item.subImage1">
+              <div style="margin-left: 1.5rem; margin-right: 1.5rem;">
+                <h5>{{item.name}}</h5>
+                <p class="p-style">{{item.orders}} X {{item.price}}</p>
+              </div>
+              <div style="margin-right: 1rem; margin-left: 1rem; cursor: pointer" (click)="removeProduct(item.idProducts)">
+                <i class="fas fa-times" style="color: #777;"></i>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div style="margin: 1rem; display: flex; flex-direction: row; justify-content: space-between;">
+              <h5 style="color: #777; font-family: sans-serif;">Total:</h5>
+              <h5 style="color: #777; font-family: sans-serif;">${{totalprice}}.00</h5>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div style="margin-top: 1rem; margin-bottom: 1rem; margin-left: 0.3rem; margin-right: 0.3rem; display: flex; flex-direction: row; justify-content: space-between;">
+              <button class="button-hover" mat-button target="_blank" routerLink="cart"  routerLinkActive="active">Ver Carrito</button>
+              <button class="button-hover" mat-button target="_blank" routerLink="checkout"  routerLinkActive="active">Pagar</button>
+            </div>
+          </mat-menu>
+
+
           <button mat-icon-button>
             <mat-icon><span class="material-icons" style="color: #777;">search</span></mat-icon>
           </button>
+
           <button mat-icon-button>
             <mat-icon><span class="material-icons" style="color: #777;">settings</span></mat-icon>
           </button>
-          <button mat-icon-button>
-            <mat-icon  [matBadgeHidden]="!amount || amount == 0"  [matBadge]="amount" matBadgeColor="warn"><span class="material-icons"
+
+          <button mat-icon-button [matMenuTriggerFor]="car">
+            <mat-icon [matBadgeHidden]="!(products$|async) || (products$|async)?.length == 0"
+              [matBadge]="(products$|async)?.length || 0" matBadgeColor="warn"><span class="material-icons"
                 style="color: #777;">shopping_cart</span></mat-icon>
           </button>
+
         </div>
       </div>
     </div>
@@ -144,8 +178,9 @@
         <button mat-icon-button>
           <mat-icon svgIcon="custom_favorite"></mat-icon>
         </button>
-        <button mat-icon-button>
-          <mat-icon svgIcon="custom_shopping_cart" matBadge="15" matBadgeColor="warn"></mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="car">
+          <mat-icon svgIcon="custom_shopping_cart" [matBadgeHidden]="!(products$|async) || (products$|async)?.length == 0"
+          [matBadge]="(products$|async)?.length || 0" matBadgeColor="warn"></mat-icon>
         </button>
         <button mat-icon-button>
           <mat-icon svgIcon="custom_user"></mat-icon>

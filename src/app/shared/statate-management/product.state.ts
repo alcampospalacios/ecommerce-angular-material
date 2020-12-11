@@ -1,6 +1,8 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { patch, updateItem } from '@ngxs/store/operators';
 import { Products } from './../model/products';
-import { AddProduct, RemoveProduct } from './product.actions';
+import { AddProduct, RemoveProduct, UpdateProduct } from './product.actions';
+import { tap } from 'rxjs/operators';
 
 export class ProductsStateModel {
     products: Products [];
@@ -25,14 +27,23 @@ export class ProductsState {
         const state = getState();
         patchState({
             products: [...state.products, payload]
-        })
+        });
     }
 
     @Action(RemoveProduct)
     remove({getState, patchState}: StateContext<ProductsStateModel>, {payload}: RemoveProduct) {
         patchState({
-            products: getState().products.filter(t => t.idProducts.toString() != payload)
-        })
+            products: getState().products.filter(t => t.idProducts != payload)
+        });
+    }
+
+    @Action(UpdateProduct)
+    update(ctx: StateContext<ProductsStateModel>, {payload}: UpdateProduct) {
+        ctx.setState(
+            patch({
+                products: updateItem<Products>(p => p.idProducts === payload.idProduct, payload.newProduct)
+            })
+        );
     }
 
 }

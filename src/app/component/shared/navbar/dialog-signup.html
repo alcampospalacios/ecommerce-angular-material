@@ -1,14 +1,14 @@
 <!-- Material form register -->
-<mdb-card>
+<div>
 
-  <mdb-card-header class="danger-color white-text text-center py-4">
+  <div class="danger-color white-text text-center py-4">
     <h5>
       <strong>Registrarse</strong>
     </h5>
-  </mdb-card-header>
+  </div>
 
   <!--Card content-->
-  <mdb-card-body class="px-lg-5 pt-0" style="overflow: hidden !important;">
+  <div class="px-lg-5 pt-0" style="overflow: hidden !important;">
 
     <!-- Form -->
     <form class="text-center" style="color: #757575;">
@@ -43,7 +43,7 @@
 
           <div class="col-12">
             <mat-form-field [formGroup]="itemForm" style="width: 100% !important;">
-              <input matInput placeholder="Número Telefónico" tabindex="1" [(ngModel)]="data.phone" required="true"
+              <input matInput placeholder="Número Telefónico" tabindex="1" [(ngModel)]="data.movilPhone" required="true"
                 formControlName="phone">
               <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">Campo Obligatorio
               </mat-error>
@@ -75,8 +75,8 @@
         </div>
       </div>
     </form>
-  </mdb-card-body>
-</mdb-card>
+  </div>
+</div>
 
 
 

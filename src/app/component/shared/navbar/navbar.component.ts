@@ -23,13 +23,14 @@ import { RemoveProduct } from './../../../shared/statate-management/product.acti
 })
 export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  productsBought$: Observable<Products>;
+  @Select(ProductsState.getProducts) products$: Observable<Products[]>
+  totalprice: number;
   subscription: Subscription;
-  amount: number;
-  
+
   user: User;
   opacity = 1;
-  localStorageV1 = localStorage; 
+  localStorageV1 = localStorage;
+
 
 
   constructor(
@@ -41,10 +42,13 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
     private auth: AuthenticationNodeService,
     private store: Store
   ) {
-   this.subscription = this.store.select(state => state.products.products).subscribe(result => {
-     this.amount = result.length;
+
+    this.subscription = this.products$.subscribe(result => {
+      this.totalprice = 0;
+      result.forEach(t => {
+        this.totalprice += (t.price * ((t.orders || 0) + 1));
+      });
     });
-    
 
     iconRegistry.addSvgIcon(
       'custom_shopping_cart',
@@ -125,6 +129,9 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
     this.auth.logout();
   }
 
+  removeProduct(idProducts: number) {
+    this.store.dispatch(new RemoveProduct(idProducts))
+  }
 
 }
 
@@ -163,12 +170,12 @@ export class DialogLogin {
       email: this.itemForm.get('email').value,
       password: this.itemForm.get('password').value
     }
-    
+
     this.auth.signin(this.user).then(() => {
-      this.showSuccess();      
+      this.showSuccess();
     },
       () => {
-        this.showError();        
+        this.showError();
       });
   }
 
@@ -228,15 +235,15 @@ export class DialogSignup {
       name: this.itemForm.get('name').value,
       lastname: this.itemForm.get('lastname').value,
       email: this.itemForm.get('email').value,
-      phone: this.itemForm.get('phone').value,
+      movilPhone: this.itemForm.get('phone').value,
       password: this.itemForm.get('password').value
     }
 
     this.auth.signup(this.user).then(() => {
-      this.showSuccess();      
+      this.showSuccess();
     },
       () => {
-        this.showError();        
+        this.showError();
       });
   }
 

@@ -1,14 +1,17 @@
-import { Products } from './../../../shared/model/products';
+import { Products } from 'src/app/shared/model/products';
 import { ProductsService } from './../../../shared/service/products.service';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, IterableDiffers, OnInit, ViewChild } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import { AddProduct } from './../../../shared/statate-management/product.actions';
+import { Store, Select } from '@ngxs/store';
+import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
+import { filter, tap } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { ProductsState } from 'src/app/shared/statate-management/product.state';
 
 @Component({
   selector: 'app-store',
@@ -63,6 +66,9 @@ export class StoreComponent implements OnInit {
   type: string;
   category: string;
 
+  orders$: Observable<Products[]>
+  subscribtion: Subscription;  
+
   constructor(
      private route: ActivatedRoute, private router: Router,
      private location: Location, private productservice: ProductsService,
@@ -73,8 +79,123 @@ export class StoreComponent implements OnInit {
     this.getDataType();
   }
 
-  addProductSM(product: Products) {
-    this.store.dispatch(new AddProduct(product));
+  addProductSM(product: Products) { 
+    let solution: Products[];   
+    this.store.select(state => state.products.products).subscribe(data => {
+     solution = data
+    });    
+    
+    // if((solution.filter(it => it.idProducts === product.idProducts)).length > 0) {
+    //   let prod: Products = {
+    //     idProducts: product.idProducts,
+    //     type: product.type,
+    //     category: product.category,
+    //     subCategory: product.subCategory,
+    //     name: product.name,
+    //     description: product.description,
+    //     price: product.price,
+    //     image: product.image,
+    //     subImage1: product.subImage1,
+    //     subImage2: product.subImage2,
+    //     subImage3: product.subImage3,
+    //     rate: product.rate,
+    //     amount: product.amount,
+    //     color: product.color,
+    //     size: product.size,
+    //     mark: product.mark,
+    //     userid: product.userid,
+    //     orders: 
+    //   }
+    //   this.updateOrder(prod);
+      
+    // } else this.store.dispatch(new AddProduct(product));    
+
+    let flag = false;
+    if (solution.length === 0) {
+      let prod: Products = {
+        idProducts: product.idProducts,
+        type: product.type,
+        category: product.category,
+        subCategory: product.subCategory,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        image: product.image,
+        subImage1: product.subImage1,
+        subImage2: product.subImage2,
+        subImage3: product.subImage3,
+        rate: product.rate,
+        amount: product.amount,
+        color: product.color,
+        size: product.size,
+        mark: product.mark,
+        userid: product.userid,
+        orders: 1
+      }
+      this.store.dispatch(new AddProduct(prod));
+      }
+    else 
+    {
+      solution.forEach(it => {      
+        if (it.idProducts == product.idProducts) {          
+          let prod: Products = {
+            idProducts: product.idProducts,
+            type: product.type,
+            category: product.category,
+            subCategory: product.subCategory,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            userid: product.userid,
+            orders: ((it.orders || 0) + 1)
+          }
+          flag = true;
+          this.updateOrder(prod);
+        }  
+      });
+
+      if (!flag) {
+        let prod: Products = {
+          idProducts: product.idProducts,
+          type: product.type,
+          category: product.category,
+          subCategory: product.subCategory,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image,
+          subImage1: product.subImage1,
+          subImage2: product.subImage2,
+          subImage3: product.subImage3,
+          rate: product.rate,
+          amount: product.amount,
+          color: product.color,
+          size: product.size,
+          mark: product.mark,
+          userid: product.userid,
+          orders: 1        }
+        
+        this.store.dispatch(new AddProduct(prod));
+      } 
+
+    }  
+  }
+
+  updateOrder(product: Products) {
+    let payload = {
+      idProduct: product.idProducts,
+      newProduct: product
+    }
+    this.store.dispatch(new UpdateProduct(payload));
   }
 
   getDataType(): void {

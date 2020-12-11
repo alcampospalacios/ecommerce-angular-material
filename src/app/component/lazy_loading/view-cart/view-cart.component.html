@@ -1,0 +1,106 @@
+<section style="margin-top: 8rem; margin-bottom: 3rem; height: 80vh;">
+
+
+    <div class="container" style="margin-top: 1rem;">
+        <div class="row" style="display: flex; flex-direction: row; align-items: center;">
+
+            <div class="col-6 col-lg-2">
+                <h6 style="font-family: sans-serif;">IMAGEN</h6>
+            </div>
+
+            <div class="col-6 col-lg-2">
+                <h6 style="font-family: sans-serif;">NOMBRE</h6>
+
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h6 style="font-family: sans-serif;">PRECIO</h6>
+
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h6 style="font-family: sans-serif;">CANTIDAD</h6>
+
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h6 style="font-family: sans-serif;">ACCION</h6>
+
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h6 style="font-family: sans-serif;">TOTAL</h6>
+
+            </div>
+
+        </div>
+
+        <mat-divider style="margin-top: 1rem;"></mat-divider>
+
+        <div class="row container-x0" *ngFor="let item of products$ | async">
+            <div class="col-6 col-lg-2">
+                <img [src]="item.subImage1" alt="" class="thumbnail">
+            </div>
+
+            <div class="d-block d-lg-none text-center">
+                <p class="name-xs">{{item.name}}</p>
+                <div class="container-x1">
+
+                    <div class="container-x3 align-middle">
+                        <p class="orders-style">{{item.orders}}</p>
+                    </div>
+
+
+                    <div>
+                        <h6 class="price-xs-style">{{item.price | currency}}</h6>
+                    </div>
+
+                    <div style="cursor: pointer;">
+                        <mat-icon (click)="removeProduct(item.idProducts)"><span class="material-icons" style="color: #777;">clear</span></mat-icon>
+                    </div>
+
+                </div>
+            </div>
+            
+
+            <div class="col-2 d-none d-lg-block">
+                <p>{{item.name}}</p>
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h4 style="font-family: sans-serif;">{{item.price | currency}}</h4>
+            </div>
+            
+            <div class="col-2 d-none d-lg-block">
+                <div style="display: flex; flex-direction: row; align-items: center; border: 1px solid #e9ecef; width: 5.5rem;">
+                    <mat-icon (click)="decrement(item)" style="cursor: pointer; color: #777;"><span class="material-icons">keyboard_arrow_left</span></mat-icon>
+                    <div style="height: 50px; width: 48px; background-color: #e9ecef; text-align: center;" class="align-middle">
+                        <p class="p-style-order">{{item.orders}}</p>
+                    </div>
+                    <mat-icon (click)="increment(item)" style="cursor: pointer; color: #777;"><span class="material-icons">keyboard_arrow_right</span></mat-icon>
+                </div>
+            </div>
+
+            <div class="col-2 d-none d-lg-block" style="cursor: pointer;" (click)="removeProduct(item.idProducts)">
+                <mat-icon><span class="material-icons" style="color: #777;">clear</span></mat-icon>
+            </div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h4 style="color: #ff4c3b; font-family: sans-serif;">{{(item.price * item.orders) | currency}}</h4>
+
+            </div>
+        </div>
+
+        <mat-divider style="margin-top: 1rem; margin-bottom: 1rem;"></mat-divider>
+
+        <div style="margin-top: 1rem; display: flex; flex-direction: row; justify-content: space-between;">
+            <button mat-flat-button color="warn" style="font-family: sans-serif;">SEGUIR COMPRANDO</button>
+            <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;"  [routerLink]="['/checkout']"  routerLinkActive="active">PAGAR</button>
+
+        </div>
+    </div>
+
+
+
+
+</section>

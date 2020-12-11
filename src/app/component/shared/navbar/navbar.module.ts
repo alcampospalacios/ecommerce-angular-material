@@ -14,12 +14,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatDividerModule} from '@angular/material/divider';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 
 
-
-
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ToastModule } from 'ng-uikit-pro-standard';
 
 import { RouterModule } from '@angular/router';
@@ -44,8 +42,8 @@ import { RouterModule } from '@angular/router';
     MatCardModule,
     MatCheckboxModule,   
     MatSidenavModule,
-    ScrollingModule,
-    MDBBootstrapModule.forRoot(),
+    MatDividerModule,
+    ScrollingModule,   
     ToastModule.forRoot(),
   ],
   providers: [],

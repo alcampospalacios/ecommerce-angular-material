@@ -1,0 +1,133 @@
+<section style="margin-top: 8rem; margin-bottom: 20rem;">
+  <mat-horizontal-stepper #stepper [linear]="true">
+    <mat-step [stepControl]="itemFormOne" errorMessage="Name is required.">
+      <form [formGroup]="itemFormOne">
+        <ng-template matStepLabel>Datos Personales</ng-template>
+        <div class="row">
+          <div class="col-6">
+
+            <div class="stepper-content">
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="John" formControlName="name"> 
+                <mat-icon class="mat-icon-color" matSuffix>person_outline</mat-icon>             
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Apellidos</mat-label>
+                <input matInput placeholder="Doe" formControlName="lastname"> 
+                <mat-icon class="mat-icon-color" matSuffix>person_outline</mat-icon>             
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Carnet de Identidad</mat-label>
+                <input matInput placeholder="9212*******" formControlName="ci">
+                <mat-icon class="mat-icon-color" matSuffix>crop_16_9</mat-icon>   
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <input matInput placeholder="Vedado 3ra y 70" formControlName="address">
+                <mat-icon class="mat-icon-color" matSuffix>edit_location</mat-icon>   
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-6 text text-center">
+            <img src="../../../../assets/images/information.png" alt="" class="img-style">
+
+          </div>
+
+        </div>
+
+        <div>
+          <button mat-flat-button color="warn" matStepperNext>Siguiente</button>
+        </div>
+
+      </form>
+
+    </mat-step>
+
+    <mat-step [stepControl]="itemFormTwo" errorMessage="Campos Obligatorios.">
+      <form [formGroup]="itemFormTwo">
+        <ng-template matStepLabel>Datos de Facturación</ng-template>
+        <div class="row">
+          <div class="col-6">
+
+            <div class="stepper-content">
+              <mat-form-field appearance="outline">
+                <mat-label>Correo Electrónico</mat-label>
+                <input matInput placeholder="JohnDoe@nauta.cu" formControlName="email">
+                <mat-icon class="mat-icon-color" matSuffix>mail_outline</mat-icon>
+              </mat-form-field>             
+
+              <mat-form-field appearance="outline">
+                <mat-label>Teléfono Móvil</mat-label>
+                <span matPrefix>+53 &nbsp;</span>
+                <input type="tel" matInput placeholder="52054***" formControlName="movilPhone">
+                <mat-icon class="mat-icon-color" matSuffix>phone</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Telefono Fijo</mat-label>
+                <span matPrefix>+7 &nbsp;</span>
+                <input type="tel" matInput placeholder="835****" formControlName="anotherPhone">
+                <mat-icon class="mat-icon-color" matSuffix>phone</mat-icon>
+              </mat-form-field>
+             
+            </div>
+          </div>
+
+          <div class="col-6 text text-center">
+            <img src="../../../../assets/images/facturation.png" alt="" class="img-style">
+
+          </div>
+
+        </div>
+
+
+        <div>         
+          <button mat-flat-button color="warn" matStepperPrevious>Anterior</button>
+          <button mat-flat-button color="warn" matStepperNext style="margin-left: 10px;">Siguiente</button>
+        </div>
+
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Detalles de Compra</ng-template>
+      <div class="row">
+        <div class="col-6 div-container">
+          <div class="order-detail-view row">
+            <h5 class="order-details col-6">Productos</h5>
+            <h5 class="order-details col-6">Precio</h5>
+          </div>
+
+          <mat-divider style="margin-top: 1rem; margin-bottom: 1rem;"></mat-divider>
+
+          <div class="order-detail-view row" *ngFor="let item of products$ | async">
+            <p class="p-style col-6">{{item.name}} x {{item.orders}}</p>
+            <p class="col-6">{{item.price | currency}}</p>
+          </div>
+
+          <mat-divider style="margin-top: 1rem; margin-bottom: 1rem;"></mat-divider>
+          <div class="order-detail-view row">
+            <h6 class="col-6">Total</h6>
+            <p class="col-6" style="color: #ff4c3b;">{{totalprice | currency}}</p>
+          </div>
+
+        </div>
+
+        <div class="col-6 text text-center">
+          <img src="../../../../assets/images/shopping-cart.png" alt="" class="img-style">
+        </div>
+
+      </div>
+      
+
+      <div style="margin-top: 1rem;">
+        <button mat-flat-button color="warn" matStepperPrevious>Anterior</button>
+        <button mat-flat-button color="warn" (click)="onSubmit()" style="margin-left: 10px;">Realizar orden</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</section>

@@ -1,0 +1,40 @@
+.stepper-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.img-style {
+    width: 250px;
+    height: 250px;
+}
+
+::ng-deep .mat-form-field-flex {  
+    align-items: center !important;    
+}
+
+.mat-icon-color {
+    color: #777 !important;
+}
+
+.order-details {    
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+.order-detail-view {
+    display: flex;
+    flex-direction: row;
+}
+
+.p-style {
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-size: 14px;
+    color: #777;
+  }
+
+.div-container {
+ background-color: #f9f9f9;
+ border: 1px solid #ddd;
+ padding: 40px; 
+}
