@@ -64,5 +64,19 @@ export class ProductsService {
   getTypeProductsByMarkSizeColor(type: string, mark: string, size: string, color: string): Observable<Products[]> {    
     return this.http.get<Products[]>(`${this.BASE_URL}/filterMarkSizeColor/${type}/${mark}/${size}/${color}`);
   }
+
+  updateProduct(product: Products) {
+    let json = JSON.stringify(product);
+    let params = json;
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+   
+      this.http.put(`${this.BASE_URL}/${product.idProducts}`, params, { headers: headers }).subscribe(data => {        
+        console.log('Done', data);
+    });  
+  }
+
+  getBestSellingProduct(): Observable<Products[]> {
+    return this.http.get<Products[]>(`${this.BASE_URL}/bestSellingProduct`);
+  }
   
 }

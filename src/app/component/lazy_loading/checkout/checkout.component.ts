@@ -1,3 +1,4 @@
+import { ProductsService } from './../../../shared/service/products.service';
 import { OrdersService } from './../../../shared/service/orders.service';
 import { Orders } from './../../../shared/model/orders';
 import { User } from './../../../shared/model/user';
@@ -28,6 +29,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   ids: number[];
   order: Orders;
+  products: Products[];
 
   createFormGroupOne() {
     return new FormGroup({
@@ -49,6 +51,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   constructor(
     private userServ: AuthenticationNodeService,
     private orderService: OrdersService,
+    private productService: ProductsService,
     private store: Store
   ) {
     this.itemFormOne = this.createFormGroupOne();
@@ -62,6 +65,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.products$.subscribe(result => {
+      this.products = result;
       this.totalprice = 0;
       result.forEach(t => {
         this.totalprice += (t.price * t.orders);
@@ -94,6 +98,30 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
     this.userServ.update(user);
     this.orderService.postOrder(this.order);
+
+    this.products.forEach(t => {
+      let prod: Products = {
+        idProducts: t.idProducts,
+        type: t.type,
+        category: t.category,
+        subCategory: t.subCategory,
+        name: t.name,
+        description: t.description,
+        price: t.price,
+        image: t.image,
+        subImage1: t.subImage1,
+        subImage2: t.subImage2,
+        subImage3: t.subImage3,
+        rate: t.rate,
+        amount: (t.amount-t.orders),
+        color: t.color,
+        size: t.size,
+        mark: t.mark,
+        userid: t.userid,
+        orders: t.orders
+      }
+      this.productService.updateProduct(prod);     
+    });
     
   }
 

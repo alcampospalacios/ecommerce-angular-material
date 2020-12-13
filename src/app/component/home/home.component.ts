@@ -1,6 +1,7 @@
+import { Subscription } from 'rxjs';
 import { ProductsService } from './../../shared/service/products.service';
 import { Products } from './../../shared/model/products';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -10,7 +11,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
   image1 = '../../../assets/carousel/man.jpg';
   image2 = '../../../assets/carousel/woman.jpg';
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  products: Products [];
+  bestSellingProducts: Products [];
+  subscription: Subscription;
 
   productsOfferEspecial = [
     {
@@ -92,9 +94,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prod.getAllProducts().subscribe(data => {
-      this.products = data;      
+    this.subscription = this.prod.getBestSellingProduct().subscribe(data => {
+      this.bestSellingProducts = data;      
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   sliderOn(event) {

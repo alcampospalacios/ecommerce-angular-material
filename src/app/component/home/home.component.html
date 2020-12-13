@@ -72,9 +72,9 @@
     <p style="margin-left: 4rem; margin-right: 4rem;">Productos más solicitados por nuestros usuarios.</p>
   </div>
 
-  <div class="container-fluid" *ngIf="products">
-    <div class="row">
-      <div class="col-12 col-sm-6 col-md-3  mb-2" *ngFor="let item of products">
+  <div class="container-fluid" *ngIf="bestSellingProducts">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-sm-6 col-md-3  mb-2" *ngFor="let item of bestSellingProducts">
         <div class="card" style="border: none; cursor: pointer;" (mouseenter)="onMouseEnter(item.idProducts)"
           (mouseleave)="onMouseLeave()">
           <div [id]="'carouselIndicator' + item.idProducts.toString()" class="carousel" data-ride="carousel" data-interval="false"
