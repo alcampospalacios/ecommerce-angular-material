@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
   images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
   image1 = '../../../assets/carousel/man.jpg';
   image2 = '../../../assets/carousel/woman.jpg';
+  image3 = '../../../assets/carousel/boy.jpg';
+  image4 = '../../../assets/carousel/girl.jpg';
   defaultImage = '../../../assets/images/default/default-image.png';
   colecction = [
     {

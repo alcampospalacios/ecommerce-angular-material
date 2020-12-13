@@ -46,7 +46,7 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
     this.subscription = this.products$.subscribe(result => {
       this.totalprice = 0;
       result.forEach(t => {
-        this.totalprice += (t.price * ((t.orders || 0) + 1));
+        this.totalprice += (t.price * t.orders);
       });
     });
 
