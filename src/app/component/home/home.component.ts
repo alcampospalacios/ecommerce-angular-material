@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { ProductsService } from './../../shared/service/products.service';
 import { Products } from './../../shared/model/products';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
   image1 = '../../../assets/carousel/man.jpg';
   image2 = '../../../assets/carousel/woman.jpg';
@@ -34,38 +34,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   bestSellingProducts: Products [];
-  subscription: Subscription;
-
-  productsOfferEspecial = [
-    {
-      id: 2,
-      idCarousel: "carouselIndicatorOffer1",
-      url: '../../../assets/products/3.jpg',
-      name: 'Vestido 1',
-      price: '120'
-    },
-    {
-      id: 3,
-      idCarousel: "carouselIndicatorOffer2",
-      url: '../../../assets/products/39.jpg',
-      name: 'Vestido 2',
-      price: '300'
-    },
-    {
-      id: 4,
-      idCarousel: "carouselIndicatorOffer3",
-      url: '../../../assets/products/1.jpg',
-      name: 'Vestido 3',
-      price: '170'
-    },
-    {
-      id: 5,
-      idCarousel: "carouselIndicatorOffer4",
-      url: '../../../assets/products/8.jpg',
-      name: 'Vestido 4',
-      price: '240'
-    }
-  ]
+  newestViewedSoldout: Products [];
+  filternewestViewedSoldout: Products [];
+  subscriptionBestSellingProducts: Subscription;
+  subscriptionNewestViewedSoldout: Subscription; 
 
   direction: any;
   breakpoint: any;
@@ -93,14 +65,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/icons/sectionInformation/trunk.svg'));
   }
 
-  ngOnInit(): void {
-    this.subscription = this.prod.getBestSellingProduct().subscribe(data => {
+  ngOnInit(): void {    
+  }
+
+  ngAfterViewInit(): void {
+    this.subscriptionBestSellingProducts = this.prod.getBestSellingProduct().subscribe(data => {
       this.bestSellingProducts = data;      
     });
+
+    this.subscriptionNewestViewedSoldout = this.prod.getNewestViewedSoldout().subscribe(data => {      
+      this.newestViewedSoldout = data;
+      this.newest();
+    });    
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptionBestSellingProducts.unsubscribe();
+    this.subscriptionNewestViewedSoldout.unsubscribe();
   }
 
   sliderOn(event) {
@@ -123,6 +104,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     //   New Value: ${$event.newValue}, 
     //   Checked Color: ${$event.starRating.checkedcolor}, 
     //   Unchecked Color: ${$event.starRating.uncheckedcolor}`);
+  }
+
+  newest() {    
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.newest === 1);    
+  }
+
+  viewed() {
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.orders >= 5); 
+  }
+  
+  featured() {
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.featured === 1); 
+  }
+  
+  soldOut() {
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => {
+      t.amount-t.orders === 0
+    }); 
   }
  
 

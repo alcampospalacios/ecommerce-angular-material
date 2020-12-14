@@ -78,5 +78,9 @@ export class ProductsService {
   getBestSellingProduct(): Observable<Products[]> {
     return this.http.get<Products[]>(`${this.BASE_URL}/bestSellingProduct`);
   }
+
+  getNewestViewedSoldout(): Observable<Products[]> {
+    return this.http.get<Products[]>(`${this.BASE_URL}/newestViewedSoldout`);
+  }
   
 }

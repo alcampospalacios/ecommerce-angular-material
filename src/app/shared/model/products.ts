@@ -16,5 +16,7 @@ export interface Products {
     size?: string,
     mark?: string,
     userid?: number,
-    orders?: number
+    orders?: number,
+    featured?: number,
+    newest?: number
 }
