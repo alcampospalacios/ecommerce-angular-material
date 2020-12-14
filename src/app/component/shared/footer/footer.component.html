@@ -1,11 +1,11 @@
 <footer class="footer-light" style="background: #f9f9f9;">
     <div class="container">
         <section class="small-section border-section border-top-0">
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 <div class="col-12 col-lg-6">
                     <div class="subscribe">
                         <div>
-                            <h4 class="text-sm-center text-lg-left">Entérate Primero</h4>
+                            <h4 class="d-none d-lg-block text-sm-center text-lg-left">Entérate Primero</h4>
                             <p class="d-none d-lg-block">No te pierdas ninguna de nuestras novedades, subscribete a
                                 nuestra cartelera</p>
                         </div>
@@ -14,18 +14,24 @@
 
                 <mat-divider class="d-none d-lg-block" [vertical]=true></mat-divider>
 
-                <div class="col-12 col-lg-5">
-                    <div class="form-field">
+                <div class="col-12 col-lg-5 d-flex justify-content-center">
+                    <div class="form-field" *ngIf="!localStorageV1.getItem('subscribed'); else subscribed">
                         <div class="example-container">
                             <mat-form-field appearance="fill">
                                 <mat-label>Enter your email</mat-label>
-                                <input matInput placeholder="pat@example.com" [formControl]="email" required>
+                                <input matInput placeholder="johndoe@gmail.com" [formControl]="email" required>
                                 <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                             </mat-form-field>
                         </div>
-                        <button type="submit" class="button-material" mat-flat-button color="warn">Subscribirse</button>
+                        <button type="submit" class="button-material" mat-flat-button color="warn" (click)="submit()">Subscribirse</button>
                     </div>
                 </div>
+
+                <ng-template #subscribed>                                         
+                        <button type="submit" class="button-material" mat-flat-button color="warn" [disabled]='true'>Subscrito
+                            <mat-icon class="mat-icon-color" matSuffix>done_outline</mat-icon>
+                        </button>                  
+                </ng-template>
             </div>
 
             <br />

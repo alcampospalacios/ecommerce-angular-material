@@ -11,8 +11,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
-  images = [1055, 194, 368].map((n) => `https://picsum.photos/id/${n}/900/500`);
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {  
   image1 = '../../../assets/carousel/man.jpg';
   image2 = '../../../assets/carousel/woman.jpg';
   image3 = '../../../assets/carousel/boy.jpg';
@@ -44,8 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   totalstars = "5";
   value = "5";
   isMouseOver: boolean = false;
-  currentId: number;
-  carr: string = 'carouselIndicators1';
+  currentId: number;  
 
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, private prod: ProductsService) {
     iconRegistry.addSvgIcon(

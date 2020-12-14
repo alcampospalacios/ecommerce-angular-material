@@ -15,7 +15,7 @@ export class AuthenticationNodeService {
     let params = json;
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.http.post(`${this.BASE_URL}/signup`, params, { headers: headers }).subscribe(data => {        
         resolve();
       }, err => {        
@@ -31,7 +31,7 @@ export class AuthenticationNodeService {
     let params = json;
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.http.post<User>(`${this.BASE_URL}/signin`, params, { headers: headers }).subscribe(data => {
         localStorage.setItem('email', data.email);
         localStorage.setItem('name', data.name);
