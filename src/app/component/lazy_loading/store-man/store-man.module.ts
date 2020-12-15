@@ -1,8 +1,8 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreRoutingModule } from './store-routing.module';
-import { DialogOverview, StoreComponent } from './store.component';
+import { StoreManRoutingModule } from './store-man-routing.module';
+import { DialogManOverview, StoreManComponent } from './store-man.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
@@ -22,10 +22,10 @@ import { SharedModule } from '../../../shared/shared.module';
 
 
 @NgModule({
-  declarations: [StoreComponent, DialogOverview],
+  declarations: [StoreManComponent, DialogManOverview],
   imports: [
     CommonModule,
-    StoreRoutingModule,
+    StoreManRoutingModule,
     MatSidenavModule,    
     MatExpansionModule,
     MatMenuModule,
@@ -46,4 +46,4 @@ import { SharedModule } from '../../../shared/shared.module';
   ],
   providers: []  
 })
-export class StoreModule { }
+export class StoreManModule { }

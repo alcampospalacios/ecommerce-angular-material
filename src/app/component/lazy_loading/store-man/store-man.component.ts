@@ -1,5 +1,5 @@
-import { Products } from 'src/app/shared/model/products';
-import { ProductsService } from './../../../shared/service/products.service';
+import { Products } from '../../../shared/model/products';
+import { ProductsService } from '../../../shared/service/products.service';
 import { Component, DoCheck, Inject, Input, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
@@ -8,17 +8,17 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Store, Select } from '@ngxs/store';
-import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
+import { AddProduct, UpdateProduct } from '../../../shared/statate-management/product.actions';
 import { filter, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
-import { ProductsState } from 'src/app/shared/statate-management/product.state';
+import { ProductsState } from '../../../shared/statate-management/product.state';
 
 @Component({
   selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.scss']
+  templateUrl: './store-man.component.html',
+  styleUrls: ['./store-man.component.scss']
 })
-export class StoreComponent implements OnInit {
+export class StoreManComponent implements OnInit {
   panelOpenState = true;
   panelOpenStateBrand = true;
   panelOpenStateColors = true;
@@ -55,8 +55,7 @@ export class StoreComponent implements OnInit {
   copyProductsCategory: Products[];
 
   onlyOne: Products[];
-  banner: string = '../../../assets/images/banner/banner-woman-v1.jpg';
-  defaultBanner = '../../../assets/images/banner/banner-generic.jpg';
+  banner: string = '../../../assets/images/banner/banner-man.jpg'; 
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -198,9 +197,8 @@ export class StoreComponent implements OnInit {
     this.store.dispatch(new UpdateProduct(payload));
   }
 
-  getDataType(): void {  
-    
-    this.productservice.getTypeProducts('mujer')
+  getDataType(): void {       
+    this.productservice.getTypeProducts('hombre')
       .subscribe(data => {
         this.products = data;
         this.copyProducts = this.products;
@@ -633,7 +631,7 @@ export class StoreComponent implements OnInit {
   }
 
   openDialog(item: Products): void {
-    const dialogRef = this.dialog.open(DialogOverview, {
+    const dialogRef = this.dialog.open(DialogManOverview, {
       width: '80%',
       height: '80%',     
       data: {
@@ -691,13 +689,13 @@ export class StoreComponent implements OnInit {
 
 
 @Component({
-  selector: 'dialog-overview',
-  templateUrl: 'dialog-overview.html',
+  selector: 'dialog-man-overview',
+  templateUrl: 'dialog-man-overview.html',
 })
-export class DialogOverview {
+export class DialogManOverview {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverview>,
+    public dialogRef: MatDialogRef<DialogManOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products) {}
 
   onNoClick(): void {

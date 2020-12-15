@@ -6,11 +6,22 @@ const routes: Routes = [
   {
     path: 'home', component: HomeComponent
   },
+
   {
-    path: 'tienda/:type',
+    path: 'tienda/mujer',
     loadChildren: () => import('./component/lazy_loading/store/store.module').then(m => m.StoreModule)
   },
 
+  {
+    path: 'tienda/mujer/:category',
+    loadChildren: () => import('./component/lazy_loading/store/store.module').then(m => m.StoreModule)
+  },
+
+  {
+    path: 'tienda/hombre/:category',
+    loadChildren: () => import('./component/lazy_loading/store-man/store-man.module').then(m => m.StoreManModule)
+  },  
+  
   {
     path: 'details/:id',
     loadChildren: () => import('./component/lazy_loading/detail-product/detail-product.module').then(m => m.DetailProductModule)

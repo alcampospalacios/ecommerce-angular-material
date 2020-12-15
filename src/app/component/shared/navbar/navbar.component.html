@@ -66,14 +66,58 @@
 
         <div class=" col-8 d-none d-lg-block text-right">
           <mat-menu #categories="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="woman">Mujer</button>
+            <button mat-menu-item [matMenuTriggerFor]="man">Hombre</button>
+            <button mat-menu-item [matMenuTriggerFor]="boy">Niña</button>
+            <button mat-menu-item [matMenuTriggerFor]="girl">Niño</button>
+          </mat-menu>
+
+          <mat-menu #woman="matMenu">
             <ng-template matMenuContent>
-              <button mat-menu-item>Ropa</button>
-              <button mat-menu-item>Zapatos</button>
-              <button mat-menu-item>Mochilas</button>
-              <button mat-menu-item>Relojes</button>
-              <button mat-menu-item>Accesorios</button>
-              <button mat-menu-item>Joyería</button>
-            </ng-template>
+              <button mat-menu-item [routerLink]="['/tienda/mujer']" routerLinkActive="active">Todo los Departamentos</button>
+              <button mat-menu-item routerLink="/tienda/mujer/ropa" routerLinkActive="active">Ropa</button>
+              <button mat-menu-item routerLink="/tienda/mujer/zapatos" routerLinkActive="active">Zapatos</button>
+              <button mat-menu-item routerLink="/tienda/mujer/mochilas" routerLinkActive="active">Mochilas</button>
+              <button mat-menu-item routerLink="/tienda/mujer/relojes" routerLinkActive="active">Relojes</button>
+              <button mat-menu-item routerLink="/tienda/mujer/accesorios" routerLinkActive="active">Accesorios</button>
+              <button mat-menu-item routerLink="/tienda/mujer/joyeria" routerLinkActive="active">Joyería</button>
+            </ng-template>            
+          </mat-menu>
+
+          <mat-menu #man="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item [routerLink]="['/tienda/hombre']" routerLinkActive="active">Todo los Departamentos</button>
+              <button mat-menu-item routerLink="/tienda/hombre/ropa" routerLinkActive="active">Ropa</button>
+              <button mat-menu-item routerLink="/tienda/hombre/zapatos" routerLinkActive="active">Zapatos</button>
+              <button mat-menu-item routerLink="/tienda/hombre/mochilas" routerLinkActive="active">Mochilas</button>
+              <button mat-menu-item routerLink="/tienda/hombre/relojes" routerLinkActive="active">Relojes</button>
+              <button mat-menu-item routerLink="/tienda/hombre/accesorios" routerLinkActive="active">Accesorios</button>
+              <button mat-menu-item routerLink="/tienda/hombre/joyeria" routerLinkActive="active">Joyería</button>
+            </ng-template>            
+          </mat-menu>
+
+          <mat-menu #boy="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item routerLink="/tienda/nino" routerLinkActive="active">Todo los Departamentos</button>
+              <button mat-menu-item routerLink="/tienda/nino/ropa" routerLinkActive="active">Ropa</button>
+              <button mat-menu-item routerLink="/tienda/nino/zapatos" routerLinkActive="active">Zapatos</button>
+              <button mat-menu-item routerLink="/tienda/nino/mochilas" routerLinkActive="active">Mochilas</button>
+              <button mat-menu-item routerLink="/tienda/nino/relojes" routerLinkActive="active">Relojes</button>
+              <button mat-menu-item routerLink="/tienda/nino/accesorios" routerLinkActive="active">Accesorios</button>
+              <button mat-menu-item routerLink="/tienda/nino/joyeria" routerLinkActive="active">Joyería</button>
+            </ng-template>            
+          </mat-menu>
+          
+          <mat-menu #girl="matMenu">
+            <ng-template matMenuContent>
+              <button mat-menu-item routerLink="/tienda/nina" routerLinkActive="active">Todo los Departamentos</button>
+              <button mat-menu-item routerLink="/tienda/nina/ropa" routerLinkActive="active">Ropa</button>
+              <button mat-menu-item routerLink="/tienda/nina/zapatos" routerLinkActive="active">Zapatos</button>
+              <button mat-menu-item routerLink="/tienda/nina/mochilas" routerLinkActive="active">Mochilas</button>
+              <button mat-menu-item routerLink="/tienda/nina/relojes" routerLinkActive="active">Relojes</button>
+              <button mat-menu-item routerLink="/tienda/nina/accesorios" routerLinkActive="active">Accesorios</button>
+              <button mat-menu-item routerLink="/tienda/nina/joyeria" routerLinkActive="active">Joyería</button>
+            </ng-template>            
           </mat-menu>
 
           <mat-menu #help="matMenu">
@@ -112,14 +156,16 @@
         <div class="d-none d-sm-block col-2">
 
           <mat-menu #car="matMenu">
-            <div style="display: flex; align-items: center; margin-top: 0.5rem; margin-bottom: 0.5rem; margin-left: 1rem; margin-right: 1rem;"
-              *ngFor="let item of products$ |async">              
+            <div
+              style="display: flex; align-items: center; margin-top: 0.5rem; margin-bottom: 0.5rem; margin-left: 1rem; margin-right: 1rem;"
+              *ngFor="let item of products$ |async">
               <img class="thumbnail" [src]="item.subImage1">
               <div style="margin-left: 1.5rem; margin-right: 1.5rem;">
                 <h5>{{item.name}}</h5>
                 <p class="p-style">{{item.orders}} X {{item.price}}</p>
               </div>
-              <div style="margin-right: 1rem; margin-left: 1rem; cursor: pointer" (click)="removeProduct(item.idProducts)">
+              <div style="margin-right: 1rem; margin-left: 1rem; cursor: pointer"
+                (click)="removeProduct(item.idProducts)">
                 <i class="fas fa-times" style="color: #777;"></i>
               </div>
             </div>
@@ -133,9 +179,12 @@
 
             <mat-divider></mat-divider>
 
-            <div style="margin-top: 1rem; margin-bottom: 1rem; margin-left: 0.3rem; margin-right: 0.3rem; display: flex; flex-direction: row; justify-content: space-between;">
-              <button class="button-hover" mat-button target="_blank" routerLink="cart"  routerLinkActive="active">Ver Carrito</button>
-              <button class="button-hover" mat-button target="_blank" routerLink="checkout"  routerLinkActive="active">Pagar</button>
+            <div
+              style="margin-top: 1rem; margin-bottom: 1rem; margin-left: 0.3rem; margin-right: 0.3rem; display: flex; flex-direction: row; justify-content: space-between;">
+              <button class="button-hover" mat-button target="_blank" routerLink="cart" routerLinkActive="active">Ver
+                Carrito</button>
+              <button class="button-hover" mat-button target="_blank" routerLink="checkout"
+                routerLinkActive="active">Pagar</button>
             </div>
           </mat-menu>
 
@@ -179,8 +228,9 @@
           <mat-icon svgIcon="custom_favorite"></mat-icon>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="car">
-          <mat-icon svgIcon="custom_shopping_cart" [matBadgeHidden]="!(products$|async) || (products$|async)?.length == 0"
-          [matBadge]="(products$|async)?.length || 0" matBadgeColor="warn"></mat-icon>
+          <mat-icon svgIcon="custom_shopping_cart"
+            [matBadgeHidden]="!(products$|async) || (products$|async)?.length == 0"
+            [matBadge]="(products$|async)?.length || 0" matBadgeColor="warn"></mat-icon>
         </button>
         <button mat-icon-button>
           <mat-icon svgIcon="custom_user"></mat-icon>

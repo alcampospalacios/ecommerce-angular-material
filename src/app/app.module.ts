@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarModule } from './component/shared/navbar/navbar.module';
 import { FooterModule } from './component/shared/footer/footer.module';
 import { HomeModule } from './component/home/home.module';
-// import { PaginatePipe } from './shared/pipes/paginate.pipe';
 
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
