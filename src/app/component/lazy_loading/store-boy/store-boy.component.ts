@@ -15,10 +15,10 @@ import { ProductsState } from '../../../shared/statate-management/product.state'
 
 @Component({
   selector: 'app-store',
-  templateUrl: './store-man.component.html',
-  styleUrls: ['./store-man.component.scss']
+  templateUrl: './store-boy.component.html',
+  styleUrls: ['./store-boy.component.scss']
 })
-export class StoreManComponent implements OnInit {
+export class StoreBoyComponent implements OnInit {
   panelOpenState = true;
   panelOpenStateBrand = true;
   panelOpenStateColors = true;
@@ -55,7 +55,7 @@ export class StoreManComponent implements OnInit {
   copyProductsCategory: Products[];
 
   onlyOne: Products[];
-  banner: string = '../../../assets/images/banner/banner-man.jpg'; 
+  banner: string = '../../../assets/images/banner/kid-banner.jpg'; 
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -287,8 +287,7 @@ export class StoreManComponent implements OnInit {
     if (!this.isActiveColor) {
       this.products = [];
       this.sizeDynamic.forEach(t => {
-        if (t.completed) {
-          console.log('must be this.cat the problem');
+        if (t.completed) {          
           this.getCategorySize(this.category, t.name);
           this.isActiveSize = true;
         }
@@ -635,7 +634,7 @@ export class StoreManComponent implements OnInit {
   }
 
   openDialog(item: Products): void {
-    const dialogRef = this.dialog.open(DialogManOverview, {
+    const dialogRef = this.dialog.open(DialogBoyOverview, {
       width: '80%',
       height: '80%',     
       data: {
@@ -652,7 +651,7 @@ export class StoreManComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');      
+          
     });
   }
 
@@ -674,8 +673,7 @@ export class StoreManComponent implements OnInit {
     this.isMouseOver = false;
   }
 
-  onDetail(id){
-    console.log(id);
+  onDetail(id){    
     this.router.navigate([`/details/${this.currentId}`]);
  }
 
@@ -693,13 +691,13 @@ export class StoreManComponent implements OnInit {
 
 
 @Component({
-  selector: 'dialog-man-overview',
-  templateUrl: 'dialog-man-overview.html',
+  selector: 'dialog-boy-overview',
+  templateUrl: 'dialog-boy-overview.html',
 })
-export class DialogManOverview {
+export class DialogBoyOverview {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogManOverview>,
+    public dialogRef: MatDialogRef<DialogBoyOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products) {}
 
   onNoClick(): void {

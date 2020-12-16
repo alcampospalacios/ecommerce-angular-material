@@ -15,10 +15,10 @@ import { ProductsState } from '../../../shared/statate-management/product.state'
 
 @Component({
   selector: 'app-store',
-  templateUrl: './store-man.component.html',
-  styleUrls: ['./store-man.component.scss']
+  templateUrl: './store-girl.component.html',
+  styleUrls: ['./store-girl.component.scss']
 })
-export class StoreManComponent implements OnInit {
+export class StoreGirlComponent implements OnInit {
   panelOpenState = true;
   panelOpenStateBrand = true;
   panelOpenStateColors = true;
@@ -55,7 +55,7 @@ export class StoreManComponent implements OnInit {
   copyProductsCategory: Products[];
 
   onlyOne: Products[];
-  banner: string = '../../../assets/images/banner/banner-man.jpg'; 
+  banner: string = '../../../assets/images/banner/girl-banner.jpg'; 
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -77,7 +77,7 @@ export class StoreManComponent implements OnInit {
      ngOnInit(): void {    
       this.route.paramMap.subscribe(result => {
         if (result.has('category')) {
-          this.productservice.getTypeProductsByCategory('hombre', result.get('category')).subscribe(data => {
+          this.productservice.getTypeProductsByCategory('nina', result.get('category')).subscribe(data => {
             this.products = data;
             this.copyProducts = this.products;
           });
@@ -208,7 +208,7 @@ export class StoreManComponent implements OnInit {
   }
 
   getDataType(): void {
-    this.productservice.getTypeProducts('hombre')
+    this.productservice.getTypeProducts('nina')
       .subscribe(data => {
         this.products = data;
         this.copyProducts = this.products;
@@ -635,7 +635,7 @@ export class StoreManComponent implements OnInit {
   }
 
   openDialog(item: Products): void {
-    const dialogRef = this.dialog.open(DialogManOverview, {
+    const dialogRef = this.dialog.open(DialogGirlOverview, {
       width: '80%',
       height: '80%',     
       data: {
@@ -693,13 +693,13 @@ export class StoreManComponent implements OnInit {
 
 
 @Component({
-  selector: 'dialog-man-overview',
-  templateUrl: 'dialog-man-overview.html',
+  selector: 'dialog-girl-overview',
+  templateUrl: 'dialog-girl-overview.html',
 })
-export class DialogManOverview {
+export class DialogGirlOverview {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogManOverview>,
+    public dialogRef: MatDialogRef<DialogGirlOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products) {}
 
   onNoClick(): void {

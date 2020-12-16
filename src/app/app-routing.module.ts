@@ -18,9 +18,34 @@ const routes: Routes = [
   },
 
   {
-    path: 'tienda/hombre/:category',
+    path: 'tienda/hombre',
     loadChildren: () => import('./component/lazy_loading/store-man/store-man.module').then(m => m.StoreManModule)
   },  
+
+  {
+    path: 'tienda/hombre/:category',
+    loadChildren: () => import('./component/lazy_loading/store-man/store-man.module').then(m => m.StoreManModule)
+  },
+
+  {
+    path: 'tienda/nina',
+    loadChildren: () => import('./component/lazy_loading/store-girl/store-girl.module').then(m => m.StoreGirlModule)
+  },  
+
+  {
+    path: 'tienda/nina/:category',
+    loadChildren: () => import('./component/lazy_loading/store-girl/store-girl.module').then(m => m.StoreGirlModule)
+  },
+
+  {
+    path: 'tienda/nino',
+    loadChildren: () => import('./component/lazy_loading/store-boy/store-boy.module').then(m => m.StoreBoyModule)
+  },  
+
+  {
+    path: 'tienda/nino/:category',
+    loadChildren: () => import('./component/lazy_loading/store-boy/store-boy.module').then(m => m.StoreBoyModule)
+  },
   
   {
     path: 'details/:id',

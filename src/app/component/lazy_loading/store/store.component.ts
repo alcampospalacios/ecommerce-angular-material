@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store, Select } from '@ngxs/store';
 import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
 import { filter, tap } from 'rxjs/operators';
@@ -67,24 +67,36 @@ export class StoreComponent implements OnInit {
   category: string;
 
   orders$: Observable<Products[]>
-  subscribtion: Subscription;  
+  subscribtion: Subscription;
+
+  @Input() in: string;
 
   constructor(
-     private route: ActivatedRoute, private router: Router,
-     private location: Location, private productservice: ProductsService,
-     public dialog: MatDialog, private store: Store     
-     ) { }
+    private route: ActivatedRoute, private router: Router,
+    private location: Location, private productservice: ProductsService,
+    public dialog: MatDialog, private store: Store
+  ) { }
 
-  ngOnInit(): void {
-    this.getDataType();
+  ngOnInit(): void {    
+    this.route.paramMap.subscribe(result => {
+      if (result.has('category')) {
+        this.productservice.getTypeProductsByCategory('mujer', result.get('category')).subscribe(data => {
+          this.products = data;
+          this.copyProducts = this.products;
+        });
+      }
+      else {
+        this.getDataType();
+      }
+    });
   }
 
-  addProductSM(product: Products) { 
-    let solution: Products[];   
+  addProductSM(product: Products) {
+    let solution: Products[];
     this.store.select(state => state.products.products).subscribe(data => {
-     solution = data
-    });    
-    
+      solution = data
+    });
+
     // if((solution.filter(it => it.idProducts === product.idProducts)).length > 0) {
     //   let prod: Products = {
     //     idProducts: product.idProducts,
@@ -107,7 +119,7 @@ export class StoreComponent implements OnInit {
     //     orders: 
     //   }
     //   this.updateOrder(prod);
-      
+
     // } else this.store.dispatch(new AddProduct(product));    
 
     let flag = false;
@@ -133,11 +145,10 @@ export class StoreComponent implements OnInit {
         orders: 1
       }
       this.store.dispatch(new AddProduct(prod));
-      }
-    else 
-    {
-      solution.forEach(it => {      
-        if (it.idProducts == product.idProducts) {          
+    }
+    else {
+      solution.forEach(it => {
+        if (it.idProducts == product.idProducts) {
           let prod: Products = {
             idProducts: product.idProducts,
             type: product.type,
@@ -160,7 +171,7 @@ export class StoreComponent implements OnInit {
           }
           flag = true;
           this.updateOrder(prod);
-        }  
+        }
       });
 
       if (!flag) {
@@ -182,12 +193,13 @@ export class StoreComponent implements OnInit {
           size: product.size,
           mark: product.mark,
           userid: product.userid,
-          orders: 1        }
-        
-        this.store.dispatch(new AddProduct(prod));
-      } 
+          orders: 1
+        }
 
-    }  
+        this.store.dispatch(new AddProduct(prod));
+      }
+
+    }
   }
 
   updateOrder(product: Products) {
@@ -198,20 +210,14 @@ export class StoreComponent implements OnInit {
     this.store.dispatch(new UpdateProduct(payload));
   }
 
-  getDataType(): void {  
-    
+  getDataType(): void {
+
     this.productservice.getTypeProducts('mujer')
       .subscribe(data => {
         this.products = data;
         this.copyProducts = this.products;
-
         this.getBrands();
-      });
-
-    if (this.route.snapshot.paramMap.has('category')) {
-      let cat = this.route.snapshot.paramMap.get('category');
-      this.getCategory(cat);      
-    }
+      });    
   }
 
   filterColor() {
@@ -460,7 +466,7 @@ export class StoreComponent implements OnInit {
           this.sizeDynamic.forEach(t => {
             if (t.completed) {
               this.brandDynamic.forEach(s => {
-                if (s.completed) {                  
+                if (s.completed) {
                   this.getPriceColorSizeBrand(this.sliderValue, c.value, t.name, s.name);
                 }
               });
@@ -477,7 +483,7 @@ export class StoreComponent implements OnInit {
     }
 
 
-  } 
+  }
 
   getCategory(category: string) {
     this.category = category;
@@ -588,18 +594,18 @@ export class StoreComponent implements OnInit {
     });
   }
 
-  getPriceColor(sliderValue: number, color: string) {   
+  getPriceColor(sliderValue: number, color: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.color === color) this.products.push(t);
     });
   }
-  
+
   getPriceSize(sliderValue: number, size: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.size.toUpperCase() === size) this.products.push(t);
     });
   }
-  
+
   getPriceBrand(sliderValue: number, mark: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.mark.toUpperCase() === mark) this.products.push(t);
@@ -609,7 +615,7 @@ export class StoreComponent implements OnInit {
   getPriceSizeBrand(sliderValue: number, size: string, mark: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.size.toUpperCase() === size
-       && t.mark.toUpperCase() === mark) this.products.push(t);
+        && t.mark.toUpperCase() === mark) this.products.push(t);
     });
   }
 
@@ -618,7 +624,7 @@ export class StoreComponent implements OnInit {
       if (t.price >= 0 && t.price <= sliderValue && t.color === color && t.mark.toUpperCase() === brand) this.products.push(t);
     });
   }
-  
+
   getPriceColorSize(sliderValue: number, color: string, size: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.color === color && t.size.toUpperCase() === size) this.products.push(t);
@@ -628,14 +634,14 @@ export class StoreComponent implements OnInit {
   getPriceColorSizeBrand(sliderValue: number, color: string, size: string, brand: string) {
     this.copyProducts.forEach(t => {
       if (t.price >= 0 && t.price <= sliderValue && t.color === color
-       && t.size.toUpperCase() === size && t.mark.toUpperCase() === brand) this.products.push(t);
+        && t.size.toUpperCase() === size && t.mark.toUpperCase() === brand) this.products.push(t);
     });
   }
 
   openDialog(item: Products): void {
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '80%',
-      height: '80%',     
+      height: '80%',
       data: {
         idProducts: item.idProducts,
         type: item.type,
@@ -644,13 +650,13 @@ export class StoreComponent implements OnInit {
         name: item.name,
         description: item.description,
         price: item.price,
-        subImage1: item.subImage1        
+        subImage1: item.subImage1
       },
-      autoFocus: false   
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');      
+      console.log('The dialog was closed');
     });
   }
 
@@ -672,10 +678,10 @@ export class StoreComponent implements OnInit {
     this.isMouseOver = false;
   }
 
-  onDetail(id){
+  onDetail(id) {
     console.log(id);
     this.router.navigate([`/details/${this.currentId}`]);
- }
+  }
 
   onRate($event: { oldValue: number, newValue: number, starRating: StarRatingComponent }) {
     // alert(`Old Value:${$event.oldValue}, 
@@ -698,7 +704,7 @@ export class DialogOverview {
 
   constructor(
     public dialogRef: MatDialogRef<DialogOverview>,
-    @Inject(MAT_DIALOG_DATA) public data: Products) {}
+    @Inject(MAT_DIALOG_DATA) public data: Products) { }
 
   onNoClick(): void {
     this.dialogRef.close();
