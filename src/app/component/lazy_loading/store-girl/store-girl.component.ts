@@ -622,7 +622,9 @@ export class StoreGirlComponent implements OnInit {
         name: item.name,
         description: item.description,
         price: item.price,
-        subImage1: item.subImage1        
+        subImage1: item.subImage1,
+        size: item.size,
+        color: item.color       
       },
       autoFocus: false   
     });
@@ -679,11 +681,14 @@ export class DialogGirlOverview {
   ]);
 
   ord: number;
+  dynamicStyle: string;
 
   constructor(
     public dialogRef: MatDialogRef<DialogGirlOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products,
-    private store: Store) {}
+    private store: Store) {
+      this.dynamicStyle = `background-color: ${data.color}; height: 20px; width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;`;
+    }
 
   onNoClick(): void {
     this.dialogRef.close();

@@ -12,12 +12,7 @@
                     <h4 style="font-size: x-large; color: #222; font-weight: 400;">${{data.price}}.00</h4>
 
                     <ul style="padding-left: 0; margin-top: 1rem; vertical-align: middle;">
-                        <li class="yellow" style="background-color: yellow; height: 20px;
-                    width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block; "></li>
-                        <li class="white" style="background-color: white; height: 20px; border: 1px solid #aaa;
-                    width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;"></li>
-                        <li class="pink" style="background-color: pink; height: 20px;
-                    width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;"></li>
+                        <li [class]="data.color" [style]="dynamicStyle"></li>
                     </ul>
 
                     <mat-divider style="margin-top: 0.5rem; margin-bottom: 0.5rem; border-top-style: dashed!important;">
@@ -37,18 +32,11 @@
                     justify-content: center; flex-direction: row; list-style: none;">
                             <li style="border: 1px solid rgb(248, 244, 244); color: #222;
                         font-size: 18px; height: 100%; height: 30px; width: 30px; border-radius: 100%;
-                        margin-right: 5px; vertical-align: middle; text-align: center;">S</li>
-                            <li style="border: 1px solid rgb(248, 244, 244); color: #222;
-                        font-size: 18px; height: 100%; height: 30px; width: 30px; border-radius: 100%;
-                        margin-right: 5px; vertical-align: middle; text-align: center;">M</li>
-                            <li
-                                style="border: 1px solid rgb(248, 244, 244); font-size: 18px; height: 100%;
-                         height: 30px; width: 30px; border-radius: 100%; margin-right: 5px; vertical-align: middle; text-align: center;">
-                                L</li>
+                        margin-right: 5px; vertical-align: middle; text-align: center;">{{data.size | uppercase}}</li>                          
                         </ul>
                     </div>
 
-                    <<div>
+                    <div>
                         <h6 style="font-family: sans-serif; font-weight: bold; margin-top: 1rem;">Cantidad</h6>
                         <form>
                             <mat-form-field appearance="fill">
