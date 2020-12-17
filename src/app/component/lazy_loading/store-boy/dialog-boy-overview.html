@@ -52,17 +52,30 @@
                         <h6 style="font-family: sans-serif; font-weight: bold; margin-top: 1rem;">Cantidad</h6>
                         <form>
                             <mat-form-field appearance="fill">
-                                <input matInput type="number" placeholder="Ex. 10" min="10">
+                                <input matInput [formControl]="orderFormControl" [(ngModel)]="ord" type="number"
+                                    placeholder="Ex. 10">
+                                <mat-error
+                                    *ngIf="orderFormControl.hasError('min') && !orderFormControl.hasError('required')">
+                                    La cantidad mínima de compra es 10.
+                                </mat-error>
+                                <mat-error *ngIf="orderFormControl.hasError('required')">
+                                    Este campo es requerido.
+                                </mat-error>
                             </mat-form-field>
                         </form>
                     </div>
 
-                    <div style="display: flex;">
-                        <button mat-flat-button color="warn" style="font-family: sans-serif;">AGREGAR AL
-                            CARRITO</button>
-                        <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;">COMPRAR
-                            AHORA</button>
+                    <br>
 
+                    <div style="display: flex;">
+                        <button mat-flat-button color="warn" style="font-family: sans-serif;"
+                            (click)="addProductSM(data)"
+                            [disabled]="orderFormControl.hasError('min') || orderFormControl.hasError('required')">AGREGAR
+                            AL
+                            CARRITO</button>
+                        <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;"
+                            routerLink="cart" (click)="close()">VER CARRITO
+                        </button>
                     </div>
 
 

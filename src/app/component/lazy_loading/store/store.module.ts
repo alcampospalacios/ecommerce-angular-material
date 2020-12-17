@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreRoutingModule } from './store-routing.module';
@@ -42,7 +42,8 @@ import { SharedModule } from '../../../shared/shared.module';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatInputModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   providers: []  
 })

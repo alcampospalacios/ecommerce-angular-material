@@ -1,6 +1,6 @@
 import { Products } from 'src/app/shared/model/products';
 import { ProductsService } from './../../../shared/service/products.service';
-import { Component, DoCheck, Inject, Input, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,9 +9,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store, Select } from '@ngxs/store';
 import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
-import { filter, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
-import { ProductsState } from 'src/app/shared/statate-management/product.state';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-store',
@@ -93,32 +92,7 @@ export class StoreComponent implements OnInit {
     let solution: Products[];
     this.store.select(state => state.products.products).subscribe(data => {
       solution = data
-    });
-
-    // if((solution.filter(it => it.idProducts === product.idProducts)).length > 0) {
-    //   let prod: Products = {
-    //     idProducts: product.idProducts,
-    //     type: product.type,
-    //     category: product.category,
-    //     subCategory: product.subCategory,
-    //     name: product.name,
-    //     description: product.description,
-    //     price: product.price,
-    //     image: product.image,
-    //     subImage1: product.subImage1,
-    //     subImage2: product.subImage2,
-    //     subImage3: product.subImage3,
-    //     rate: product.rate,
-    //     amount: product.amount,
-    //     color: product.color,
-    //     size: product.size,
-    //     mark: product.mark,
-    //     userid: product.userid,
-    //     orders: 
-    //   }
-    //   this.updateOrder(prod);
-
-    // } else this.store.dispatch(new AddProduct(product));    
+    });     
 
     let flag = false;
     if (solution.length === 0) {
@@ -699,103 +673,119 @@ export class StoreComponent implements OnInit {
   templateUrl: 'dialog-overview.html',
 })
 export class DialogOverview {
+  orderFormControl = new FormControl('', [
+    Validators.required,
+    Validators.min(10)
+  ]);
+
+  ord: number;
 
   constructor(
     public dialogRef: MatDialogRef<DialogOverview>,
-    @Inject(MAT_DIALOG_DATA) public data: Products) { }
+    @Inject(MAT_DIALOG_DATA) public data: Products,
+    private store: Store
+    ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  addProductSM(product: Products) {
+      let solution: Products[];
+      this.store.select(state => state.products.products).subscribe(data => {
+        solution = data
+      });     
+
+      let flag = false;
+      if (solution.length === 0) {
+        let prod: Products = {
+          idProducts: product.idProducts,
+          type: product.type,
+          category: product.category,
+          subCategory: product.subCategory,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image,
+          subImage1: product.subImage1,
+          subImage2: product.subImage2,
+          subImage3: product.subImage3,
+          rate: product.rate,
+          amount: product.amount,
+          color: product.color,
+          size: product.size,
+          mark: product.mark,
+          userid: product.userid,
+          orders: this.ord
+        }
+        this.store.dispatch(new AddProduct(prod));
+      }
+      else {
+        solution.forEach(it => {
+          if (it.idProducts == product.idProducts) {
+            let prod: Products = {
+              idProducts: product.idProducts,
+              type: product.type,
+              category: product.category,
+              subCategory: product.subCategory,
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              image: product.image,
+              subImage1: product.subImage1,
+              subImage2: product.subImage2,
+              subImage3: product.subImage3,
+              rate: product.rate,
+              amount: product.amount,
+              color: product.color,
+              size: product.size,
+              mark: product.mark,
+              userid: product.userid,
+              orders: ((it.orders || 0) + this.ord)
+            }
+            flag = true;
+            this.updateOrder(prod);
+          }
+        });
+
+        if (!flag) {
+          let prod: Products = {
+            idProducts: product.idProducts,
+            type: product.type,
+            category: product.category,
+            subCategory: product.subCategory,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            userid: product.userid,
+            orders: this.ord
+          }
+
+          this.store.dispatch(new AddProduct(prod));
+        }
+
+    }
+  }
+
+  updateOrder(product: Products) {
+    let payload = {
+      idProduct: product.idProducts,
+      newProduct: product
+    }
+    this.store.dispatch(new UpdateProduct(payload));
+  }
+
 }
-
-
-
-
-
-
-
-  // getDataTypeByCategory(category: string) {
-  //   this.category = category;
-  //   this.sizeDynamic = [];
-  //   this.productservice.getTypeProductsByCategory(this.type, this.category).subscribe(data => {
-  //     this.products = data;
-  //     this.products.forEach(t => {
-  //       if (t.size) {
-  //         let obj = {
-  //           name: t.size.toUpperCase(),
-  //           completed: false,
-  //           color: 'warn'
-  //         }
-  //         this.sizeDynamic.push(obj);
-  //       }
-  //     });
-  //     this.copyProducts = this.products;
-  //   });
-  // }
-
-  // getDataTypeByColor(color: string) {
-  //   if (this.category) {
-  //     this.productservice.getTypeProductsByCategoryAndColor(this.type, this.category, color).subscribe(data => {
-  //       this.products = this.products.concat(data);
-  //       this.copyToResolveColorProducts = this.products;
-  //     });
-  //   } else {
-  //     this.productservice.getTypeProductsByColor(this.type, color).subscribe(data => {
-  //       this.products = this.products.concat(data);
-  //       this.copyToResolveColorProducts = this.products;
-  //     });
-  //   }
-  // }
-
-  // getDataByCategorySize(category: string, size: string) {
-  //   this.productservice.getTypeProductsByCategorySize(category, size).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }
-
-  // getDataByCategorySizeColor(category: string, color: string, size: string) {
-  //   this.productservice.getTypeProductsByCategorySizeColor(category, color, size).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //     this.copyToResolveColorProducts = this.products;
-  //   });
-  // }
-
-  // getDataByColorSize(color: string, size: string) {
-  //   this.productservice.getTypeProductsByColorSize(this.type, color, size).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }
-
-  // getDataByMarkColorSize(mark: string, size: string, color: string) {
-  //   this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }
-
-
-  // getDataByMark(mark: string) {
-  //   this.productservice.getTypeProductsByMark(mark).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //     this.copyToResolveBrands = this.products;
-  //   });
-  // }
-
-  // getDataByMarkColor(mark: string, color: string) {
-  //   this.productservice.getTypeProductsByMarkColor(mark, color).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }
-
-  // getDataByMarkSize(mark: string, size: string) {
-  //   this.productservice.getTypeProductsByMarkColor(mark, size).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }
-
-  // getDataByMarkSizeColor(mark: string, size: string, color: string) {
-  //   this.productservice.getTypeProductsByMarkSizeColor(this.type, mark, size, color).subscribe(data => {
-  //     this.products = this.products.concat(data);
-  //   });
-  // }

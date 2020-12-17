@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreManRoutingModule } from './store-man-routing.module';
@@ -32,6 +32,7 @@ import { SharedModule } from '../../../shared/shared.module';
     ScrollingModule,
     MatCheckboxModule,
     FormsModule,
+    ReactiveFormsModule,
     MatSliderModule,
     MatIconModule,
     MatButtonModule,
