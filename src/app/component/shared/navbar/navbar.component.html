@@ -120,13 +120,6 @@
             </ng-template>            
           </mat-menu>
           
-          <mat-menu #us="matMenu">
-            <ng-template matMenuContent>
-              <button mat-menu-item>Settings</button>
-              <button mat-menu-item>Help</button>
-            </ng-template>
-          </mat-menu>
-
           <button routerLink="/home" routerLinkActive="active" class="button-style" mat-button>
             Inicio <mat-icon aria-hidden="false"></mat-icon>
           </button>
@@ -140,9 +133,8 @@
             Ayuda 
           </button>
 
-          <button class="button-style" mat-button [matMenuTriggerFor]="us">
-            Nosotros <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span>
-            </mat-icon>
+          <button class="button-style" mat-button>
+            Nosotros
           </button>
         </div>
 
