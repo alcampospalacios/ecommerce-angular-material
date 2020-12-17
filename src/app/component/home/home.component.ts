@@ -12,21 +12,21 @@ import { MatIconRegistry } from '@angular/material/icon';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {  
-  image1 = '../../../assets/carousel/man.jpg';
-  image2 = '../../../assets/carousel/woman.jpg';
+  image1 = '../../../assets/carousel/model.jpg';
+  image2 = '../../../assets/carousel/w.jpg';
   image3 = '../../../assets/carousel/boy.jpg';
   image4 = '../../../assets/carousel/girl.jpg';
   defaultImage = '../../../assets/images/default/default-image.png';
   colecction = [
     {
       id: 0,
-      url: '../../../assets/collection/1.jpg',
+      url: '../../../assets/collection/1.1.jpg',
       gender: 'HOMBRE',
       save: 'AHORRA 50%'
     },
     {
       id: 1,
-      url: '../../../assets/collection/2.jpg',
+      url: '../../../assets/collection/2.2.jpg',
       gender: 'MUJER',
       save: 'AHORRA 50%'
     }

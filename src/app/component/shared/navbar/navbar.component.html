@@ -81,7 +81,7 @@
               <button mat-menu-item [routerLink]="['/tienda/mujer/relojes']">Relojes</button>
               <button mat-menu-item [routerLink]="['/tienda/mujer/accesorios']">Accesorios</button>
               <button mat-menu-item [routerLink]="['/tienda/mujer/joyeria']">Joyería</button>
-            </ng-template>            
+            </ng-template>
           </mat-menu>
 
           <mat-menu #man="matMenu">
@@ -93,7 +93,7 @@
               <button mat-menu-item [routerLink]="['/tienda/hombre/relojes']">Relojes</button>
               <button mat-menu-item [routerLink]="['/tienda/hombre/accesorios']">Accesorios</button>
               <button mat-menu-item [routerLink]="['/tienda/hombre/joyeria']">Joyería</button>
-            </ng-template>            
+            </ng-template>
           </mat-menu>
 
           <mat-menu #girl="matMenu">
@@ -105,9 +105,9 @@
               <button mat-menu-item routerLink="/tienda/nino/relojes" routerLinkActive="active">Relojes</button>
               <button mat-menu-item routerLink="/tienda/nino/accesorios" routerLinkActive="active">Accesorios</button>
               <button mat-menu-item routerLink="/tienda/nino/joyeria" routerLinkActive="active">Joyería</button>
-            </ng-template>            
+            </ng-template>
           </mat-menu>
-          
+
           <mat-menu #boy="matMenu">
             <ng-template matMenuContent>
               <button mat-menu-item routerLink="/tienda/nina" routerLinkActive="active">Todo los Departamentos</button>
@@ -117,9 +117,9 @@
               <button mat-menu-item routerLink="/tienda/nina/relojes" routerLinkActive="active">Relojes</button>
               <button mat-menu-item routerLink="/tienda/nina/accesorios" routerLinkActive="active">Accesorios</button>
               <button mat-menu-item routerLink="/tienda/nina/joyeria" routerLinkActive="active">Joyería</button>
-            </ng-template>            
+            </ng-template>
           </mat-menu>
-          
+
           <button routerLink="/home" routerLinkActive="active" class="button-style" mat-button>
             Inicio <mat-icon aria-hidden="false"></mat-icon>
           </button>
@@ -130,7 +130,7 @@
           </button>
 
           <button class="button-style" mat-button routerLink="/ayuda">
-            Ayuda 
+            Ayuda
           </button>
 
           <button class="button-style" mat-button>
@@ -174,11 +174,16 @@
           </mat-menu>
 
 
-          <button mat-icon-button>
+          <!-- <button mat-icon-button>
             <mat-icon><span class="material-icons" style="color: #777;">search</span></mat-icon>
-          </button>
+          </button> -->
 
-          <button mat-icon-button>
+          <mat-menu #config="matMenu">
+            <button mat-menu-item>Español</button>
+            <button mat-menu-item>Ingles</button>
+          </mat-menu>
+
+          <button mat-icon-button [matMenuTriggerFor]="config">
             <mat-icon><span class="material-icons" style="color: #777;">settings</span></mat-icon>
           </button>
 
@@ -193,11 +198,6 @@
     </div>
   </mat-toolbar-row>
 
-
-
-
-
-
 </mat-toolbar>
 
 
@@ -206,9 +206,9 @@
   <div class="row">
     <div class="d-col-block d-sm-none">
       <mat-toolbar class="toolbarNav">
-        <button mat-icon-button style="margin-left: 2rem;">
+        <!-- <button mat-icon-button style="margin-left: 2rem;">
           <mat-icon svgIcon="custom_search"></mat-icon>
-        </button>
+        </button> -->
         <button mat-icon-button>
           <mat-icon svgIcon="custom_favorite"></mat-icon>
         </button>
@@ -220,7 +220,7 @@
         <button mat-icon-button>
           <mat-icon svgIcon="custom_user"></mat-icon>
         </button>
-        <button mat-icon-button style="margin-right: 2rem;">
+        <button mat-icon-button style="margin-right: 2rem;" [matMenuTriggerFor]="config">
           <mat-icon svgIcon="custom_settings"></mat-icon>
         </button>
       </mat-toolbar>
