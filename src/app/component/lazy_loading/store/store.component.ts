@@ -54,9 +54,7 @@ export class StoreComponent implements OnInit {
   copyProducts: Products[];
   copyProductsCategory: Products[];
 
-  onlyOne: Products[];
-  banner: string = '../../../assets/images/banner/banner-woman-v1.jpg';
-  defaultBanner = '../../../assets/images/banner/banner-generic.jpg';
+  onlyOne: Products[];  
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];

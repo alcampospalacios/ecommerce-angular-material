@@ -63,6 +63,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'ayuda',
+    loadChildren: () => import('./component/lazy_loading/help/help.module').then(m => m.HelpModule)
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

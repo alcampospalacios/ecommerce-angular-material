@@ -1,0 +1,19 @@
+.mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+
+.help-style-text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6rem;
+    background-color: #f8f8f8;
+    height: 6rem;
+    width: auto;
+}
+
+.help-style-text {
+    font-family: sans-serif;
+    font-size: 24px;
+    font-weight: 500; 
+}

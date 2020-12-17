@@ -119,14 +119,7 @@
               <button mat-menu-item routerLink="/tienda/nina/joyeria" routerLinkActive="active">Joyería</button>
             </ng-template>            
           </mat-menu>
-
-          <mat-menu #help="matMenu">
-            <ng-template matMenuContent>
-              <button mat-menu-item>Settings</button>
-              <button mat-menu-item>Help</button>
-            </ng-template>
-          </mat-menu>
-
+          
           <mat-menu #us="matMenu">
             <ng-template matMenuContent>
               <button mat-menu-item>Settings</button>
@@ -143,8 +136,8 @@
             </mat-icon>
           </button>
 
-          <button class="button-style" mat-button [matMenuTriggerFor]="help">
-            Ayuda <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span></mat-icon>
+          <button class="button-style" mat-button routerLink="/ayuda">
+            Ayuda 
           </button>
 
           <button class="button-style" mat-button [matMenuTriggerFor]="us">
