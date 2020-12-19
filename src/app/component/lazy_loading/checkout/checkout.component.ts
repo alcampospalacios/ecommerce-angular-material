@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ProductsService } from './../../../shared/service/products.service';
 import { OrdersService } from './../../../shared/service/orders.service';
 import { Orders } from './../../../shared/model/orders';
@@ -10,6 +11,7 @@ import { ProductsState } from 'src/app/shared/statate-management/product.state';
 import { Observable, Subscription } from 'rxjs';
 import { Products } from 'src/app/shared/model/products';
 import { AuthenticationNodeService } from 'src/app/shared/service/authentication-node.service';
+import { RemoveAllProduct } from 'src/app/shared/statate-management/product.actions';
 
 @Component({
   selector: 'app-checkout',
@@ -52,7 +54,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private userServ: AuthenticationNodeService,
     private orderService: OrdersService,
     private productService: ProductsService,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {
     this.itemFormOne = this.createFormGroupOne();
     this.itemFormTwo = this.createFormGroupTwo();
@@ -72,15 +75,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.ids.push(t.idProducts);
       });
 
+      let currentTime = new Date();
+      let timestamp = currentTime.getTime();
+
       this.order = {
         idorders: 0,
         idProducts: JSON.stringify(this.ids),
         amount: result.length,
         totalPrice: this.totalprice,
-        date: new Date(),
+        date: timestamp,
         fk_user: parseInt(localStorage.getItem('id'))
       }
-
     });
 
   }
@@ -122,7 +127,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
       this.productService.updateProduct(prod);     
     });
-    
+
+    this.removeAllProduct();
+    this.router.navigate(['/home']);
+  }
+
+  removeAllProduct() {
+    this.store.dispatch(new RemoveAllProduct())
   }
 
 

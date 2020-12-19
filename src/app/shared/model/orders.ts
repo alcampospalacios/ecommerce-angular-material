@@ -3,6 +3,6 @@ export interface Orders {
     idProducts: string,
     amount: number,
     totalPrice: number,
-    date: Date,
+    date: number,
     fk_user: number
 }

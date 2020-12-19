@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Products } from 'src/app/shared/model/products';
 import { RemoveProduct, UpdateProduct } from 'src/app/shared/statate-management/product.actions';
 import { ProductsState } from 'src/app/shared/statate-management/product.state';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-view-cart',
@@ -12,8 +13,17 @@ import { ProductsState } from 'src/app/shared/statate-management/product.state';
 })
 export class ViewCartComponent implements OnInit {
   @Select(ProductsState.getProducts) products$: Observable<Products[]>
+  subscription: Subscription;
+  totalprice: number;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private location: Location) {
+    this.subscription = this.products$.subscribe(result => {
+      this.totalprice = 0;
+      result.forEach(t => {
+        this.totalprice += (t.price * t.orders);
+      });
+    });
+   }
 
   ngOnInit(): void {
   }
@@ -41,6 +51,10 @@ export class ViewCartComponent implements OnInit {
 
   removeProduct(idProducts: number) {
     this.store.dispatch(new RemoveProduct(idProducts))
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }

@@ -6,6 +6,8 @@ import { Location } from '@angular/common';
 
 import { Comment } from './../../../shared/model/comment';
 import { Products } from 'src/app/shared/model/products';
+import { Store } from '@ngxs/store';
+import { AddProduct, UpdateProduct } from 'src/app/shared/statate-management/product.actions';
 
 @Component({
   selector: 'app-detail-product',
@@ -21,14 +23,28 @@ export class DetailProductComponent implements OnInit {
     });
   }
 
+  orderFormControl = new FormControl('', [
+    Validators.required,
+    Validators.min(10)
+  ]);
+
+  ord: number;
+
   itemForm: FormGroup;
   Icomment: Comment;
   rate: number;
 
   detailProduct: Products[];
+  backgroundColor: string;
+  inStorage: number;
+  progressBaValue: number;
+
   defaultImage = '../../../assets/images/default/default-image.png';
 
-  constructor(private route: ActivatedRoute, private location: Location, private productService: ProductsService) {    
+  constructor(private route: ActivatedRoute,
+             private location: Location,
+             private productService: ProductsService,
+             private store: Store) {    
     this.itemForm = this.createFormGroup();
   }
 
@@ -63,8 +79,105 @@ export class DetailProductComponent implements OnInit {
   getProduct(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.productService.getProductsById(id).subscribe(data => {
-      this.detailProduct = data;      
+      this.detailProduct = data;
+      this.backgroundColor = `background-color:${this.detailProduct[0].color}`;
+      this.inStorage = this.detailProduct[0].amount - this.detailProduct[0].orders;
+      this.progressBaValue = (100*this.detailProduct[0].orders)/this.detailProduct[0].amount;
     });
   }
+
+  addProductSM(product: Products) {
+    let solution: Products[];
+    this.store.select(state => state.products.products).subscribe(data => {
+      solution = data
+    });     
+
+    let flag = false;
+    if (solution.length === 0) {
+      let prod: Products = {
+        idProducts: product.idProducts,
+        type: product.type,
+        category: product.category,
+        subCategory: product.subCategory,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        image: product.image,
+        subImage1: product.subImage1,
+        subImage2: product.subImage2,
+        subImage3: product.subImage3,
+        rate: product.rate,
+        amount: product.amount,
+        color: product.color,
+        size: product.size,
+        mark: product.mark,
+        userid: product.userid,
+        orders: this.ord
+      }
+      this.store.dispatch(new AddProduct(prod));
+    }
+    else {
+      solution.forEach(it => {
+        if (it.idProducts == product.idProducts) {
+          let prod: Products = {
+            idProducts: product.idProducts,
+            type: product.type,
+            category: product.category,
+            subCategory: product.subCategory,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            userid: product.userid,
+            orders: ((it.orders || 0) + this.ord)
+          }
+          flag = true;
+          this.updateOrder(prod);
+        }
+      });
+
+      if (!flag) {
+        let prod: Products = {
+          idProducts: product.idProducts,
+          type: product.type,
+          category: product.category,
+          subCategory: product.subCategory,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          image: product.image,
+          subImage1: product.subImage1,
+          subImage2: product.subImage2,
+          subImage3: product.subImage3,
+          rate: product.rate,
+          amount: product.amount,
+          color: product.color,
+          size: product.size,
+          mark: product.mark,
+          userid: product.userid,
+          orders: this.ord
+        }
+
+        this.store.dispatch(new AddProduct(prod));
+      }
+
+  }
+}
+
+updateOrder(product: Products) {
+  let payload = {
+    idProduct: product.idProducts,
+    newProduct: product
+  }
+  this.store.dispatch(new UpdateProduct(payload));
+}
 
 }

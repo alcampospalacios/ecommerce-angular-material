@@ -89,6 +89,7 @@ export class StoreComponent implements OnInit {
   }
 
   addProductSM(product: Products) {
+    console.log('Amount: ', product.amount);
     let solution: Products[];
     this.store.select(state => state.products.products).subscribe(data => {
       solution = data

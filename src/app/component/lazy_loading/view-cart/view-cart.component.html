@@ -56,12 +56,13 @@
                     </div>
 
                     <div style="cursor: pointer;">
-                        <mat-icon (click)="removeProduct(item.idProducts)"><span class="material-icons" style="color: #777;">clear</span></mat-icon>
+                        <mat-icon (click)="removeProduct(item.idProducts)"><span class="material-icons"
+                                style="color: #777;">clear</span></mat-icon>
                     </div>
 
                 </div>
             </div>
-            
+
 
             <div class="col-2 d-none d-lg-block">
                 <p>{{item.name}}</p>
@@ -70,14 +71,18 @@
             <div class="col-2 d-none d-lg-block">
                 <h4 style="font-family: sans-serif;">{{item.price | currency}}</h4>
             </div>
-            
+
             <div class="col-2 d-none d-lg-block">
-                <div style="display: flex; flex-direction: row; align-items: center; border: 1px solid #e9ecef; width: 5.5rem;">
-                    <mat-icon (click)="decrement(item)" style="cursor: pointer; color: #777;"><span class="material-icons">keyboard_arrow_left</span></mat-icon>
-                    <div style="height: 50px; width: 48px; background-color: #e9ecef; text-align: center;" class="align-middle">
+                <div
+                    style="display: flex; flex-direction: row; align-items: center; border: 1px solid #e9ecef; width: 5.5rem;">
+                    <mat-icon (click)="decrement(item)" style="cursor: pointer; color: #777;"><span
+                            class="material-icons">keyboard_arrow_left</span></mat-icon>
+                    <div style="height: 50px; width: 48px; background-color: #e9ecef; text-align: center;"
+                        class="align-middle">
                         <p class="p-style-order">{{item.orders}}</p>
                     </div>
-                    <mat-icon (click)="increment(item)" style="cursor: pointer; color: #777;"><span class="material-icons">keyboard_arrow_right</span></mat-icon>
+                    <mat-icon (click)="increment(item)" style="cursor: pointer; color: #777;"><span
+                            class="material-icons">keyboard_arrow_right</span></mat-icon>
                 </div>
             </div>
 
@@ -87,16 +92,36 @@
 
             <div class="col-2 d-none d-lg-block">
                 <h4 style="color: #ff4c3b; font-family: sans-serif;">{{(item.price * item.orders) | currency}}</h4>
-
             </div>
         </div>
 
+
         <mat-divider style="margin-top: 1rem; margin-bottom: 1rem;"></mat-divider>
 
-        <div style="margin-top: 1rem; display: flex; flex-direction: row; justify-content: space-between;">
-            <button mat-flat-button color="warn" style="font-family: sans-serif;">SEGUIR COMPRANDO</button>
-            <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;"  [routerLink]="['/checkout']"  routerLinkActive="active">PAGAR</button>
 
+        <div class="row" style="display: flex; flex-direction: row; align-items: center;">
+
+            <div class="col-6 col-lg-2"></div>
+
+            <div class="col-6 col-lg-2"></div>
+
+            <div class="col-2 d-none d-lg-block"></div>
+
+            <div class="col-2 d-none d-lg-block"></div>
+
+            <div class="col-2 d-none d-lg-block"></div>
+
+            <div class="col-2 d-none d-lg-block">
+                <h4 style="font-family: sans-serif;">{{totalprice | currency}}</h4>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; flex-direction: row; justify-content: space-between;">
+            <button mat-flat-button color="warn" style="font-family: sans-serif;" (click)="goBack()">SEGUIR
+                COMPRANDO</button>
+            <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px; margin-right: 80px;"
+                [routerLink]="['/checkout']" routerLinkActive="active">PAGAR</button>
         </div>
     </div>
 

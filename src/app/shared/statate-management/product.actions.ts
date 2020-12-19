@@ -10,6 +10,11 @@ export class RemoveProduct {
     constructor(public payload: number) {}
 }
 
+export class RemoveAllProduct {
+    static readonly type = '[PRODUCT] RemoveAll';
+    constructor() {}
+}
+
 export class UpdateProduct {
     static readonly type = '[PRODUCT] Update';
     constructor(public payload: {idProduct: number; newProduct: Products}) {}
