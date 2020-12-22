@@ -1,3 +1,5 @@
+import { Receiver } from './../../../shared/model/receiver';
+import { ReceiverService } from './../../../shared/service/receiver.service';
 import { Router } from '@angular/router';
 import { ProductsService } from './../../../shared/service/products.service';
 import { OrdersService } from './../../../shared/service/orders.service';
@@ -10,8 +12,9 @@ import { Select, Store } from '@ngxs/store';
 import { ProductsState } from 'src/app/shared/statate-management/product.state';
 import { Observable, Subscription } from 'rxjs';
 import { Products } from 'src/app/shared/model/products';
-import { AuthenticationNodeService } from 'src/app/shared/service/authentication-node.service';
 import { RemoveAllProduct } from 'src/app/shared/statate-management/product.actions';
+import { jsPDF } from "jspdf";
+import { right } from '@popperjs/core';
 
 @Component({
   selector: 'app-checkout',
@@ -33,25 +36,26 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   order: Orders;
   products: Products[];
 
+  recei: Receiver;
+
   createFormGroupOne() {
     return new FormGroup({
       name: new FormControl('', [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
-      ci: new FormControl('', [Validators.required]),
-      address: new FormControl('', [Validators.required]),
+      ci: new FormControl('', [Validators.required])
     });
   }
 
   createFormGroupTwo() {
     return new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      address: new FormControl('', [Validators.required]),
       movilPhone: new FormControl('', [Validators.required]),
       anotherPhone: new FormControl(''),
     });
   }
 
   constructor(
-    private userServ: AuthenticationNodeService,
+    private receiver: ReceiverService,
     private orderService: OrdersService,
     private productService: ProductsService,
     private store: Store,
@@ -91,17 +95,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    let user: User = {
-      id: parseInt(localStorage.getItem('id')),
+    this.recei = {
+      idreceiver: 0,
       name: this.itemFormOne.get('name').value,
       lastname: this.itemFormOne.get('lastname').value,
       ci: this.itemFormOne.get('ci').value,
-      address: this.itemFormOne.get('address').value,
-      email: this.itemFormTwo.get('email').value,
+      address: this.itemFormTwo.get('address').value,
       movilPhone: this.itemFormTwo.get('movilPhone').value,
-      anotherPhone: this.itemFormTwo.get('anotherPhone').value
+      anotherPhone: this.itemFormTwo.get('anotherPhone').value,
+      fk_user: parseInt(localStorage.getItem('id'))
     }
-    this.userServ.update(user);
+    this.receiver.update(this.recei);
     this.orderService.postOrder(this.order);
 
     this.products.forEach(t => {
@@ -118,24 +122,126 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         subImage2: t.subImage2,
         subImage3: t.subImage3,
         rate: t.rate,
-        amount: (t.amount-t.orders),
+        amount: (t.amount - t.orders),
         color: t.color,
         size: t.size,
         mark: t.mark,
         userid: t.userid,
         orders: t.orders
       }
-      this.productService.updateProduct(prod);     
+      this.productService.updateProduct(prod);
     });
 
+    this.print();
     this.removeAllProduct();
+    
     this.router.navigate(['/home']);
+
   }
 
   removeAllProduct() {
     this.store.dispatch(new RemoveAllProduct())
   }
 
+  print() {
+    let fullName = localStorage.getItem('name') + " " + localStorage.getItem('lastname');
+    let doc = new jsPDF();
 
+    doc.setFont("times", "bold");
+    doc.text("TIENDA VIRTUAL: VISTE BIEN", 70, 20); 
+   
+
+    // top left
+    doc.setFontSize(16);
+    doc.setFont("times", "bold");
+    doc.text(`ENVIADO POR: `, 20, 40);
+    doc.setFont("times", "normal");
+    doc.text(`${fullName}`, 68, 40);
+
+    doc.setFont("times", "bold");
+    doc.text(`A NOMBRE DE: `, 20, 48);
+    doc.setFont("times", "normal");
+    doc.text(`${this.recei.name} ${this.recei.lastname}`, 68, 48);
+
+    doc.setFont("times", "bold");
+    doc.text(`CI: `, 20, 56);
+    doc.setFont("times", "normal");
+    doc.text(`${this.recei.ci}`, 68, 56);
+
+    doc.setFont("times", "bold");
+    doc.text(`DIRECCIÓN: `, 20, 64);
+    doc.setFont("times", "normal");
+    doc.text(`${this.recei.address}`, 68, 64);
+
+    doc.setFont("times", "bold");
+    doc.text(`TELÉF. MÓVIL: `, 20, 72);
+    doc.setFont("times", "normal");
+    doc.text(`${this.recei.movilPhone}`, 68, 72);
+
+    doc.setFont("times", "bold");
+    doc.text(`TELÉF. OTRO: `, 20, 80);
+    doc.setFont("times", "normal");
+    doc.text(`${this.recei.anotherPhone || '-'}`, 68, 80);
+
+
+    // Lines
+    doc.setLineWidth(0.1);
+    doc.setDrawColor(0, 0, 0);
+
+    doc.setLineDashPattern([1, 1.5, 1, 1.5, 1, 1.5, 3, 2, 3, 2, 3, 2], 7.5)
+    doc.line(20, 90, 200, 90);
+
+
+    // Content Banner
+    doc.text('Cantidad', 20, 100);
+    doc.text('Producto', 60, 100);
+    doc.text('Precio', 100, 100);
+    doc.text('Sub-Total', 140, 100);
+
+
+    // Lines
+    doc.setLineWidth(0.1);
+    doc.setDrawColor(0, 0, 0);
+
+    doc.setLineDashPattern([1, 1.5, 1, 1.5, 1, 1.5, 3, 2, 3, 2, 3, 2], 7.5)
+    doc.line(20, 105, 200, 105);
+
+
+    // Content
+    let counter: number = 0;
+    let mark: number
+    this.products.forEach(product => {
+      doc.text(product.orders.toString(), 20, (125 + counter));
+      doc.text(product.name, 60, (125 + counter));
+      doc.text(product.price.toString(), 100, (125 + counter));
+      doc.text((product.orders * product.price).toString(), 140, (125 + counter));
+      counter += 10;
+      mark = 125 + counter;
+    });
+
+    // Total
+    doc.text('Total:', 153, (mark + 15), null, "right");
+    doc.text(this.totalprice.toString(), 156, (mark + 15));
+
+    
+    // Lines
+     doc.setLineWidth(0.1);
+     doc.setDrawColor(0, 0, 0);
+ 
+     doc.setLineDashPattern([1, 1.5, 1, 1.5, 1, 1.5, 3, 2, 3, 2, 3, 2], 7.5)
+     doc.line(20, (mark + 30), 200, (mark + 30));
+
+    
+     //  Footer
+     doc.setFont("times", "bold");
+     doc.text('ENTREGADO:', 20, (mark + 45));
+     doc.text('NOMBRE:', 20, (mark + 53));
+     doc.text('CI:', 20, (mark + 61));
+     doc.text('FIRMA:', 20, (mark + 69));
+
+
+    //  Save
+    doc.save("Factura.pdf");
+  }
 
 }

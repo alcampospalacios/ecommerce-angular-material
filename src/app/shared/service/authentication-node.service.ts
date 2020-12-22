@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user';
@@ -45,27 +46,22 @@ export class AuthenticationNodeService {
     });
     return promise;    
   }
-
-
-  update(user: User) {
-    let json = JSON.stringify(user);
-    let params = json;
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-      this.http.post<User>(`${this.BASE_URL}/user`, params, { headers: headers }).subscribe(data => {           
-        console.log('response', data);      
-    });
-      
-  }
   
   logout() {
-    this.http.get(`${this.BASE_URL}/logout`).subscribe(result => {
+    this.http.get(`${this.BASE_URL}/authentication/logout`).subscribe(result => {
       localStorage.removeItem('email');
       localStorage.removeItem('name');
       localStorage.removeItem('lastname');
       localStorage.removeItem('id');
+      console.log('Inside')
     });
 
+    console.log('no entiendo nada', localStorage.getItem('name'))
+    
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get(`${this.BASE_URL}/user/${id}`);
   }
 
 }

@@ -126,6 +126,7 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   signOut() {
+    console.log('Y ahora q ?')
     this.auth.logout();
   }
 
