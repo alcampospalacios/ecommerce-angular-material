@@ -67,19 +67,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.subscriptionBestSellingProducts = this.prod.getBestSellingProduct().subscribe(data => {
+    this.prod.getBestSellingProduct().subscribe(data => {
       this.bestSellingProducts = data;      
     });
 
-    this.subscriptionNewestViewedSoldout = this.prod.getNewestViewedSoldout().subscribe(data => {      
+    this.prod.getNewestViewedSoldout().subscribe(data => {      
       this.newestViewedSoldout = data;
       this.newest();
     });    
   }
 
-  ngOnDestroy(): void {
-    this.subscriptionBestSellingProducts.unsubscribe();
-    this.subscriptionNewestViewedSoldout.unsubscribe();
+  ngOnDestroy(): void {    
   }
 
   sliderOn(event) {
@@ -105,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   newest() {    
-    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.newest === 1);    
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.newest == true);    
   }
 
   viewed() {
@@ -113,7 +111,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   featured() {
-    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.featured === 1); 
+    this.filternewestViewedSoldout = this.newestViewedSoldout.filter(t => t.featured == true); 
   }
   
   soldOut() {

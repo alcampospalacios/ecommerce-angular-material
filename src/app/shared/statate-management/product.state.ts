@@ -33,7 +33,7 @@ export class ProductsState {
     @Action(RemoveProduct)
     remove({getState, patchState}: StateContext<ProductsStateModel>, {payload}: RemoveProduct) {
         patchState({
-            products: getState().products.filter(t => t.idProducts != payload)
+            products: getState().products.filter(t => t.id != payload)
         });
     }
 
@@ -48,7 +48,7 @@ export class ProductsState {
     update(ctx: StateContext<ProductsStateModel>, {payload}: UpdateProduct) {
         ctx.setState(
             patch({
-                products: updateItem<Products>(p => p.idProducts === payload.idProduct, payload.newProduct)
+                products: updateItem<Products>(p => p.id === payload.id, payload.newProduct)
             })
         );
     }

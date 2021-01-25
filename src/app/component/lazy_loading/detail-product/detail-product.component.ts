@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { ProductsService } from './../../../shared/service/products.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,7 +15,7 @@ import { AddProduct, UpdateProduct } from 'src/app/shared/statate-management/pro
   templateUrl: './detail-product.component.html',
   styleUrls: ['./detail-product.component.scss']
 })
-export class DetailProductComponent implements OnInit {
+export class DetailProductComponent implements OnInit, OnDestroy {
   createFormGroup() {
     return new FormGroup({
       name: new FormControl('', Validators.required),
@@ -23,28 +24,24 @@ export class DetailProductComponent implements OnInit {
     });
   }
 
-  orderFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(10)
-  ]);
+  detailProduct: Products;
+  Icomment: Comment;
+  itemForm: FormGroup;
+  orderFormControl: FormControl;
+  subscription: Subscription;
 
   ord: number;
-
-  itemForm: FormGroup;
-  Icomment: Comment;
   rate: number;
-
-  detailProduct: Products[];
-  backgroundColor: string;
   inStorage: number;
   progressBaValue: number;
 
+  backgroundColor: string;
   defaultImage = '../../../assets/images/default/default-image.png';
 
   constructor(private route: ActivatedRoute,
-             private location: Location,
-             private productService: ProductsService,
-             private store: Store) {    
+    private location: Location,
+    private productService: ProductsService,
+    private store: Store) {
     this.itemForm = this.createFormGroup();
   }
 
@@ -76,13 +73,23 @@ export class DetailProductComponent implements OnInit {
     this.getProduct();
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   getProduct(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.productService.getProductsById(id).subscribe(data => {
-      this.detailProduct = data;
-      this.backgroundColor = `background-color:${this.detailProduct[0].color}`;
-      this.inStorage = this.detailProduct[0].amount - this.detailProduct[0].orders;
-      this.progressBaValue = (100*this.detailProduct[0].orders)/this.detailProduct[0].amount;
+    this.subscription = this.productService.getProductsById(id).subscribe(data => {
+      this.detailProduct = data;      
+      this.backgroundColor = `background-color:${this.detailProduct.color}`;
+      this.inStorage = this.detailProduct.amount;
+      this.progressBaValue = (100 * this.detailProduct.orders) / this.detailProduct.amount;
+
+      this.orderFormControl = new FormControl('', [
+        Validators.required,
+        Validators.min(10),
+        Validators.max(this.inStorage)
+      ]);
     });
   }
 
@@ -90,19 +97,17 @@ export class DetailProductComponent implements OnInit {
     let solution: Products[];
     this.store.select(state => state.products.products).subscribe(data => {
       solution = data
-    });     
+    });
 
     let flag = false;
     if (solution.length === 0) {
       let prod: Products = {
-        idProducts: product.idProducts,
+        id: product.id,
         type: product.type,
-        category: product.category,
-        subCategory: product.subCategory,
+        category: product.category,        
         name: product.name,
         description: product.description,
-        price: product.price,
-        image: product.image,
+        price: product.price,        
         subImage1: product.subImage1,
         subImage2: product.subImage2,
         subImage3: product.subImage3,
@@ -110,24 +115,21 @@ export class DetailProductComponent implements OnInit {
         amount: product.amount,
         color: product.color,
         size: product.size,
-        mark: product.mark,
-        userid: product.userid,
+        mark: product.mark,        
         orders: this.ord
       }
       this.store.dispatch(new AddProduct(prod));
     }
     else {
       solution.forEach(it => {
-        if (it.idProducts == product.idProducts) {
+        if (it.id == product.id) {
           let prod: Products = {
-            idProducts: product.idProducts,
+            id: product.id,
             type: product.type,
-            category: product.category,
-            subCategory: product.subCategory,
+            category: product.category,            
             name: product.name,
             description: product.description,
-            price: product.price,
-            image: product.image,
+            price: product.price,            
             subImage1: product.subImage1,
             subImage2: product.subImage2,
             subImage3: product.subImage3,
@@ -135,8 +137,7 @@ export class DetailProductComponent implements OnInit {
             amount: product.amount,
             color: product.color,
             size: product.size,
-            mark: product.mark,
-            userid: product.userid,
+            mark: product.mark,            
             orders: ((it.orders || 0) + this.ord)
           }
           flag = true;
@@ -146,14 +147,12 @@ export class DetailProductComponent implements OnInit {
 
       if (!flag) {
         let prod: Products = {
-          idProducts: product.idProducts,
+          id: product.id,
           type: product.type,
-          category: product.category,
-          subCategory: product.subCategory,
+          category: product.category,          
           name: product.name,
           description: product.description,
-          price: product.price,
-          image: product.image,
+          price: product.price,          
           subImage1: product.subImage1,
           subImage2: product.subImage2,
           subImage3: product.subImage3,
@@ -161,23 +160,22 @@ export class DetailProductComponent implements OnInit {
           amount: product.amount,
           color: product.color,
           size: product.size,
-          mark: product.mark,
-          userid: product.userid,
+          mark: product.mark,          
           orders: this.ord
         }
 
         this.store.dispatch(new AddProduct(prod));
       }
 
+    }
   }
-}
 
-updateOrder(product: Products) {
-  let payload = {
-    idProduct: product.idProducts,
-    newProduct: product
+  updateOrder(product: Products) {
+    let payload = {
+      id: product.id,
+      newProduct: product
+    }
+    this.store.dispatch(new UpdateProduct(payload));
   }
-  this.store.dispatch(new UpdateProduct(payload));
-}
 
 }

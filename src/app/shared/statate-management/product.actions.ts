@@ -17,5 +17,5 @@ export class RemoveAllProduct {
 
 export class UpdateProduct {
     static readonly type = '[PRODUCT] Update';
-    constructor(public payload: {idProduct: number; newProduct: Products}) {}
+    constructor(public payload: {id: number; newProduct: Products}) {}
   }

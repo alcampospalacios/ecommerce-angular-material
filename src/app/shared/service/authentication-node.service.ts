@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,9 +8,9 @@ import { User } from '../model/user';
   providedIn: 'root'
 })
 export class AuthenticationNodeService {
-  BASE_URL = 'http://localhost:3000';
+  API_URL = 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   signup(user: User): Promise<any> {
     let json = JSON.stringify(user);
@@ -17,9 +18,9 @@ export class AuthenticationNodeService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     let promise = new Promise<void>((resolve, reject) => {
-      this.http.post(`${this.BASE_URL}/signup`, params, { headers: headers }).subscribe(data => {        
+      this.http.post(`${this.API_URL}/signup`, params, { headers: headers }).subscribe(data => {
         resolve();
-      }, err => {        
+      }, err => {
         reject();
       });
 
@@ -27,41 +28,35 @@ export class AuthenticationNodeService {
     return promise;
   }
 
-  signin(user: User): Promise<any> {
-    let json = JSON.stringify(user);
-    let params = json;
+  login(username: string, password: string): Promise<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     let promise = new Promise<void>((resolve, reject) => {
-      this.http.post<User>(`${this.BASE_URL}/signin`, params, { headers: headers }).subscribe(data => {
-        localStorage.setItem('email', data.email);
-        localStorage.setItem('name', data.name);
-        localStorage.setItem('lastname', data.lastname);
-        localStorage.setItem('id', data.id.toString());     
+      this.http.post<any>(`${this.API_URL}/auth/`, { username, password }, { headers: headers }).subscribe(user => {
+        if (user && user.token) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('username', user.username);
+          this.router.navigate(['home']);
+        }
         resolve();
-      }, err => {        
+      }, err => {
         reject();
       });
-      
     });
-    return promise;    
+
+    return promise;
+
   }
-  
+
+  getCurrentUser(): Boolean {
+    if (localStorage.getItem('currentUser'))
+      return true;
+    return false;
+  }
+
   logout() {
-    this.http.get(`${this.BASE_URL}/authentication/logout`).subscribe(result => {
-      localStorage.removeItem('email');
-      localStorage.removeItem('name');
-      localStorage.removeItem('lastname');
-      localStorage.removeItem('id');
-      console.log('Inside')
-    });
-
-    console.log('no entiendo nada', localStorage.getItem('name'))
-    
-  }
-
-  getUserById(id: number): Observable<User> {
-    return this.http.get(`${this.BASE_URL}/user/${id}`);
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['home']);
   }
 
 }

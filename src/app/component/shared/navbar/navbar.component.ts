@@ -31,8 +31,6 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
   opacity = 1;
   localStorageV1 = localStorage;
 
-
-
   constructor(
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
@@ -144,7 +142,7 @@ export class NavbarComponent implements AfterViewInit, OnInit, OnDestroy {
 export class DialogLogin {
   createFormGroup() {
     return new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
   }
@@ -154,7 +152,7 @@ export class DialogLogin {
 
   constructor(
     public dialogRef: MatDialogRef<DialogLogin>,
-    @Inject(MAT_DIALOG_DATA) public data: User,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private toast: ToastService,
     private auth: AuthenticationNodeService) {
     this.itemForm = this.createFormGroup();
@@ -165,14 +163,9 @@ export class DialogLogin {
   }
 
   onSubmit() {
-    this.dialogRef.close();
-    this.user = {
-      id: 0,
-      email: this.itemForm.get('email').value,
-      password: this.itemForm.get('password').value
-    }
+    this.dialogRef.close();    
 
-    this.auth.signin(this.user).then(() => {
+    this.auth.login(this.itemForm.get('username').value, this.itemForm.get('password').value).then(() => {
       this.showSuccess();
     },
       () => {
@@ -188,7 +181,7 @@ export class DialogLogin {
     this.toast.error('Algo salio mal, por favor verifique su usuario y contraseña.');
   }
 
-  get email() { return this.itemForm.get('email'); }
+  get username() { return this.itemForm.get('username'); }
   get password() { return this.itemForm.get('password'); }
 
 }

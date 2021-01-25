@@ -1,5 +1,3 @@
-import { Receiver } from './../../../shared/model/receiver';
-import { ReceiverService } from './../../../shared/service/receiver.service';
 import { Router } from '@angular/router';
 import { ProductsService } from './../../../shared/service/products.service';
 import { OrdersService } from './../../../shared/service/orders.service';
@@ -34,15 +32,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   ids: number[];
   order: Orders;
-  products: Products[];
-
-  recei: Receiver;
+  products: Products[];  
 
   createFormGroupOne() {
     return new FormGroup({
       name: new FormControl('', [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
-      ci: new FormControl('', [Validators.required])
+      ci: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)])
     });
   }
 
@@ -54,8 +50,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  constructor(
-    private receiver: ReceiverService,
+  constructor(    
     private orderService: OrdersService,
     private productService: ProductsService,
     private store: Store,
@@ -76,66 +71,59 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.totalprice = 0;
       result.forEach(t => {
         this.totalprice += (t.price * t.orders);
-        this.ids.push(t.idProducts);
+        this.ids.push(t.id);
       });
-
-      let currentTime = new Date();
-      let timestamp = currentTime.getTime();
-
-      this.order = {
-        idorders: 0,
-        idProducts: JSON.stringify(this.ids),
-        amount: result.length,
-        totalPrice: this.totalprice,
-        date: timestamp,
-        fk_user: parseInt(localStorage.getItem('id'))
-      }
     });
 
   }
 
-  onSubmit() {
-    this.recei = {
-      idreceiver: 0,
-      name: this.itemFormOne.get('name').value,
-      lastname: this.itemFormOne.get('lastname').value,
+  onSubmit() {    
+
+    // Creating the order
+    let obj: any[] = [];
+
+    this.products.forEach(product => {
+      let temp = {
+        productOrders: product.orders.toString(),
+        productName: product.name,
+        productPrice: product.price.toString(),
+        productTotalPrice: (product.orders * product.price).toString()
+      }
+      obj.push(temp);
+    });
+
+    this.order = {
+      fk_user_order: parseInt(localStorage.getItem('id')),
+      idproducts: JSON.stringify(this.ids),
+      resume: JSON.stringify(obj),
+      amount: this.products.length,
+      totalPrice: this.totalprice,
+      status: 'pending',
+
+      nameReceiver: this.itemFormOne.get('name').value,
+      lastnameReceiver: this.itemFormOne.get('lastname').value,
       ci: this.itemFormOne.get('ci').value,
       address: this.itemFormTwo.get('address').value,
       movilPhone: this.itemFormTwo.get('movilPhone').value,
       anotherPhone: this.itemFormTwo.get('anotherPhone').value,
-      fk_user: parseInt(localStorage.getItem('id'))
     }
-    this.receiver.update(this.recei);
-    this.orderService.postOrder(this.order);
 
-    this.products.forEach(t => {
-      let prod: Products = {
-        idProducts: t.idProducts,
-        type: t.type,
-        category: t.category,
-        subCategory: t.subCategory,
-        name: t.name,
-        description: t.description,
-        price: t.price,
-        image: t.image,
-        subImage1: t.subImage1,
-        subImage2: t.subImage2,
-        subImage3: t.subImage3,
-        rate: t.rate,
-        amount: (t.amount - t.orders),
-        color: t.color,
-        size: t.size,
-        mark: t.mark,
-        userid: t.userid,
-        orders: t.orders
-      }
-      this.productService.updateProduct(prod);
-    });
+    // Uploading => orders => products, printing, etc
+      this.orderService.postOrder(this.order).then(() => {
+        this.products.forEach(t => {
+          let formData: any = new FormData();
+          formData.append('amount', (t.amount - t.orders));
+          formData.append('orders', t.orders);
+          console.log('url:', t.url);          
+          this.productService.updateProduct(formData, t.url);
+        });
 
-    this.print();
-    this.removeAllProduct();
-    
-    this.router.navigate(['/home']);
+        this.print();
+        this.removeAllProduct();
+
+        this.router.navigate(['/home']);
+      });
+   
 
   }
 
@@ -148,8 +136,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     let doc = new jsPDF();
 
     doc.setFont("times", "bold");
-    doc.text("TIENDA VIRTUAL: VISTE BIEN", 70, 20); 
-   
+    doc.text("TIENDA VIRTUAL: VISTE BIEN", 70, 20);
+
 
     // top left
     doc.setFontSize(16);
@@ -161,27 +149,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     doc.setFont("times", "bold");
     doc.text(`A NOMBRE DE: `, 20, 48);
     doc.setFont("times", "normal");
-    doc.text(`${this.recei.name} ${this.recei.lastname}`, 68, 48);
+    doc.text(`${this.itemFormOne.get('name').value} ${this.itemFormOne.get('lastname').value}`, 68, 48);
 
     doc.setFont("times", "bold");
     doc.text(`CI: `, 20, 56);
     doc.setFont("times", "normal");
-    doc.text(`${this.recei.ci}`, 68, 56);
+    doc.text(`${this.itemFormOne.get('ci').value}`, 68, 56);
 
     doc.setFont("times", "bold");
     doc.text(`DIRECCIÓN: `, 20, 64);
     doc.setFont("times", "normal");
-    doc.text(`${this.recei.address}`, 68, 64);
+    doc.text(`${this.itemFormTwo.get('address').value}`, 68, 64);
 
     doc.setFont("times", "bold");
     doc.text(`TELÉF. MÓVIL: `, 20, 72);
     doc.setFont("times", "normal");
-    doc.text(`${this.recei.movilPhone}`, 68, 72);
+    doc.text(`${this.itemFormTwo.get('movilPhone').value}`, 68, 72);
 
     doc.setFont("times", "bold");
     doc.text(`TELÉF. OTRO: `, 20, 80);
     doc.setFont("times", "normal");
-    doc.text(`${this.recei.anotherPhone || '-'}`, 68, 80);
+    doc.text(`${this.itemFormTwo.get('anotherPhone').value || '-'}`, 68, 80);
 
 
     // Lines
@@ -223,21 +211,21 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     doc.text('Total:', 153, (mark + 15), null, "right");
     doc.text(this.totalprice.toString(), 156, (mark + 15));
 
-    
-    // Lines
-     doc.setLineWidth(0.1);
-     doc.setDrawColor(0, 0, 0);
- 
-     doc.setLineDashPattern([1, 1.5, 1, 1.5, 1, 1.5, 3, 2, 3, 2, 3, 2], 7.5)
-     doc.line(20, (mark + 30), 200, (mark + 30));
 
-    
-     //  Footer
-     doc.setFont("times", "bold");
-     doc.text('ENTREGADO:', 20, (mark + 45));
-     doc.text('NOMBRE:', 20, (mark + 53));
-     doc.text('CI:', 20, (mark + 61));
-     doc.text('FIRMA:', 20, (mark + 69));
+    // Lines
+    doc.setLineWidth(0.1);
+    doc.setDrawColor(0, 0, 0);
+
+    doc.setLineDashPattern([1, 1.5, 1, 1.5, 1, 1.5, 3, 2, 3, 2, 3, 2], 7.5)
+    doc.line(20, (mark + 30), 200, (mark + 30));
+
+
+    //  Footer
+    doc.setFont("times", "bold");
+    doc.text('ENTREGADO:', 20, (mark + 45));
+    doc.text('NOMBRE:', 20, (mark + 53));
+    doc.text('CI:', 20, (mark + 61));
+    doc.text('FIRMA:', 20, (mark + 69));
 
 
     //  Save

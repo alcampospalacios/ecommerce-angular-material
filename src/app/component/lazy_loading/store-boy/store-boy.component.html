@@ -149,21 +149,21 @@
                     <div [ngClass]="{ 'col-12 col-sm-6 col-md-4 col-lg-3 mb-2': !viewLayoutProduct ,'col-6': viewLayoutProduct==='2', 'col-4': viewLayoutProduct==='3', 'col-3': viewLayoutProduct==='4', 'col-2': viewLayoutProduct==='6'}"
                         *ngFor="let item of products | paginate:page_size:page_number">
                         <div class="card" style="border: none; cursor: pointer;"
-                            (mouseenter)="onMouseEnter(item.idProducts)" (mouseleave)="onMouseLeave()">
-                            <div [id]="'carouselIndicatorList' + item.idProducts.toString()" class="carousel"
+                            (mouseenter)="onMouseEnter(item.id)" (mouseleave)="onMouseLeave()">
+                            <div [id]="'carouselIndicatorList' + item.id.toString()" class="carousel"
                                 data-ride="carousel" data-interval="false" style="padding-top: 0;">
                                 <ol class="carousel-indicators">
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="0" class="active"><img class="thumbnail"
                                             [defaultImage]="defaultImage" [lazyLoad]="item.subImage1" /></li>
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="1"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage2" /></li>
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="2"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage3" /></li>
                                 </ol>
-                                <div class="carousel-inner" (click)="onDetail(item.idProducts)">
+                                <div class="carousel-inner" (click)="onDetail(item.id)">
                                     <div class="carousel-item active">
                                         <img class="img-fluid" [defaultImage]="item.subImage1"
                                             [lazyLoad]="item.subImage1" class="d-block w-100" alt="...">
@@ -181,13 +181,13 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
                                     <span class="material-icons">add_shopping_cart</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
                                     <span class="material-icons">favorite_border</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
                                     <span class="material-icons">search</span></mat-icon>
                             </div>
                             <div class="card-body">
@@ -208,21 +208,21 @@
                     style="margin-top: 1rem; margin-bottom: 1rem;">
                     <div class="col-4">
                         <div class="card" style="border: none; cursor: pointer;"
-                            (mouseenter)="onMouseEnter(item.idProducts)" (mouseleave)="onMouseLeave()">
-                            <div [id]="'carouselIndicatorList' + item.idProducts.toString()" class="carousel"
+                            (mouseenter)="onMouseEnter(item.id)" (mouseleave)="onMouseLeave()">
+                            <div [id]="'carouselIndicatorList' + item.id.toString()" class="carousel"
                                 data-ride="carousel" data-interval="false" style="padding-top: 0;">
                                 <ol class="carousel-indicators">
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="0" class="active"><img class="thumbnail"
                                             [defaultImage]="defaultImage" [lazyLoad]="item.subImage1" /></li>
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="1"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage2" /></li>
-                                    <li [attr.data-target]="'#carouselIndicatorList' + item.idProducts.toString()"
+                                    <li [attr.data-target]="'#carouselIndicatorList' + item.id.toString()"
                                         data-slide-to="2"><img class="thumbnail" [defaultImage]="defaultImage"
                                             [lazyLoad]="item.subImage3" /></li>
                                 </ol>
-                                <div class="carousel-inner" (click)="onDetail(item.idProducts)">
+                                <div class="carousel-inner" (click)="onDetail(item.id)">
                                     <div class="carousel-item active">
                                         <img class="img-fluid" [defaultImage]="item.subImage1"
                                             [lazyLoad]="item.subImage1" class="d-block w-100" alt="...">
@@ -240,13 +240,13 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
                                     <span class="material-icons">add_shopping_cart</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
                                     <span class="material-icons">favorite_border</span></mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.idProducts === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
                                     <span class="material-icons">search</span></mat-icon>
                             </div>
                         </div>

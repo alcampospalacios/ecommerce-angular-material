@@ -33,7 +33,7 @@ export class ViewCartComponent implements OnInit {
     product.orders = product.orders + 1;
 
     let payload = {
-      idProduct: product.idProducts,
+      id: product.id,
       newProduct: product
     }
     this.store.dispatch(new UpdateProduct(payload));
@@ -43,14 +43,14 @@ export class ViewCartComponent implements OnInit {
     product.orders = product.orders - 1;
 
     let payload = {
-      idProduct: product.idProducts,
+      id: product.id,
       newProduct: product
     }
     this.store.dispatch(new UpdateProduct(payload));
   }
 
-  removeProduct(idProducts: number) {
-    this.store.dispatch(new RemoveProduct(idProducts))
+  removeProduct(id: number) {
+    this.store.dispatch(new RemoveProduct(id))
   }
 
   goBack() {

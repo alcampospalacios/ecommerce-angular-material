@@ -4,18 +4,18 @@
     <mat-toolbar-row style="background-color: #f8f8f8; height: 2.5rem; display: flex; flex-direction: row-reverse;">
       <mat-menu #login="matMenu">
         <ng-template matMenuContent>
-          <button *ngIf="!localStorageV1.getItem('name')" mat-menu-item (click)="openDialog()">Entrar</button>
-          <button *ngIf="!localStorageV1.getItem('name')" mat-menu-item
+          <button *ngIf="!localStorageV1.getItem('currentUser')" mat-menu-item (click)="openDialog()">Entrar</button>
+          <button *ngIf="!localStorageV1.getItem('currentUser')" mat-menu-item
             (click)="openDialogSignUp()">Registrarse</button>
-          <button *ngIf="localStorageV1.getItem('name')" mat-menu-item (click)="signOut()">Cerrar sesión</button>
+          <button *ngIf="localStorageV1.getItem('currentUser')" mat-menu-item (click)="signOut()">Cerrar sesión</button>
         </ng-template>
       </mat-menu>
 
-      <button *ngIf="localStorageV1.getItem('name'); else loginTemplate" mat-button [matMenuTriggerFor]="login"
+      <button *ngIf="localStorageV1.getItem('currentUser'); else loginTemplate" mat-button [matMenuTriggerFor]="login"
         class="text-cutom-style-button">
         <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
             style="font-size: 18px !important;">perm_identity</span></mat-icon>
-        {{localStorageV1.getItem('name')}}
+        {{localStorageV1.getItem('username')}}
         <mat-icon style="color: #999; text-align: center; margin-bottom: 8px;"><span class="material-icons"
             style="font-size: 18px !important;">keyboard_arrow_down</span></mat-icon>
       </button>
@@ -41,15 +41,17 @@
     </mat-toolbar-row>
   </section>
 
-
   <mat-toolbar-row style="background-color: white; height: 10rem !important;">
     <div class="container-fluid">
       <div class="row">
         <div class="col-4 col-sm-3 col- col-lg-1">
           <button mat-icon-button aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
+            <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
           </button>
         </div>
+
+        <!-- Side nav -->
+
 
         <div class="col-4 col-sm-3 col-lg-1">
           <span class="example-spacer"></span>
@@ -60,7 +62,7 @@
         <div class="col-4 col-sm-2 d-block d-lg-none text-right">
           <button mat-icon-button color="warn" class="example-icon favorite-icon"
             aria-label="Example icon-button with heart icon">
-            <mat-icon>menu</mat-icon>
+            <mat-icon (click)="sidenavInfo.toggle()">menu</mat-icon>
           </button>
         </div>
 
@@ -149,8 +151,7 @@
                 <h5>{{item.name}}</h5>
                 <p class="p-style">{{item.orders}} X {{item.price}}</p>
               </div>
-              <div style="margin-right: 1rem; margin-left: 1rem; cursor: pointer"
-                (click)="removeProduct(item.idProducts)">
+              <div style="margin-right: 1rem; margin-left: 1rem; cursor: pointer" (click)="removeProduct(item.id)">
                 <i class="fas fa-times" style="color: #777;"></i>
               </div>
             </div>
@@ -228,3 +229,53 @@
     </div>
   </div>
 </div>
+
+<!-- side bar left and rigth -->
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-selection-list #category [multiple]="false" style="margin-top: 8rem; margin-left: 2rem;">
+      <mat-list-option routerLink="/store/all/clothes">Ropa</mat-list-option>
+      <mat-list-option routerLink="/store/all/shoes">Zapatos</mat-list-option>
+      <mat-list-option routerLink="/store/all/bag">Mochilas</mat-list-option>
+      <mat-list-option routerLink="/store/all/watch">Relojes</mat-list-option>
+      <mat-list-option routerLink="/store/all/accesories">Accesorios</mat-list-option>
+      <mat-list-option routerLink="/store/all/jewelry">Joyería</mat-list-option>      
+      <mat-list-option routerLink="/store/all">Todo los Departamentos</mat-list-option>
+    </mat-selection-list>
+  </mat-sidenav>
+
+  <mat-sidenav #sidenavInfo position="end">
+    <mat-list role="list" #nav style="margin-top: 8rem; margin-left: 2rem;">
+      <mat-list-item role="listitem">
+        <button routerLink="/home" routerLinkActive="active" class="button-style" mat-button>
+          Inicio <mat-icon aria-hidden="false"></mat-icon>
+        </button>
+      </mat-list-item>
+      
+      <mat-list-item role="listitem">
+        <button class="button-style" mat-button [matMenuTriggerFor]="categories">
+          Categorías <mat-icon aria-hidden="false"><span class="material-icons">keyboard_arrow_down</span>
+          </mat-icon>
+        </button>
+      </mat-list-item>
+  
+      <mat-list-item role="listitem">
+        <button class="button-style" mat-button routerLink="/ayuda">
+          Ayuda
+        </button>
+      </mat-list-item>
+
+      <mat-list-item role="listitem"> <button class="button-style" mat-button>
+        Nosotros
+      </button></mat-list-item>     
+  
+     
+    </mat-list>    
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+  
+</mat-sidenav-container>

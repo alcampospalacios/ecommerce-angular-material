@@ -6,18 +6,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class OrdersService {
-  BASE_URL = 'http://localhost:3000';
+  API_URL = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) { }
 
-  postOrder(order: Orders) {
-    let json = JSON.stringify(order);
-    let params = json;
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-   
-      this.http.post(`${this.BASE_URL}/orders`, params, { headers: headers }).subscribe(data => {        
-        console.log('Done', data);
-    });  
+  postOrder(order: Orders): Promise<any> {
+    let token = JSON.parse(localStorage.getItem('currentUser')).token;
+
+    let headers = new HttpHeaders({
+      'Authorization': 'token ' + token
+    });
+
+    let promise = new Promise<void>((resolve, reject) => {
+      this.http.post<Orders>(`${this.API_URL}/order/`, order, { headers: headers }).subscribe(response => {
+        resolve();
+      }, err => {
+        reject();
+      });
+    });
+    
+    return promise
   }
 
 }

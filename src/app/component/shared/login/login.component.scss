@@ -1,0 +1,26 @@
+.card-width {
+    max-width: 400px;
+    max-height: 250px;
+  }
+
+::ng-deep .button {
+    text-align: end;
+}
+
+// Section image in paralax login
+.parallax {    
+  background-image: url('../../../../assets/images/blueparallax.png');
+}
+
+.full-banner {
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 190px;
+  padding-bottom: 190px;
+  background-position: 50%;
+}
+
+.full-banner.parallax {
+  background-attachment: fixed;
+}

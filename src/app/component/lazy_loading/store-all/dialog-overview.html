@@ -1,0 +1,75 @@
+<mat-dialog-content style="margin: 0 !important; padding: 0 !important; max-height: 100% !important;">
+    <section style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 text-center text-lg-left mx-sm-auto mx-lg-0">
+                    <img class="img-fluid" [defaultImage]="data.subImage1" [lazyLoad]="data.subImage1"
+                        class="d-block w-100" alt="...">
+                </div>
+
+                <div class="col-12 text-center text-lg-left col-lg-6">
+                    <h1 style="font-family: sans-serif;">{{data.name}}</h1>
+                    <h4 style="font-size: x-large; color: #222; font-weight: 400;">${{data.price}}.00</h4>
+
+                    <ul style="padding-left: 0; margin-top: 1rem; vertical-align: middle;">
+                        <li [class]="data.color" [style]="dynamicStyle"></li>             
+                    </ul>
+
+                    <mat-divider style="margin-top: 0.5rem; margin-bottom: 0.5rem; border-top-style: dashed!important;">
+                    </mat-divider>
+
+                    <div>
+                        <h6 style="font-family: sans-serif; font-weight: bold;">Detalles</h6>
+                        <p class="p-style">{{data.description}}</p>
+                    </div>
+
+                    <mat-divider style="margin-top: 0.5rem; margin-bottom: 0.5rem; border-top-style: dashed!important;">
+                    </mat-divider>
+
+                    <div>
+                        <h6 style="font-family: sans-serif; font-weight: bold;">Tallas Disponibles</h6>
+                        <ul class="size-variant" style="padding-left: 0; display: inline-flex; align-items: center;
+                    justify-content: center; flex-direction: row; list-style: none;">
+                            <li style="border: 1px solid rgb(248, 244, 244); color: #222;
+                        font-size: 18px; height: 100%; height: 30px; width: 30px; border-radius: 100%;
+                        margin-right: 5px; vertical-align: middle; text-align: center;">{{data.size | uppercase}}</li>                        
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h6 style="font-family: sans-serif; font-weight: bold; margin-top: 1rem;">Cantidad</h6>
+                        <form>
+                            <mat-form-field appearance="fill">
+                                <input matInput [formControl]="orderFormControl" [(ngModel)]="ord" type="number"
+                                    placeholder="Ex. 10">
+                                <mat-error
+                                    *ngIf="orderFormControl.hasError('min') && !orderFormControl.hasError('required')">
+                                    La cantidad mínima de compra es 10.
+                                </mat-error>
+                                <mat-error *ngIf="orderFormControl.hasError('required')">
+                                    Este campo es requerido.
+                                </mat-error>
+                            </mat-form-field>
+                        </form>
+                    </div>
+
+                    <br>
+
+                    <div style="display: flex;">
+                        <button mat-flat-button color="warn" style="font-family: sans-serif;"
+                            (click)="addProductSM(data)"
+                            [disabled]="orderFormControl.hasError('min') || orderFormControl.hasError('required')">AGREGAR
+                            AL
+                            CARRITO</button>
+                        <button mat-flat-button color="warn" style="font-family: sans-serif; margin-left: 5px;"
+                            routerLink="cart" (click)="close()">VER CARRITO
+                        </button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</mat-dialog-content>

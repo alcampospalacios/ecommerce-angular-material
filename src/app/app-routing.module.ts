@@ -2,9 +2,22 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './component/home/home.component';
 
+import { GuardAuthGuard } from './shared/guard/guard-auth.guard';
+import { CheckLoginGuard } from './shared/guard/check-login.guard';
+
 const routes: Routes = [
   {
     path: 'home', component: HomeComponent
+  },
+  
+  {
+    path: 'store/all',
+    loadChildren: () => import('./component/lazy_loading/store-all/store-all.module').then(m => m.StoreAllModule)
+  },
+
+  {
+    path: 'store/all/:category',
+    loadChildren: () => import('./component/lazy_loading/store-all/store-all.module').then(m => m.StoreAllModule)
   },
 
   {
@@ -59,12 +72,19 @@ const routes: Routes = [
 
   {
     path: 'checkout',
-    loadChildren: () => import('./component/lazy_loading/checkout/checkout.module').then(m => m.CheckoutModule)
+    loadChildren: () => import('./component/lazy_loading/checkout/checkout.module').then(m => m.CheckoutModule),
+    canActivate: [GuardAuthGuard]
   },
 
   {
     path: 'ayuda',
     loadChildren: () => import('./component/lazy_loading/help/help.module').then(m => m.HelpModule)
+  },
+
+  {
+    path: 'login',
+    loadChildren: () => import('./component/shared/login/login.module').then(m => m.LoginModule),
+    canActivate: [CheckLoginGuard]
   },
 
   {

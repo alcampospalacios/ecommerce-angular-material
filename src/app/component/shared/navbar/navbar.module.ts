@@ -21,7 +21,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import { ToastModule } from 'ng-uikit-pro-standard';
 
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../../../shared/shared.module'
+import { SharedModule } from '../../../shared/shared.module';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [NavbarComponent, DialogLogin, DialogSignup],
@@ -44,7 +45,8 @@ import { SharedModule } from '../../../shared/shared.module'
     MatSidenavModule,
     MatDividerModule,
     ScrollingModule,
-    SharedModule,  
+    MatListModule,
+    SharedModule,
     ToastModule.forRoot(),
   ],
   providers: [],

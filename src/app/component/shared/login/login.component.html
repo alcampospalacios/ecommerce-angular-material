@@ -1,0 +1,42 @@
+ <section style="margin-top: 1.5rem;" class="d-flex justify-content-center parallax full-banner full-banner.parallax">
+    <mat-card class="card-width">
+        <mat-card-header>            
+            <mat-card-title>Login</mat-card-title>            
+          </mat-card-header>
+        <form class="text-center" style="color: #757575;">
+            <div mat-dialog-content style="margin-top: 1rem; text-align: center;">
+              <div class="row justify-content-between">          
+      
+                <div class="col-12">
+                  <mat-form-field [formGroup]="itemForm" style="width: 100% !important;">
+                    <input matInput type="username" placeholder="Usuario" min="1" tabindex="1"
+                      required="true" formControlName="username">
+                    <mat-error *ngIf="username.invalid && (username.dirty || username.touched)">Campo Obligatorio</mat-error>
+                  </mat-form-field>
+                </div>
+                
+                <div class="col-12">
+                  <mat-form-field [formGroup]="itemForm" style="width: 100% !important;">
+                    <input matInput type="password" placeholder="Contraseña" tabindex="1"
+                      required="true" formControlName="password">
+                    <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">Campo Obligatorio
+                    </mat-error>
+                  </mat-form-field>
+                </div>                
+
+                <div class="col-4"></div>
+                <div class="col-4">
+                  <button mat-raised-button color="accent" >Registrarse</button>
+
+                </div>
+      
+                <div class="col-4">
+                    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!itemForm.valid" >Entrar</button>
+                </div>             
+                      
+              </div>
+            </div>
+          </form>
+
+    </mat-card>
+ </section>

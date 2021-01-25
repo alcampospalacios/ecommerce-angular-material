@@ -7,10 +7,10 @@ import { Location } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Store, Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
 import { Subscription, Observable } from 'rxjs';
-import {FormControl, Validators} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-store',
@@ -52,8 +52,7 @@ export class StoreComponent implements OnInit {
   products: Products[];
   copyProducts: Products[];
   copyProductsCategory: Products[];
-
-  onlyOne: Products[];  
+  
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -74,11 +73,12 @@ export class StoreComponent implements OnInit {
     public dialog: MatDialog, private store: Store
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.route.paramMap.subscribe(result => {
       if (result.has('category')) {
-        this.productservice.getTypeProductsByCategory('mujer', result.get('category')).subscribe(data => {
+        this.productservice.getTypeProductsByCategory('woman', result.get('category')).subscribe(data => {
           this.products = data;
+          console.log(this.products)
           this.copyProducts = this.products;
         });
       }
@@ -88,75 +88,23 @@ export class StoreComponent implements OnInit {
     });
   }
 
-  addProductSM(product: Products) {
-    console.log('Amount: ', product.amount);
-    let solution: Products[];
-    this.store.select(state => state.products.products).subscribe(data => {
-      solution = data
-    });     
-
-    let flag = false;
-    if (solution.length === 0) {
-      let prod: Products = {
-        idProducts: product.idProducts,
-        type: product.type,
-        category: product.category,
-        subCategory: product.subCategory,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        image: product.image,
-        subImage1: product.subImage1,
-        subImage2: product.subImage2,
-        subImage3: product.subImage3,
-        rate: product.rate,
-        amount: product.amount,
-        color: product.color,
-        size: product.size,
-        mark: product.mark,
-        userid: product.userid,
-        orders: 1
-      }
-      this.store.dispatch(new AddProduct(prod));
-    }
-    else {
-      solution.forEach(it => {
-        if (it.idProducts == product.idProducts) {
-          let prod: Products = {
-            idProducts: product.idProducts,
-            type: product.type,
-            category: product.category,
-            subCategory: product.subCategory,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            image: product.image,
-            subImage1: product.subImage1,
-            subImage2: product.subImage2,
-            subImage3: product.subImage3,
-            rate: product.rate,
-            amount: product.amount,
-            color: product.color,
-            size: product.size,
-            mark: product.mark,
-            userid: product.userid,
-            orders: ((it.orders || 0) + 1)
-          }
-          flag = true;
-          this.updateOrder(prod);
-        }
+  addProductSM(product: Products) {    
+    if (product.amount > product.orders) {
+      let solution: Products[];
+      this.store.select(state => state.products.products).subscribe(data => {
+        solution = data
       });
 
-      if (!flag) {
+      let flag = false;
+      if (solution.length === 0) {
         let prod: Products = {
-          idProducts: product.idProducts,
+          id: product.id,
+          url: product.url,
           type: product.type,
           category: product.category,
-          subCategory: product.subCategory,
           name: product.name,
           description: product.description,
           price: product.price,
-          image: product.image,
           subImage1: product.subImage1,
           subImage2: product.subImage2,
           subImage3: product.subImage3,
@@ -165,19 +113,69 @@ export class StoreComponent implements OnInit {
           color: product.color,
           size: product.size,
           mark: product.mark,
-          userid: product.userid,
           orders: 1
         }
-
         this.store.dispatch(new AddProduct(prod));
+      }
+      else {
+        solution.forEach(it => {
+          if (it.id == product.id) {
+            let prod: Products = {
+              id: product.id,
+              url: product.url,
+              type: product.type,
+              category: product.category,  
+              name: product.name,
+              description: product.description,
+              price: product.price,  
+              subImage1: product.subImage1,
+              subImage2: product.subImage2,
+              subImage3: product.subImage3,
+              rate: product.rate,
+              amount: product.amount,
+              color: product.color,
+              size: product.size,
+              mark: product.mark,
+  
+              orders: ((it.orders || 0) + 1)
+            }
+            flag = true;
+            this.updateOrder(prod);
+          }
+        });
+
+        if (!flag) {
+          let prod: Products = {
+            id: product.id,
+            url: product.url,
+            type: product.type,
+            category: product.category,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            orders: 1
+          }
+
+          this.store.dispatch(new AddProduct(prod));
+        }
+
       }
 
     }
+
   }
 
   updateOrder(product: Products) {
     let payload = {
-      idProduct: product.idProducts,
+      id: product.id,
       newProduct: product
     }
     this.store.dispatch(new UpdateProduct(payload));
@@ -185,12 +183,12 @@ export class StoreComponent implements OnInit {
 
   getDataType(): void {
 
-    this.productservice.getTypeProducts('mujer')
+    this.productservice.getTypeProducts('woman')
       .subscribe(data => {
         this.products = data;
         this.copyProducts = this.products;
         this.getBrands();
-      });    
+      });
   }
 
   filterColor() {
@@ -616,10 +614,9 @@ export class StoreComponent implements OnInit {
       width: '80%',
       height: '80%',
       data: {
-        idProducts: item.idProducts,
+        id: item.id,
         type: item.type,
-        category: item.category,
-        subCategory: item.subCategory,
+        category: item.category,        
         name: item.name,
         description: item.description,
         price: item.price,
@@ -688,9 +685,9 @@ export class DialogOverview {
     public dialogRef: MatDialogRef<DialogOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products,
     private store: Store
-    ) {      
-      this.dynamicStyle = `background-color: ${data.color}; height: 20px; width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;`
-     }
+  ) {
+    this.dynamicStyle = `background-color: ${data.color}; height: 20px; width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;`
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -701,73 +698,44 @@ export class DialogOverview {
   }
 
   addProductSM(product: Products) {
-      let solution: Products[];
-      this.store.select(state => state.products.products).subscribe(data => {
-        solution = data
-      });     
+    let solution: Products[];
+    this.store.select(state => state.products.products).subscribe(data => {
+      solution = data
+    });
 
-      let flag = false;
-      if (solution.length === 0) {
-        let prod: Products = {
-          idProducts: product.idProducts,
-          type: product.type,
-          category: product.category,
-          subCategory: product.subCategory,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          image: product.image,
-          subImage1: product.subImage1,
-          subImage2: product.subImage2,
-          subImage3: product.subImage3,
-          rate: product.rate,
-          amount: product.amount,
-          color: product.color,
-          size: product.size,
-          mark: product.mark,
-          userid: product.userid,
-          orders: this.ord
-        }
-        this.store.dispatch(new AddProduct(prod));
+    let flag = false;
+    if (solution.length === 0) {
+      let prod: Products = {
+        id: product.id,
+        url: product.url,
+        type: product.type,
+        category: product.category,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        subImage1: product.subImage1,
+        subImage2: product.subImage2,
+        subImage3: product.subImage3,
+        rate: product.rate,
+        amount: product.amount,
+        color: product.color,
+        size: product.size,
+        mark: product.mark,
+        orders: this.ord
       }
-      else {
-        solution.forEach(it => {
-          if (it.idProducts == product.idProducts) {
-            let prod: Products = {
-              idProducts: product.idProducts,
-              type: product.type,
-              category: product.category,
-              subCategory: product.subCategory,
-              name: product.name,
-              description: product.description,
-              price: product.price,
-              image: product.image,
-              subImage1: product.subImage1,
-              subImage2: product.subImage2,
-              subImage3: product.subImage3,
-              rate: product.rate,
-              amount: product.amount,
-              color: product.color,
-              size: product.size,
-              mark: product.mark,
-              userid: product.userid,
-              orders: ((it.orders || 0) + this.ord)
-            }
-            flag = true;
-            this.updateOrder(prod);
-          }
-        });
-
-        if (!flag) {
+      this.store.dispatch(new AddProduct(prod));
+    }
+    else {
+      solution.forEach(it => {
+        if (it.id == product.id) {
           let prod: Products = {
-            idProducts: product.idProducts,
+            id: product.id,
+            url: product.url,
             type: product.type,
             category: product.category,
-            subCategory: product.subCategory,
             name: product.name,
             description: product.description,
             price: product.price,
-            image: product.image,
             subImage1: product.subImage1,
             subImage2: product.subImage2,
             subImage3: product.subImage3,
@@ -776,19 +744,42 @@ export class DialogOverview {
             color: product.color,
             size: product.size,
             mark: product.mark,
-            userid: product.userid,
-            orders: this.ord
+            orders: ((it.orders || 0) + this.ord)
           }
-
-          this.store.dispatch(new AddProduct(prod));
+          flag = true;
+          this.updateOrder(prod);
         }
+      });
+
+      if (!flag) {
+        let prod: Products = {
+          id: product.id,
+          url: product.url,
+          type: product.type,
+          category: product.category,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          subImage1: product.subImage1,
+          subImage2: product.subImage2,
+          subImage3: product.subImage3,
+          rate: product.rate,
+          amount: product.amount,
+          color: product.color,
+          size: product.size,
+          mark: product.mark,
+          orders: this.ord
+        }
+
+        this.store.dispatch(new AddProduct(prod));
+      }
 
     }
   }
 
   updateOrder(product: Products) {
     let payload = {
-      idProduct: product.idProducts,
+      id: product.id,
       newProduct: product
     }
     this.store.dispatch(new UpdateProduct(payload));

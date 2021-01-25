@@ -1,25 +1,23 @@
-import { Products } from '../../../shared/model/products';
-import { ProductsService } from '../../../shared/service/products.service';
-import { Component, DoCheck, Inject, Input, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Products } from 'src/app/shared/model/products';
+import { ProductsService } from './../../../shared/service/products.service';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Store, Select } from '@ngxs/store';
-import { AddProduct, UpdateProduct } from '../../../shared/statate-management/product.actions';
-import { filter, tap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { AddProduct, UpdateProduct } from './../../../shared/statate-management/product.actions';
 import { Subscription, Observable } from 'rxjs';
-import { ProductsState } from '../../../shared/statate-management/product.state';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store-girl.component.html',
-  styleUrls: ['./store-girl.component.scss']
+  selector: 'app-store-all',
+  templateUrl: './store-all.component.html',
+  styleUrls: ['./store-all.component.scss']
 })
-export class StoreGirlComponent implements OnInit {
+export class StoreAllComponent implements OnInit {
   panelOpenState = true;
   panelOpenStateBrand = true;
   panelOpenStateColors = true;
@@ -54,9 +52,7 @@ export class StoreGirlComponent implements OnInit {
   products: Products[];
   copyProducts: Products[];
   copyProductsCategory: Products[];
-
-  onlyOne: Products[];
-  banner: string = '../../../assets/images/banner/girl-banner.jpg';
+  
   defaultImage = '../../../assets/images/default/default-image.png';
   copyToResolveColorProducts: Products[];
   copyToResolveBrands: Products[];
@@ -69,6 +65,8 @@ export class StoreGirlComponent implements OnInit {
   orders$: Observable<Products[]>
   subscribtion: Subscription;
 
+  @Input() in: string;
+
   constructor(
     private route: ActivatedRoute, private router: Router,
     private location: Location, private productservice: ProductsService,
@@ -78,73 +76,26 @@ export class StoreGirlComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(result => {
       if (result.has('category')) {
-        this.productservice.getTypeProductsByCategory('girl', result.get('category')).subscribe(data => {
-          this.products = data;
+        this.productservice.getProductsCategory(result.get('category')).subscribe(data => {
+          this.products = data;          
           this.copyProducts = this.products;
         });
       }
       else {
-        this.getDataType();
+        this.getAll();
       }
     });
   }
 
-  addProductSM(product: Products) {
-    let solution: Products[];
-    this.store.select(state => state.products.products).subscribe(data => {
-      solution = data
-    });
-
-    let flag = false;
-    if (solution.length === 0) {
-      let prod: Products = {
-        id: product.id,
-        url: product.url,
-        type: product.type,
-        category: product.category,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        subImage1: product.subImage1,
-        subImage2: product.subImage2,
-        subImage3: product.subImage3,
-        rate: product.rate,
-        amount: product.amount,
-        color: product.color,
-        size: product.size,
-        mark: product.mark,
-        orders: 1
-      }
-      this.store.dispatch(new AddProduct(prod));
-    }
-    else {
-      solution.forEach(it => {
-        if (it.id == product.id) {
-          let prod: Products = {
-            id: product.id,
-            url: product.url,
-            type: product.type,
-            category: product.category,  
-            name: product.name,
-            description: product.description,
-            price: product.price,  
-            subImage1: product.subImage1,
-            subImage2: product.subImage2,
-            subImage3: product.subImage3,
-            rate: product.rate,
-            amount: product.amount,
-            color: product.color,
-            size: product.size,
-            mark: product.mark,
-  
-            orders: ((it.orders || 0) + 1)
-          }
-          flag = true;
-          this.updateOrder(prod);
-        }
+  addProductSM(product: Products) {    
+    if (product.amount > product.orders) {
+      let solution: Products[];
+      this.store.select(state => state.products.products).subscribe(data => {
+        solution = data
       });
 
-      if (!flag) {
+      let flag = false;
+      if (solution.length === 0) {
         let prod: Products = {
           id: product.id,
           url: product.url,
@@ -161,14 +112,64 @@ export class StoreGirlComponent implements OnInit {
           color: product.color,
           size: product.size,
           mark: product.mark,
-
           orders: 1
         }
-
         this.store.dispatch(new AddProduct(prod));
+      }
+      else {
+        solution.forEach(it => {
+          if (it.id == product.id) {
+            let prod: Products = {
+              id: product.id,
+              url: product.url,
+              type: product.type,
+              category: product.category,  
+              name: product.name,
+              description: product.description,
+              price: product.price,  
+              subImage1: product.subImage1,
+              subImage2: product.subImage2,
+              subImage3: product.subImage3,
+              rate: product.rate,
+              amount: product.amount,
+              color: product.color,
+              size: product.size,
+              mark: product.mark,
+  
+              orders: ((it.orders || 0) + 1)
+            }
+            flag = true;
+            this.updateOrder(prod);
+          }
+        });
+
+        if (!flag) {
+          let prod: Products = {
+            id: product.id,
+            url: product.url,
+            type: product.type,
+            category: product.category,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            orders: 1
+          }
+
+          this.store.dispatch(new AddProduct(prod));
+        }
+
       }
 
     }
+
   }
 
   updateOrder(product: Products) {
@@ -179,8 +180,9 @@ export class StoreGirlComponent implements OnInit {
     this.store.dispatch(new UpdateProduct(payload));
   }
 
-  getDataType(): void {
-    this.productservice.getTypeProducts('girl')
+  getAll(): void {
+    console.log('NO LLEgo')
+    this.productservice.getAllProducts()
       .subscribe(data => {
         this.products = data;
         this.copyProducts = this.products;
@@ -607,7 +609,7 @@ export class StoreGirlComponent implements OnInit {
   }
 
   openDialog(item: Products): void {
-    const dialogRef = this.dialog.open(DialogGirlOverview, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '80%',
       height: '80%',
       data: {
@@ -666,10 +668,10 @@ export class StoreGirlComponent implements OnInit {
 
 
 @Component({
-  selector: 'dialog-girl-overview',
-  templateUrl: 'dialog-girl-overview.html',
+  selector: 'dialog-overview',
+  templateUrl: 'dialog-overview.html',
 })
-export class DialogGirlOverview {
+export class DialogOverview {
   orderFormControl = new FormControl('', [
     Validators.required,
     Validators.min(10)
@@ -679,10 +681,11 @@ export class DialogGirlOverview {
   dynamicStyle: string;
 
   constructor(
-    public dialogRef: MatDialogRef<DialogGirlOverview>,
+    public dialogRef: MatDialogRef<DialogOverview>,
     @Inject(MAT_DIALOG_DATA) public data: Products,
-    private store: Store) {
-    this.dynamicStyle = `background-color: ${data.color}; height: 20px; width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;`;
+    private store: Store
+  ) {
+    this.dynamicStyle = `background-color: ${data.color}; height: 20px; width: 20px; border-radius: 100%; margin-right: 5px; display: inline-block;`
   }
 
   onNoClick(): void {
@@ -694,14 +697,60 @@ export class DialogGirlOverview {
   }
 
   addProductSM(product: Products) {
-    if (product.amount > product.orders) {
-      let solution: Products[];
-      this.store.select(state => state.products.products).subscribe(data => {
-        solution = data
+    let solution: Products[];
+    this.store.select(state => state.products.products).subscribe(data => {
+      solution = data
+    });
+
+    let flag = false;
+    if (solution.length === 0) {
+      let prod: Products = {
+        id: product.id,
+        url: product.url,
+        type: product.type,
+        category: product.category,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        subImage1: product.subImage1,
+        subImage2: product.subImage2,
+        subImage3: product.subImage3,
+        rate: product.rate,
+        amount: product.amount,
+        color: product.color,
+        size: product.size,
+        mark: product.mark,
+        orders: this.ord
+      }
+      this.store.dispatch(new AddProduct(prod));
+    }
+    else {
+      solution.forEach(it => {
+        if (it.id == product.id) {
+          let prod: Products = {
+            id: product.id,
+            url: product.url,
+            type: product.type,
+            category: product.category,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            subImage1: product.subImage1,
+            subImage2: product.subImage2,
+            subImage3: product.subImage3,
+            rate: product.rate,
+            amount: product.amount,
+            color: product.color,
+            size: product.size,
+            mark: product.mark,
+            orders: ((it.orders || 0) + this.ord)
+          }
+          flag = true;
+          this.updateOrder(prod);
+        }
       });
 
-      let flag = false;
-      if (solution.length === 0) {
+      if (!flag) {
         let prod: Products = {
           id: product.id,
           url: product.url,
@@ -718,65 +767,13 @@ export class DialogGirlOverview {
           color: product.color,
           size: product.size,
           mark: product.mark,
-
           orders: this.ord
         }
+
         this.store.dispatch(new AddProduct(prod));
-      }
-      else {
-        solution.forEach(it => {
-          if (it.id == product.id) {
-            let prod: Products = {
-              id: product.id,
-              url: product.url,
-              type: product.type,
-              category: product.category,    
-              name: product.name,
-              description: product.description,
-              price: product.price,    
-              subImage1: product.subImage1,
-              subImage2: product.subImage2,
-              subImage3: product.subImage3,
-              rate: product.rate,
-              amount: product.amount,
-              color: product.color,
-              size: product.size,
-              mark: product.mark,
-    
-              orders: ((it.orders || 0) + this.ord)
-            }
-            flag = true;
-            this.updateOrder(prod);
-          }
-        });
-
-        if (!flag) {
-          let prod: Products = {
-            id: product.id,
-            url: product.url,
-            type: product.type,
-            category: product.category,  
-            name: product.name,
-            description: product.description,
-            price: product.price,  
-            subImage1: product.subImage1,
-            subImage2: product.subImage2,
-            subImage3: product.subImage3,
-            rate: product.rate,
-            amount: product.amount,
-            color: product.color,
-            size: product.size,
-            mark: product.mark,  
-            orders: this.ord
-          }
-
-          this.store.dispatch(new AddProduct(prod));
-        }
-
       }
 
     }
-
   }
 
   updateOrder(product: Products) {
