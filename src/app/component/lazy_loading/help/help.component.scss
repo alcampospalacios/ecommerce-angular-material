@@ -6,8 +6,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 6rem;
-    background-color: #f8f8f8;
+    // margin-top: 6rem;
+    // background-color: #f8f8f8;
     height: 6rem;
     width: auto;
 }
@@ -17,3 +17,21 @@
     font-size: 24px;
     font-weight: 500; 
 }
+
+// Section image in paralax login
+.parallax {    
+    background-image: url('../../../../assets/images/blueparallax.png');
+  }
+  
+  .full-banner {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 190px;
+    padding-bottom: 190px;
+    background-position: 50%;
+  }
+  
+  .full-banner.parallax {
+    background-attachment: fixed;
+  }

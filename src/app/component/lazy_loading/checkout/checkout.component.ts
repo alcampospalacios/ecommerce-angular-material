@@ -84,8 +84,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.products.forEach(product => {
       let temp = {
-        productOrders: product.orders.toString(),
         productName: product.name,
+        productOrders: product.orders.toString(),
         productPrice: product.price.toString(),
         productTotalPrice: (product.orders * product.price).toString()
       }

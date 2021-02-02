@@ -1,0 +1,19 @@
+.img-style {
+    width: 90px;
+    height: 90px;
+}
+
+.small-section {
+    background-color: #f7f7f7;
+}
+
+.img-manager {
+    width: 240px;   
+    border-radius: 35px;
+    opacity: 0.8;    
+}
+
+// removing padding to avoid spacing
+::ng-deep a {
+    padding: 0 0px !important;
+}

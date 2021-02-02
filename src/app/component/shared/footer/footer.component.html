@@ -15,7 +15,7 @@
                 <mat-divider class="d-none d-lg-block" [vertical]=true></mat-divider>
 
                 <div class="col-12 col-lg-5 d-flex justify-content-center">
-                    <div class="form-field" *ngIf="!localStorageV1.getItem('subscribed'); else subscribed">
+                    <div class="form-field" *ngIf="!localStorageV1.getItem('subscription'); else subscribed">
                         <div class="example-container">
                             <mat-form-field appearance="fill">
                                 <mat-label>Enter your email</mat-label>
@@ -28,8 +28,8 @@
                 </div>
 
                 <ng-template #subscribed>                                         
-                        <button type="submit" class="button-material" mat-flat-button color="warn" [disabled]='true'>Subscrito
-                            <mat-icon class="mat-icon-color" matSuffix>done_outline</mat-icon>
+                        <button type="submit" class="button-material" mat-flat-button color="warn" (click)="cancelEmailSubscription()">Cancelar Subcripcion
+                            <mat-icon class="mat-icon-color" matSuffix>clear</mat-icon>
                         </button>                  
                 </ng-template>
             </div>
@@ -40,19 +40,16 @@
 
             <div class="row" style="margin-top: 3rem;">
                 <div class="col-12 col-md-6 col-lg-3">
-                    <h4 style="text-transform: uppercase;">Mi Marca</h4>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi saepe exercitationem, ipsam
-                        officia rem inventore, nisi sed voluptatum nesciunt porro ipsum commodi. Doloribus dolor tempore
-                        alias amet perferendis quia enim.</p>
+                    <h4 style="text-transform: uppercase;">Viste Bién</h4>
+                    <p>Nos caracteriza la calidad, el buen trabajo, el buen trato, los buenos precios, elígenos, compra con nosotros y no te arrepentirás.</p>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
                     <h4 style="text-transform: uppercase;">Categorías</h4>
                     <ul>
-                        <li><a class="text-color" mat-button target="_blank">Moda Mujeres</a></li>
-                        <li><a class="text-color" mat-button target="_blank">Moda Hombres</a></li>
-                        <li><a class="text-color" mat-button target="_blank">Moda Niñas</a></li>
-                        <li><a class="text-color" mat-button target="_blank">Moda Niños</a></li>
-                        <li><a class="text-color" mat-button target="_blank">Estilos Bebes</a></li>
+                        <li><a class="text-color" [routerLink]="['/tienda/mujer']" mat-button>Moda Mujeres</a></li>
+                        <li><a class="text-color" [routerLink]="['/tienda/hombre']" mat-button>Moda Hombres</a></li>
+                        <li><a class="text-color" [routerLink]="['/tienda/nina']" mat-button>Moda Niñas</a></li>
+                        <li><a class="text-color" [routerLink]="['/tienda/nino']" mat-button>Moda Niños</a></li>                        
                     </ul>
                 </div>
 

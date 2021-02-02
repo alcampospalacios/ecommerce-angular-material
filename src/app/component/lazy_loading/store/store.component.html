@@ -1,5 +1,7 @@
 <mat-sidenav-container class="container-fluid" style="margin-top: 5rem;">
-    <mat-sidenav opened mode="side" class="d-none d-md-block" style="margin-top: 2rem; width: 25%; height: auto;">
+    
+    <mat-sidenav #sidenav opened mode="side" class="d-none d-md-block"
+        style="margin-top: 2rem; width: 25%; height: auto;">
         <mat-accordion style="height: 5rem;">
             <mat-expansion-panel multi [expanded]="panelOpenState === true" (opened)="panelOpenState = true"
                 (closed)="panelOpenState = false"
@@ -90,11 +92,13 @@
                             PRECIO
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <mat-slider color="primary" thumbLabel min="0" max="40" [(ngModel)]="sliderValue" (ngModelChange)="filterPrice()"></mat-slider>
+                    <mat-slider color="primary" thumbLabel min="0" max="40" [(ngModel)]="sliderValue"
+                        (ngModelChange)="filterPrice()"></mat-slider>
                 </mat-expansion-panel>
             </mat-accordion>
         </section>
     </mat-sidenav>
+
 
     <!-- <mat-sidenav opened mode="side" position="end">End content</mat-sidenav> -->
     <section style="margin-top: 2rem;">
@@ -148,8 +152,8 @@
                 <div class="row" style="margin-top: 2rem; min-height: 30rem;">
                     <div [ngClass]="{ 'col-12 col-sm-6 col-md-4 col-lg-3 mb-2': !viewLayoutProduct ,'col-6': viewLayoutProduct==='2', 'col-4': viewLayoutProduct==='3', 'col-3': viewLayoutProduct==='4', 'col-2': viewLayoutProduct==='6'}"
                         *ngFor="let item of products | paginate:page_size:page_number">
-                        <div class="card" style="border: none; cursor: pointer;"
-                            (mouseenter)="onMouseEnter(item.id)" (mouseleave)="onMouseLeave()">
+                        <div class="card" style="border: none; cursor: pointer;" (mouseenter)="onMouseEnter(item.id)"
+                            (mouseleave)="onMouseLeave()">
                             <div [id]="'carouselIndicatorList' + item.id.toString()" class="carousel"
                                 data-ride="carousel" data-interval="false" style="padding-top: 0;">
                                 <ol class="carousel-indicators">
@@ -181,14 +185,19 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
-                                    <span class="material-icons">add_shopping_cart</span></mat-icon>
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'"
+                                    (click)="addProductSM(item)">
+                                    <span class="material-icons">add_shopping_cart</span>
+                                </mat-icon>
                                 <mat-icon
                                     [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
-                                    <span class="material-icons">favorite_border</span></mat-icon>
+                                    <span class="material-icons">favorite_border</span>
+                                </mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
-                                    <span class="material-icons">search</span></mat-icon>
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'"
+                                    (click)="openDialog(item)">
+                                    <span class="material-icons">search</span>
+                                </mat-icon>
                             </div>
                             <div class="card-body">
                                 <star-rating [value]="value" [totalstars]="totalstars" checkedcolor="red"
@@ -207,8 +216,8 @@
                 <div class="row" *ngFor="let item of products | paginate:page_size:page_number"
                     style="margin-top: 1rem; margin-bottom: 1rem;">
                     <div class="col-4">
-                        <div class="card" style="border: none; cursor: pointer;"
-                            (mouseenter)="onMouseEnter(item.id)" (mouseleave)="onMouseLeave()">
+                        <div class="card" style="border: none; cursor: pointer;" (mouseenter)="onMouseEnter(item.id)"
+                            (mouseleave)="onMouseLeave()">
                             <div [id]="'carouselIndicatorList' + item.id.toString()" class="carousel"
                                 data-ride="carousel" data-interval="false" style="padding-top: 0;">
                                 <ol class="carousel-indicators">
@@ -240,14 +249,19 @@
 
                             <div class="customIcon" style="overflow: hidden;">
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'" (click)="addProductSM(item)">
-                                    <span class="material-icons">add_shopping_cart</span></mat-icon>
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'"
+                                    (click)="addProductSM(item)">
+                                    <span class="material-icons">add_shopping_cart</span>
+                                </mat-icon>
                                 <mat-icon
                                     [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
-                                    <span class="material-icons">favorite_border</span></mat-icon>
+                                    <span class="material-icons">favorite_border</span>
+                                </mat-icon>
                                 <mat-icon
-                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'" (click)="openDialog(item)">
-                                    <span class="material-icons">search</span></mat-icon>
+                                    [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'"
+                                    (click)="openDialog(item)">
+                                    <span class="material-icons">search</span>
+                                </mat-icon>
                             </div>
                         </div>
                     </div>
@@ -267,7 +281,7 @@
 
             <div *ngIf="products">
                 <mat-paginator [length]="products.length" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 100]"
-                (page)=handlePage($event) showFirstLastButtons>
+                    (page)=handlePage($event) showFirstLastButtons>
                 </mat-paginator>
 
             </div>

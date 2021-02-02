@@ -10,13 +10,14 @@ import {MatListModule} from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ToastModule } from 'ng-uikit-pro-standard';
-
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [FooterComponent],
   imports: [
     CommonModule,
+    RouterModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

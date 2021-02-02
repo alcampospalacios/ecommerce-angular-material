@@ -110,7 +110,7 @@
           <div class="customIcon" style="overflow: hidden;">
             <mat-icon
               [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
-              <span class="material-icons">add_shopping_cart</span>
+              <span class="material-icons" (click)="addProductSM(item)">add_shopping_cart</span>
             </mat-icon>
             <mat-icon
               [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
@@ -118,7 +118,7 @@
             </mat-icon>
             <mat-icon
               [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
-              <span class="material-icons">search</span>
+              <span class="material-icons" (click)="openDialog(item)">search</span>
             </mat-icon>
           </div>
           <div class="card-body">
@@ -229,7 +229,7 @@
                 <div class="customIcon" style="overflow: hidden;">
                   <mat-icon
                     [ngClass]="(isMouseOver && item.id === currentId)?'animatedCart colorIconProductAux' : 'colorIconProduct'">
-                    <span class="material-icons">add_shopping_cart</span>
+                    <span class="material-icons" (click)="addProductSM(item)">add_shopping_cart</span>
                   </mat-icon>
                   <mat-icon
                     [ngClass]="(isMouseOver && item.id === currentId)?'animatedFavorite colorIconProductAux' : 'colorIconProduct'">
@@ -237,7 +237,7 @@
                   </mat-icon>
                   <mat-icon
                     [ngClass]="(isMouseOver && item.id === currentId)?'animatedSearch colorIconProductAux' : 'colorIconProduct'">
-                    <span class="material-icons">search</span>
+                    <span class="material-icons" (click)="openDialog(item)">search</span>
                   </mat-icon>
                 </div>
                 <div class="card-body">

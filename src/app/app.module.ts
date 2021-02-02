@@ -18,8 +18,8 @@ import { ProductsState } from './shared/statate-management/product.state';
     AppComponent                
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     BrowserAnimationsModule,
     NavbarModule,
     FooterModule,

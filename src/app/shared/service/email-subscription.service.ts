@@ -5,23 +5,48 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class EmailSubscriptionService {
-  BASE_URL = 'http://localhost:3000/emailsubscription';
+  API_URL = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) { }
 
   postEmailSubscription(emailsubscription: string): Promise<any>{
-    let emailObject = {emailsubscription: emailsubscription}
-    let json = JSON.stringify(emailObject);
-    let params = json;
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');    
+    let user = JSON.parse(localStorage.getItem('currentUser'));
+    let params = {
+      emailSubscription: emailsubscription,
+      owner: user.user_id
+    }
+
+    let headers = new HttpHeaders({
+      'Authorization': 'token ' + user.token
+    });
+
 
     let promise = new Promise<void>((resolve, reject) => {
-      this.http.post(`${this.BASE_URL}`, params, { headers: headers }).subscribe(data => {    
+      this.http.post<any>(`${this.API_URL}/subscriber/`, params, { headers: headers }).subscribe((response) => {
+        localStorage.setItem('subscription', JSON.stringify(response));
         resolve();
-      }, err => {        
+      }, err => {
         reject();
       });
+    });
 
+    return promise;
+  }
+
+  deleteSubscription(id: number): Promise<any> {
+    let token = JSON.parse(localStorage.getItem('currentUser')).token;
+
+    let headers = new HttpHeaders({
+      'Authorization': 'token ' + token
+    });
+
+    let promise = new Promise<void>((resolve, reject) => {
+      this.http.delete<any>(`${this.API_URL}/subscriber/${id}/`, { headers: headers }).subscribe(() => {
+        localStorage.removeItem('subscription');
+        resolve();
+      }, err => {
+        reject();
+      });
     });
 
     return promise;

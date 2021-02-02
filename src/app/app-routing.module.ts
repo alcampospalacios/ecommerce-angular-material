@@ -82,6 +82,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'nosotros',
+    loadChildren: () => import('./component/lazy_loading/us/us.module').then(m => m.UsModule)
+  },
+
+  {
     path: 'login',
     loadChildren: () => import('./component/shared/login/login.module').then(m => m.LoginModule),
     canActivate: [CheckLoginGuard]
